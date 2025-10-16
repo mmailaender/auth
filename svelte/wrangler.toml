@@ -4,6 +4,6 @@ compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-PUBLIC_CONVEX_URL = "https://academic-mandrill-512.convex.cloud"
-PUBLIC_CONVEX_SITE_URL = "https://academic-mandrill-512.convex.site"
+PUBLIC_CONVEX_URL = "https://giddy-grasshopper-299.convex.cloud"
+PUBLIC_CONVEX_SITE_URL = "https://giddy-grasshopper-299.convex.site"
 SITE_URL = "https://auth-26l.pages.dev"
