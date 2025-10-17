@@ -1,9 +1,0 @@
-name = "auth"
-pages_build_output_dir = ".svelte-kit/cloudflare"
-compatibility_date = "2025-10-16"
-compatibility_flags = ["nodejs_compat"]
-
-[vars]
-PUBLIC_CONVEX_URL = "https://giddy-grasshopper-299.convex.cloud"
-PUBLIC_CONVEX_SITE_URL = "https://giddy-grasshopper-299.convex.site"
-SITE_URL = "https://auth-26l.pages.dev"
