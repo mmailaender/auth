@@ -1,5 +1,17 @@
 # auth
 
+## 0.2.1
+
+### Patch Changes
+
+- fix: resolved lint errors
+
+## 0.2.0
+
+### Minor Changes
+
+- feat: add device authorization plugin
+
 ## 0.1.2
 
 ### Patch Changes
