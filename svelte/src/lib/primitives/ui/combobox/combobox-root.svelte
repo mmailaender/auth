@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { ComboboxRoot as ArkComboboxRoot } from '@ark-ui/svelte/combobox';
 	import type { ComboboxRootProps as ArkComboboxRootProps } from '@ark-ui/svelte/combobox';
+	import type { CollectionItem } from '@ark-ui/svelte/collection';
 	import { cn } from '$lib/primitives/utils.js';
 
-	type ComboboxRootProps = ArkComboboxRootProps<any> & {
+	type ComboboxRootProps = ArkComboboxRootProps<CollectionItem> & {
 		class?: string;
 	};
 

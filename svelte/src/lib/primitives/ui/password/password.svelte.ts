@@ -102,19 +102,20 @@ class PasswordInputState {
 		$effect(() => {
 			const form = this.root.passwordState.inputRef?.form as HTMLFormElement | null;
 			if (!form) return;
+			const capture = true;
 			const onSubmit = () => {
 				this.root.passwordState.submitted = true;
 			};
-			form.addEventListener('submit', onSubmit, { capture: true });
+			form.addEventListener('submit', onSubmit, capture);
 			const onInvalid = (e: Event) => {
 				e.preventDefault();
 				this.root.passwordState.submitted = true;
 			};
-			form.addEventListener('invalid', onInvalid, { capture: true } as AddEventListenerOptions);
+			form.addEventListener('invalid', onInvalid, capture);
 
 			return () => {
-				form.removeEventListener('submit', onSubmit, { capture: true } as any);
-				form.removeEventListener('invalid', onInvalid, { capture: true } as any);
+				form.removeEventListener('submit', onSubmit, capture);
+				form.removeEventListener('invalid', onInvalid, capture);
 			};
 		});
 	}

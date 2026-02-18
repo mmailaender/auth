@@ -1,5 +1,11 @@
 # auth
 
+## 0.5.4
+
+### Patch Changes
+
+- fix: Resolve all lint errors
+
 ## 0.5.3
 
 ### Patch Changes

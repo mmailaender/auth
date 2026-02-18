@@ -109,9 +109,10 @@ export function createRouteMatcher(routes: RouteMatcherParam): RouteMatcherFn {
 				// Use the match function from path-to-regexp
 				const matchFn = match(pattern, { end: true });
 				return (pathname: string) => matchFn(pathname) !== false;
-			} catch (e: any) {
+			} catch (e: unknown) {
+				const message = e instanceof Error ? e.message : String(e);
 				throw new Error(
-					`Invalid path: ${pattern}.\nConsult the documentation of path-to-regexp here: https://github.com/pillarjs/path-to-regexp\n${e.message}`
+					`Invalid path: ${pattern}.\nConsult the documentation of path-to-regexp here: https://github.com/pillarjs/path-to-regexp\n${message}`
 				);
 			}
 		}

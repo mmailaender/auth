@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Navigation
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	// API
 	import { useQuery, useConvexClient } from 'convex-svelte';
@@ -18,6 +19,7 @@
 
 	import type { FunctionReturnType } from 'convex/server';
 	import type { authClient } from '$lib/auth/api/auth-client';
+	import type { Pathname } from '$app/types';
 	type GetActiveOrganizationType = FunctionReturnType<
 		typeof api.organizations.queries.getActiveOrganization
 	>;
@@ -85,9 +87,21 @@
 
 			// Navigate to the specified URL or home by default
 			if (redirectTo) {
-				goto(redirectTo);
+				try {
+					const target = new URL(redirectTo, window.location.origin);
+					if (target.origin === window.location.origin) {
+						const internalPath = `${target.pathname}${target.search}${target.hash}`;
+						void goto(resolve(internalPath as Pathname));
+					} else {
+						window.location.assign(target.toString());
+					}
+				} catch {
+					if (redirectTo.startsWith('/')) {
+						void goto(resolve(redirectTo as Pathname));
+					}
+				}
 			} else {
-				goto('/');
+				void goto(resolve('/'));
 			}
 		} catch (err) {
 			if (err instanceof Error) {

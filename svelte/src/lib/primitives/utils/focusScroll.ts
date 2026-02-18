@@ -41,9 +41,8 @@ export function scheduleScrollIntoView(
 	};
 
 	// Prefer visualViewport resize/scroll (keyboard opening) as a signal
-	const vv = (typeof window !== 'undefined' && (window as any).visualViewport) as
-		| VisualViewport
-		| undefined;
+	const vv: VisualViewport | undefined =
+		typeof window !== 'undefined' ? (window.visualViewport ?? undefined) : undefined;
 
 	if (vv) {
 		const initialHeight = vv.height;

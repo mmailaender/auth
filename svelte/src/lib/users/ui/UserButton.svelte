@@ -11,6 +11,7 @@
 
 	// SvelteKit navigation/state
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
 	// API
@@ -24,6 +25,7 @@
 	// Types
 	import type { PopoverRootProps } from '@ark-ui/svelte';
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
 	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
 
@@ -69,7 +71,7 @@
 		const url = new URL(page.url);
 		if (url.searchParams.get('dialog') !== DIALOG_KEY) {
 			url.searchParams.set('dialog', DIALOG_KEY);
-			goto(`${url.pathname}${url.search}${url.hash}`, {
+			void goto(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
 				replaceState: false,
 				noScroll: true,
 				keepFocus: true

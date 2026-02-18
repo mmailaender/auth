@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	// Primitives
 	import * as Dialog from '$lib/primitives/ui/dialog';
@@ -18,6 +19,7 @@
 	// API Types
 	import type { authClient } from '$lib/auth/api/auth-client';
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type GetActiveOrganizationType = FunctionReturnType<
 		typeof api.organizations.queries.getActiveOrganization
 	>;
@@ -120,7 +122,7 @@
 			const url = new URL(page.url);
 			url.searchParams.delete('dialog');
 			url.searchParams.delete('tab');
-			goto(`${url.pathname}${url.search}${url.hash}`, {
+			void goto(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
 				replaceState: true,
 				noScroll: true,
 				keepFocus: true
