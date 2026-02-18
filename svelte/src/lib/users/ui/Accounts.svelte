@@ -135,7 +135,8 @@
 	// Build a map of provider IDs to icons for enabled providers
 	// NOTE: We reference AUTH_CONSTANTS directly so bundlers can tree-shake
 	// branches and drop unused icon imports at build time.
-	const providerIconMap: Record<string, typeof KeyRoundIcon> = {
+	type ProviderIconComponent = typeof KeyRoundIcon | typeof SiGithub;
+	const providerIconMap: Record<string, ProviderIconComponent> = {
 		credential: KeyRoundIcon
 	};
 	if (AUTH_CONSTANTS.providers.github) providerIconMap.github = SiGithub;
