@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Svelte
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 
@@ -32,6 +33,7 @@
 	import type { authClient } from '$lib/auth/api/auth-client';
 	import type { PopoverRootProps } from '@ark-ui/svelte';
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type GetActiveOrganizationType = FunctionReturnType<
 		typeof api.organizations.queries.getActiveOrganization
 	>;
@@ -123,7 +125,7 @@
 		const url = new URL(page.url);
 		if (url.searchParams.get('dialog') !== DIALOG_KEY) {
 			url.searchParams.set('dialog', DIALOG_KEY);
-			goto(`${url.pathname}${url.search}${url.hash}`, {
+			void goto(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
 				replaceState: false,
 				noScroll: true,
 				keepFocus: true
@@ -146,7 +148,7 @@
 					/\/(active-organization|active-org)(?=\/|$)/g,
 					`/${initialSlug}`
 				);
-				goto(`${newPathname}${page.url.search}${page.url.hash}`, {
+				void goto(resolve(`${newPathname}${page.url.search}${page.url.hash}` as Pathname), {
 					replaceState: true,
 					noScroll: true,
 					keepFocus: true
@@ -179,7 +181,7 @@
 				/\/(active-organization|active-org)(?=\/|$)/g,
 				`/${slug}`
 			);
-			goto(`${newPathname}${search}${hash}`, {
+			void goto(resolve(`${newPathname}${search}${hash}` as Pathname), {
 				replaceState: true,
 				noScroll: true,
 				keepFocus: true
@@ -222,10 +224,12 @@
 				);
 
 				// Navigate to the new URL
-				await goto(newPathname, { replaceState: true });
+				await goto(resolve(newPathname as Pathname), { replaceState: true });
 			} else {
 				// No slug replacement needed, just refresh current page
-				await goto(page.url.pathname + page.url.search, { replaceState: true });
+				await goto(resolve((page.url.pathname + page.url.search) as Pathname), {
+					replaceState: true
+				});
 			}
 
 			// Close popover

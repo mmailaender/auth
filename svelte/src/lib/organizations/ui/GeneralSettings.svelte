@@ -2,6 +2,7 @@
 	// Svelte
 	import { tick } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
 	// UI Components
@@ -27,6 +28,7 @@
 	// API Types
 	import type { FunctionReturnType } from 'convex/server';
 	import type { authClient } from '$lib/auth/api/auth-client';
+	import type { Pathname } from '$app/types';
 	type GetActiveOrganizationType = FunctionReturnType<
 		typeof api.organizations.queries.getActiveOrganization
 	>;
@@ -197,7 +199,7 @@
 					new RegExp(`/${currentSlug}(?=/|$)`, 'g'),
 					`/${trimmed}`
 				);
-				await goto(newPathname, { replaceState: true });
+				await goto(resolve(newPathname as Pathname), { replaceState: true });
 			}
 
 			isEditingSlug = false;

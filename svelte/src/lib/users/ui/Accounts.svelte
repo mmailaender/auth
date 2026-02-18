@@ -2,6 +2,7 @@
 	// Svelte
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { tick } from 'svelte';
 
 	// Constants
@@ -65,6 +66,7 @@
 
 	// Types
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
 
 	let { initialData }: { initialData?: { accountList?: ListAccountsType } } = $props();
@@ -133,7 +135,7 @@
 	// Build a map of provider IDs to icons for enabled providers
 	// NOTE: We reference AUTH_CONSTANTS directly so bundlers can tree-shake
 	// branches and drop unused icon imports at build time.
-	const providerIconMap: Record<string, any> = {
+	const providerIconMap: Record<string, typeof KeyRoundIcon> = {
 		credential: KeyRoundIcon
 	};
 	if (AUTH_CONSTANTS.providers.github) providerIconMap.github = SiGithub;
@@ -235,7 +237,12 @@
 		url.searchParams.delete('success');
 		url.searchParams.delete('error');
 		const path = `${url.pathname}${url.search}${url.hash}`;
-		void goto(path, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false });
+		void goto(resolve(path as Pathname), {
+			replaceState: true,
+			noScroll: true,
+			keepFocus: true,
+			invalidateAll: false
+		});
 	});
 
 	const linkAccount = async (provider: string) => {

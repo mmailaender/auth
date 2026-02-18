@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	// Primitives
 	import * as Dialog from '$lib/primitives/ui/dialog';
@@ -20,6 +21,7 @@
 
 	// API Types
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
 	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
 
@@ -129,7 +131,7 @@
 		if (hasDialog) {
 			const url = new URL(page.url);
 			url.searchParams.delete('dialog');
-			goto(`${url.pathname}${url.search}${url.hash}`, {
+			void goto(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
 				replaceState: true,
 				noScroll: true,
 				keepFocus: true

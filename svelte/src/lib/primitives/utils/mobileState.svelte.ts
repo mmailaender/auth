@@ -20,12 +20,15 @@ function initializeMobileDetection(mediaQuery: string) {
 	const handler = (e: MediaQueryListEvent) => {
 		isMobile = !e.matches;
 	};
+	const legacyMql = mql as MediaQueryList & {
+		addListener?: (listener: (e: MediaQueryListEvent) => void) => void;
+	};
 
 	// Add listener with browser compatibility
 	if (typeof mql.addEventListener === 'function') {
 		mql.addEventListener('change', handler);
-	} else if (typeof (mql as any).addListener === 'function') {
-		(mql as any).addListener(handler);
+	} else if (typeof legacyMql.addListener === 'function') {
+		legacyMql.addListener(handler);
 	}
 
 	isInitialized = true;

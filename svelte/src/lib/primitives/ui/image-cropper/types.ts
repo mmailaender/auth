@@ -4,12 +4,12 @@ import type { CropperProps } from 'svelte-easy-crop';
 import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
 
 /** Add a `children` snippet prop (optionale Args via Tupel). */
-export type WithChildren<T, A extends any[] = []> = T & {
+export type WithChildren<T, A extends unknown[] = []> = T & {
 	children?: Snippet<A>;
 };
 
 /** Add a `child` snippet prop (optionale Args via Tupel). */
-export type WithChild<T, A extends any[] = []> = T & {
+export type WithChild<T, A extends unknown[] = []> = T & {
 	child?: Snippet<A>;
 };
 

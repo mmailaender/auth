@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Svelte
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { SvelteURL } from 'svelte/reactivity';
 
@@ -27,6 +28,7 @@
 
 	// Types
 	import type { Id } from '$convex/_generated/dataModel';
+	import type { Pathname } from '$app/types';
 
 	// Auth state
 	const auth = useAuth();
@@ -173,7 +175,19 @@
 			const redirectUrl = props.redirectTo ?? page.url.searchParams.get('redirectTo');
 			// Navigate to the specified URL
 			if (redirectUrl) {
-				goto(redirectUrl);
+				try {
+					const target = new URL(redirectUrl, window.location.origin);
+					if (target.origin === window.location.origin) {
+						const internalPath = `${target.pathname}${target.search}${target.hash}`;
+						void goto(resolve(internalPath as Pathname));
+					} else {
+						window.location.assign(target.toString());
+					}
+				} catch {
+					if (redirectUrl.startsWith('/')) {
+						void goto(resolve(redirectUrl as Pathname));
+					}
+				}
 			} else {
 				let needsRedirect = false;
 				if (activeOrgSlug) {
@@ -191,7 +205,8 @@
 				if (needsRedirect) {
 					// Reconstruct the URL with the new organization ID
 					currentUrl.pathname = pathSegments.join('/');
-					goto(currentUrl, { invalidateAll: true });
+					const nextPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+					void goto(resolve(nextPath as Pathname), { invalidateAll: true });
 				}
 			}
 		} catch (err: unknown) {

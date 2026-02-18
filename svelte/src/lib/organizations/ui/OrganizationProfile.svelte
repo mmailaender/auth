@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import { pushState, replaceState } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	/** UI **/
 	// Primitives
@@ -30,6 +31,7 @@
 	// API Types
 	import type { authClient } from '$lib/auth/api/auth-client';
 	import type { FunctionReturnType } from 'convex/server';
+	import type { Pathname } from '$app/types';
 	type GetActiveOrganizationType = FunctionReturnType<
 		typeof api.organizations.queries.getActiveOrganization
 	>;
@@ -163,7 +165,9 @@
 		url.searchParams.set('tab', value);
 		// Ensure dialog stays present in the URL and state while navigating tabs inside the dialog
 		url.searchParams.set('dialog', 'organization-profile');
-		pushState(`${url.pathname}${url.search}${url.hash}`, { dialog: 'organization-profile' });
+		pushState(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
+			dialog: 'organization-profile'
+		});
 	}
 
 	function closeMobileTab() {
@@ -173,7 +177,9 @@
 			url.searchParams.delete('tab');
 			// Keep dialog open in URL/state
 			url.searchParams.set('dialog', 'organization-profile');
-			replaceState(`${url.pathname}${url.search}${url.hash}`, { dialog: 'organization-profile' });
+			replaceState(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
+				dialog: 'organization-profile'
+			});
 		}
 		activeMobileTab = '';
 	}
@@ -189,7 +195,7 @@
 				const url = new URL(window.location.href);
 				url.searchParams.delete('dialog');
 				url.searchParams.delete('tab');
-				replaceState(`${url.pathname}${url.search}${url.hash}`, {});
+				replaceState(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {});
 				// Allow the dialog fade-out to complete, then reset flags.
 				setTimeout(() => {
 					suppressMobileTransition = false;
@@ -271,7 +277,9 @@
 			url.searchParams.set('tab', normalized);
 			// Ensure dialog param remains so OrganizationSwitcher keeps the dialog open on reload
 			url.searchParams.set('dialog', 'organization-profile');
-			replaceState(`${url.pathname}${url.search}${url.hash}`, { dialog: 'organization-profile' });
+			replaceState(resolve(`${url.pathname}${url.search}${url.hash}` as Pathname), {
+				dialog: 'organization-profile'
+			});
 		}
 	});
 </script>

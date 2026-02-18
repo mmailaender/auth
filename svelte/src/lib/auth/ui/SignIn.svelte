@@ -1,4 +1,8 @@
 <script lang="ts">
+	// Sveltekit
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 
@@ -16,8 +20,9 @@
 
 	// Constants
 	import { AUTH_CONSTANTS } from '$convex/auth.constants';
-	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+
+	// SvelteKit types
+	import type { Pathname } from '$app/types';
 
 	// Types
 	type AuthStep =
@@ -106,8 +111,20 @@
 	 */
 	function handleRedirect(): void {
 		const redirectURL = getRedirectURL();
-		if (redirectURL) {
-			goto(redirectURL);
+		if (!redirectURL || typeof window === 'undefined') return;
+
+		try {
+			const target = new URL(redirectURL, window.location.origin);
+			if (target.origin === window.location.origin) {
+				const internalPath = `${target.pathname}${target.search}${target.hash}`;
+				void goto(resolve(internalPath as Pathname));
+			} else {
+				window.location.assign(target.toString());
+			}
+		} catch {
+			if (redirectURL.startsWith('/')) {
+				void goto(resolve(redirectURL as Pathname));
+			}
 		}
 	}
 
@@ -329,13 +346,16 @@
 				<p class="text-surface-600-400 mt-10 text-xs">
 					By continuing, you agree to our
 					{#if showTerms}
-						<a href={termsUrl} class="anchor text-surface-950-50">Terms</a>
+						<a href={termsUrl} rel="external noreferrer" class="anchor text-surface-950-50">Terms</a
+						>
 					{/if}
 					{#if showTerms && showPrivacy}
 						and
 					{/if}
 					{#if showPrivacy}
-						<a href={privacyUrl} class="anchor text-surface-950-50">Privacy Policies</a>
+						<a href={privacyUrl} rel="external noreferrer" class="anchor text-surface-950-50"
+							>Privacy Policies</a
+						>
 					{/if}
 				</p>
 			</div>
