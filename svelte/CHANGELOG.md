@@ -1,5 +1,11 @@
 # auth
 
+## 0.5.5
+
+### Patch Changes
+
+- fix: getDeviceCodeStatus not more throwing missing better-auth secret
+
 ## 0.5.4
 
 ### Patch Changes
