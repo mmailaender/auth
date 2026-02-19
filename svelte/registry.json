@@ -113,6 +113,15 @@
 								"path": "src/convex/_generated/server.js"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./auth",
+							"item": "config",
+							"file": {
+								"type": "base",
+								"path": "src/convex/auth.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -448,6 +457,51 @@
 					"relativePath": "src/lib/auth/ui/SignIn.svelte",
 					"_imports_": [
 						{
+							"import": "./EmailStep.svelte",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/EmailStep.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./PasswordFlow.svelte",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/PasswordFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./EmailOtpFlow.svelte",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/EmailOtpFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./MagicLinkFlow.svelte",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/MagicLinkFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./SocialFlow.svelte",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/SocialFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
 							"import": "$lib/primitives/utils",
 							"item": "primitives",
 							"file": {
@@ -482,6 +536,15 @@
 							"file": {
 								"type": "lib",
 								"path": "primitives/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "../api/auth-client",
+							"item": "lib/auth",
+							"file": {
+								"type": "lib",
+								"path": "auth/api/auth-client.ts"
 							},
 							"meta": {}
 						}
@@ -1225,6 +1288,24 @@
 							"meta": {}
 						},
 						{
+							"import": "./Accounts.svelte",
+							"item": "lib/users",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/Accounts.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./ApiKeys.svelte",
+							"item": "lib/users",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/ApiKeys.svelte"
+							},
+							"meta": {}
+						},
+						{
 							"import": "$convex/_generated/api",
 							"item": "base",
 							"file": {
@@ -1357,6 +1438,15 @@
 							"meta": {}
 						},
 						{
+							"import": "./model/emails/templates/emailTemplates",
+							"item": "convex/email",
+							"file": {
+								"type": "convex",
+								"path": "model/emails/templates/emailTemplates.ts"
+							},
+							"meta": {}
+						},
+						{
 							"import": "./_generated/server",
 							"item": "base",
 							"file": {
@@ -1394,7 +1484,17 @@
 					"role": "file",
 					"path": "model/emails/templates/emailTemplates.ts",
 					"relativePath": "src/convex/model/emails/templates/emailTemplates.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./baseEmail",
+							"item": "convex/email",
+							"file": {
+								"type": "convex",
+								"path": "model/emails/templates/baseEmail.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -1545,6 +1645,15 @@
 							"file": {
 								"type": "base",
 								"path": "src/convex/auth.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "../model/organizations",
+							"item": "convex/organizations",
+							"file": {
+								"type": "convex",
+								"path": "model/organizations/index.ts"
 							},
 							"meta": {}
 						}
@@ -2781,7 +2890,116 @@
 					"role": "file",
 					"path": "primitives/ui/avatar/index.ts",
 					"relativePath": "src/lib/primitives/ui/avatar/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./avatar.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-image.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-image.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-fallback.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-fallback.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-marble.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-marble.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-image.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-image.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-image.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-image.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-fallback.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-fallback.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-fallback.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-fallback.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-marble.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-marble.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./avatar-marble.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/avatar-marble.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3051,7 +3269,359 @@
 					"role": "file",
 					"path": "primitives/ui/combobox/index.ts",
 					"relativePath": "src/lib/primitives/ui/combobox/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./combobox-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-root.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-control.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-control.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-clear-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-clear-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-positioner.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-positioner.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-text.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-text.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-indicator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-indicator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-root.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-root.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-control.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-control.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-control.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-control.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-clear-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-clear-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-clear-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-clear-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-positioner.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-positioner.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-positioner.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-positioner.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-text.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-text.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-text.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-text.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-indicator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-indicator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./combobox-item-indicator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/combobox/combobox-item-indicator.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3079,6 +3649,15 @@
 								"path": "primitives/utils.ts"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/copy-button/types.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -3090,7 +3669,26 @@
 					"role": "file",
 					"path": "primitives/ui/copy-button/index.ts",
 					"relativePath": "src/lib/primitives/ui/copy-button/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./copy-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/copy-button/copy-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./copy-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/copy-button/copy-button.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3161,6 +3759,15 @@
 					"path": "primitives/ui/dialog/dialog-content.svelte",
 					"relativePath": "src/lib/primitives/ui/dialog/dialog-content.svelte",
 					"_imports_": [
+						{
+							"import": "./index.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -3280,7 +3887,278 @@
 					"role": "file",
 					"path": "primitives/ui/dialog/index.ts",
 					"relativePath": "src/lib/primitives/ui/dialog/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./dialog-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-root.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-root.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dialog-root.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/dialog-root.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3331,6 +4209,15 @@
 					"path": "primitives/ui/drawer/drawer-content.svelte",
 					"relativePath": "src/lib/primitives/ui/drawer/drawer-content.svelte",
 					"_imports_": [
+						{
+							"import": "./drawer-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-backdrop.svelte"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -3460,7 +4347,305 @@
 					"role": "file",
 					"path": "primitives/ui/drawer/index.ts",
 					"relativePath": "src/lib/primitives/ui/drawer/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./drawer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-nested.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-nested.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-description.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-description.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-backdrop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-backdrop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-footer.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-footer.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-header.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-header.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-title.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-title.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-nested.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-nested.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-nested.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-nested.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-close-x.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-close-x.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./drawer-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/drawer-trigger.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3471,6 +4656,15 @@
 					"path": "primitives/ui/image-cropper/image-cropper-cancel.svelte",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper-cancel.svelte",
 					"_imports_": [
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -3499,6 +4693,15 @@
 								"path": "primitives/utils.ts"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -3511,6 +4714,15 @@
 					"path": "primitives/ui/image-cropper/image-cropper-crop.svelte",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper-crop.svelte",
 					"_imports_": [
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -3530,7 +4742,26 @@
 					"role": "file",
 					"path": "primitives/ui/image-cropper/image-cropper-cropper.svelte",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper-cropper.svelte",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3558,6 +4789,24 @@
 								"path": "primitives/utils.ts"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -3580,6 +4829,24 @@
 							"meta": {}
 						},
 						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
 							"import": "$lib/primitives/utils",
 							"item": "primitives",
 							"file": {
@@ -3598,7 +4865,26 @@
 					"role": "file",
 					"path": "primitives/ui/image-cropper/image-cropper-upload-trigger.svelte",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper-upload-trigger.svelte",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3608,7 +4894,26 @@
 					"role": "file",
 					"path": "primitives/ui/image-cropper/image-cropper.svelte",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper.svelte",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./image-cropper.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3618,7 +4923,17 @@
 					"role": "file",
 					"path": "primitives/ui/image-cropper/image-cropper.svelte.ts",
 					"relativePath": "src/lib/primitives/ui/image-cropper/image-cropper.svelte.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./utils",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/utils.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3628,7 +4943,179 @@
 					"role": "file",
 					"path": "primitives/ui/image-cropper/index.ts",
 					"relativePath": "src/lib/primitives/ui/image-cropper/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./image-cropper.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-upload-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-upload-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-preview.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-preview.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-dialog.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-dialog.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-cropper.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-cropper.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-controls.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-controls.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-crop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-crop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-cancel.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-cancel.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./utils",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-upload-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-upload-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-preview.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-preview.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-dialog.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-dialog.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-cropper.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-cropper.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-controls.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-controls.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-crop.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-crop.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./image-cropper-cancel.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/image-cropper-cancel.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./utils",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/types.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3678,7 +5165,332 @@
 					"role": "file",
 					"path": "primitives/ui/menu/index.ts",
 					"relativePath": "src/lib/primitives/ui/menu/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./menu-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-checkbox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-checkbox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-trigger-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dropdown-menu-shortcut.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/dropdown-menu-shortcut.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-checkbox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-checkbox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-checkbox-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-checkbox-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-trigger-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-trigger-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-trigger-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./menu-radio-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/menu-radio-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dropdown-menu-shortcut.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/dropdown-menu-shortcut.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./dropdown-menu-shortcut.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/menu/dropdown-menu-shortcut.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3878,7 +5690,170 @@
 					"role": "file",
 					"path": "primitives/ui/password/index.ts",
 					"relativePath": "src/lib/primitives/ui/password/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./password.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-strength.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-strength.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-copy.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-copy.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-toggle-visibility.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-toggle-visibility.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-error.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-error.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-input.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-input.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-strength.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-strength.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-strength.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-strength.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-copy.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-copy.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-copy.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-copy.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-toggle-visibility.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-toggle-visibility.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-toggle-visibility.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-toggle-visibility.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-error.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-error.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password-error.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password-error.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -3899,11 +5874,29 @@
 							"meta": {}
 						},
 						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/types.ts"
+							},
+							"meta": {}
+						},
+						{
 							"import": "$lib/primitives/utils",
 							"item": "primitives",
 							"file": {
 								"type": "lib",
 								"path": "primitives/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3926,6 +5919,15 @@
 								"path": "primitives/utils.ts"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -3946,6 +5948,24 @@
 								"path": "primitives/utils.ts"
 							},
 							"meta": {}
+						},
+						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/types.ts"
+							},
+							"meta": {}
 						}
 					],
 					"registryDependencies": [],
@@ -3958,6 +5978,24 @@
 					"path": "primitives/ui/password/password-strength.svelte",
 					"relativePath": "src/lib/primitives/ui/password/password-strength.svelte",
 					"_imports_": [
+						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/types.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -3988,6 +6026,24 @@
 							"meta": {}
 						},
 						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/types.ts"
+							},
+							"meta": {}
+						},
+						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
 							"file": {
@@ -4007,6 +6063,24 @@
 					"path": "primitives/ui/password/password.svelte",
 					"relativePath": "src/lib/primitives/ui/password/password.svelte",
 					"_imports_": [
+						{
+							"import": "./password.svelte.js",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/password.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./types",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/types.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/primitives/utils.js",
 							"item": "primitives",
@@ -4056,7 +6130,62 @@
 					"role": "file",
 					"path": "primitives/ui/popover/index.ts",
 					"relativePath": "src/lib/primitives/ui/popover/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./popover-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./popover-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./popover-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./popover-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./popover-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./popover-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/popover-trigger.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4106,7 +6235,251 @@
 					"role": "file",
 					"path": "primitives/ui/select/index.ts",
 					"relativePath": "src/lib/primitives/ui/select/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./select-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-down-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-down-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-up-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-up-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-group-heading.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group-heading.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-group.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-label.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-label.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-item.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-item.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-down-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-down-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-down-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-down-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-up-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-up-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-scroll-up-button.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-scroll-up-button.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-group-heading.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group-heading.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./select-group-heading.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/select-group-heading.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4295,7 +6668,35 @@
 					"role": "file",
 					"path": "primitives/ui/separator/index.ts",
 					"relativePath": "src/lib/primitives/ui/separator/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/separator/separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/separator/separator.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./separator.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/separator/separator.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4325,7 +6726,17 @@
 					"role": "file",
 					"path": "primitives/ui/sonner/index.ts",
 					"relativePath": "src/lib/primitives/ui/sonner/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./sonner.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/sonner/sonner.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4345,7 +6756,116 @@
 					"role": "file",
 					"path": "primitives/ui/tabs/index.ts",
 					"relativePath": "src/lib/primitives/ui/tabs/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./tabs.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-list.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-list.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-content.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-content.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-list.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-list.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-list.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-list.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-trigger.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./tabs-trigger.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/tabs-trigger.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4435,7 +6955,71 @@
 					"role": "file",
 					"path": "primitives/ui/toggle/index.ts",
 					"relativePath": "src/lib/primitives/ui/toggle/index.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./toggle.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/toggle/toggle.svelte"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4587,11 +7171,6 @@
 					"ecosystem": "js",
 					"name": "@convex-dev/migrations",
 					"version": "^0.3.1"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex-helpers",
-					"version": "^0.1.111"
 				}
 			],
 			"devDependencies": [
@@ -4684,6 +7263,15 @@
 					"path": "src/routes/+layout.svelte",
 					"relativePath": "src/routes/+layout.svelte",
 					"_imports_": [
+						{
+							"import": "./layout.css",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/routes/layout.css"
+							},
+							"meta": {}
+						},
 						{
 							"import": "$lib/assets/favicon.svg",
 							"item": "base",
@@ -4872,7 +7460,17 @@
 					"role": "file",
 					"path": "src/convex/convex.config.ts",
 					"relativePath": "src/convex/convex.config.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./betterAuth/convex.config",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/betterAuth/convex.config.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4883,6 +7481,15 @@
 					"path": "src/convex/http.ts",
 					"relativePath": "src/convex/http.ts",
 					"_imports_": [
+						{
+							"import": "./_generated/server",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/_generated/server.js"
+							},
+							"meta": {}
+						},
 						{
 							"import": "./auth",
 							"item": "config",
@@ -4931,7 +7538,17 @@
 					"role": "file",
 					"path": "src/convex/migrations.ts",
 					"relativePath": "src/convex/migrations.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "./_generated/api.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/_generated/api.js"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -4966,6 +7583,24 @@
 							"file": {
 								"type": "convex",
 								"path": "email.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "../http.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/http.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "../migrations.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/migrations.ts"
 							},
 							"meta": {}
 						},
@@ -5097,7 +7732,17 @@
 					"role": "file",
 					"path": "src/convex/_generated/dataModel.d.ts",
 					"relativePath": "src/convex/_generated/dataModel.d.ts",
-					"_imports_": [],
+					"_imports_": [
+						{
+							"import": "../schema.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/schema.ts"
+							},
+							"meta": {}
+						}
+					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -5128,6 +7773,15 @@
 					"path": "src/convex/betterAuth/_generated/api.ts",
 					"relativePath": "src/convex/betterAuth/_generated/api.ts",
 					"_imports_": [
+						{
+							"import": "../adapter.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/betterAuth/adapter.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "../organization.js",
 							"item": "convex/organizations",
@@ -5166,33 +7820,13 @@
 					"role": "file",
 					"path": "src/convex/betterAuth/_generated/dataModel.ts",
 					"relativePath": "src/convex/betterAuth/_generated/dataModel.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/_generated/server.ts",
-					"relativePath": "src/convex/betterAuth/_generated/server.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/adapter.ts",
-					"relativePath": "src/convex/betterAuth/adapter.ts",
 					"_imports_": [
 						{
-							"import": "../auth",
-							"item": "config",
+							"import": "../schema.js",
+							"item": "base",
 							"file": {
 								"type": "base",
-								"path": "src/convex/auth.ts"
+								"path": "src/convex/betterAuth/schema.ts"
 							},
 							"meta": {}
 						}
@@ -5204,9 +7838,38 @@
 				{
 					"type": "base",
 					"role": "file",
-					"path": "src/convex/betterAuth/auth.ts",
-					"relativePath": "src/convex/betterAuth/auth.ts",
+					"path": "src/convex/betterAuth/_generated/server.ts",
+					"relativePath": "src/convex/betterAuth/_generated/server.ts",
 					"_imports_": [
+						{
+							"import": "./dataModel.js",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/betterAuth/_generated/dataModel.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/betterAuth/adapter.ts",
+					"relativePath": "src/convex/betterAuth/adapter.ts",
+					"_imports_": [
+						{
+							"import": "./schema",
+							"item": "base",
+							"file": {
+								"type": "base",
+								"path": "src/convex/betterAuth/schema.ts"
+							},
+							"meta": {}
+						},
 						{
 							"import": "../auth",
 							"item": "config",

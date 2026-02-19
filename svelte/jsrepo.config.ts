@@ -299,9 +299,6 @@ export default defineConfig({
 												path: 'adapter.ts'
 											},
 											{
-												path: 'auth.ts'
-											},
-											{
 												path: 'convex.config.ts'
 											},
 											{

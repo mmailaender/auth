@@ -28,9 +28,13 @@ export const getDeviceCodeStatus = query({
 			throw new ConvexError('Invalid client_id');
 		}
 		try {
-			const deviceCodeData = await ctx.runQuery(components.betterAuth.auth.deviceCode, {
-				deviceCode
-			});
+			const deviceCodeData: { status?: string } | null = await ctx.runQuery(
+				components.betterAuth.adapter.findOne,
+				{
+					model: 'deviceCode',
+					where: [{ field: 'deviceCode', operator: 'eq', value: deviceCode }]
+				}
+			);
 			return deviceCodeData?.status ?? 'unknown';
 		} catch (error) {
 			throw new ConvexError(`${error}`);
