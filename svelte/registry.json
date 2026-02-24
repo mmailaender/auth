@@ -157,7 +157,7 @@
 				{
 					"type": "routes",
 					"role": "file",
-					"path": "[...all]/+server.ts",
+					"path": "api/auth/[...all]/+server.ts",
 					"relativePath": "src/routes/api/auth/[...all]/+server.ts",
 					"_imports_": [],
 					"registryDependencies": [],
@@ -185,7 +185,7 @@
 				{
 					"type": "routes",
 					"role": "file",
-					"path": "[invitationId]/+page.svelte",
+					"path": "api/organization/accept-invitation/[invitationId]/+page.svelte",
 					"relativePath": "src/routes/api/organization/accept-invitation/[invitationId]/+page.svelte",
 					"_imports_": [
 						{
@@ -619,7 +619,7 @@
 				{
 					"type": "routes",
 					"role": "file",
-					"path": "src/routes/(auth)/reset-password/+page.svelte",
+					"path": "(auth)/reset-password/+page.svelte",
 					"relativePath": "src/routes/(auth)/reset-password/+page.svelte",
 					"_imports_": [
 						{
@@ -660,7 +660,7 @@
 				{
 					"type": "routes",
 					"role": "file",
-					"path": "src/routes/(auth)/signin/+page.svelte",
+					"path": "(auth)/signin/+page.svelte",
 					"relativePath": "src/routes/(auth)/signin/+page.svelte",
 					"_imports_": [
 						{
