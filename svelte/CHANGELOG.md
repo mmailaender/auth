@@ -1,5 +1,11 @@
 # auth
 
+## 0.5.6
+
+### Patch Changes
+
+- fix: some files in the router directory that live in dynamic paths like (auth) etc. were not correctly resolved
+
 ## 0.5.5
 
 ### Patch Changes
