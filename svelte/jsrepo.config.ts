@@ -43,13 +43,20 @@ export default defineConfig({
 				]
 			},
 			{
-				name: 'routes/api',
+				name: 'routes/api/auth/[...all]',
 				add: 'when-added',
 				type: 'routes',
 				files: [
 					{
 						path: 'src/routes/api/auth/*/+server.ts'
-					},
+					}
+				]
+			},
+			{
+				name: 'routes/api/organization/accept-invitation/[invitationId]',
+				add: 'when-added',
+				type: 'routes',
+				files: [
 					{
 						path: 'src/routes/api/organization/accept-invitation/*/+page.svelte'
 					}
@@ -71,7 +78,7 @@ export default defineConfig({
 				type: 'routes',
 				files: [
 					{
-						path: 'src/routes/(auth)/reset-password',
+						path: 'src/routes/*/reset-password',
 						files: [
 							{
 								path: '+page.svelte'
@@ -86,7 +93,7 @@ export default defineConfig({
 				type: 'routes',
 				files: [
 					{
-						path: 'src/routes/(auth)/signin',
+						path: 'src/routes/*/signin',
 						files: [
 							{
 								path: '+page.svelte'
