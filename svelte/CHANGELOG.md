@@ -1,5 +1,11 @@
 # auth
 
+## 0.5.7
+
+### Patch Changes
+
+- fix: placing files in the correct routes
+
 ## 0.5.6
 
 ### Patch Changes
