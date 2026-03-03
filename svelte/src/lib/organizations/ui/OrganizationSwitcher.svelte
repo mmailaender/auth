@@ -20,7 +20,7 @@
 	import LeaveOrganization from '$lib/organizations/ui/LeaveOrganization.svelte';
 
 	// API
-	import { useQuery, useConvexClient } from 'convex-svelte';
+	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';

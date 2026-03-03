@@ -3,7 +3,7 @@
 	import { toast } from 'svelte-sonner';
 
 	// API
-	import { useConvexClient } from 'convex-svelte';
+	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 
 	type AuthMethod = 'password' | 'emailOTP' | 'magicLink';

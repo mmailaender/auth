@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	// API
 	import { api } from '$convex/_generated/api';
-	import { useQuery } from 'convex-svelte';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 

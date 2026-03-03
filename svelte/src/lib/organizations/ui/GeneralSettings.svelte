@@ -20,7 +20,7 @@
 	import { optimizeImage } from '$lib/primitives/utils/optimizeImage';
 
 	// API
-	import { useQuery, useConvexClient } from 'convex-svelte';
+	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';

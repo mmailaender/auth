@@ -7,7 +7,7 @@
 
 	// API
 	import { authClient } from '$lib/auth/api/auth-client';
-	import { useConvexClient } from 'convex-svelte';
+	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 	import { ConvexError } from 'convex/values';
 	const client = useConvexClient();

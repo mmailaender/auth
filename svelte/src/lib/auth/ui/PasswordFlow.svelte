@@ -6,7 +6,7 @@
 	import * as Password from '$lib/primitives/ui/password';
 
 	// API
-	import { useConvexClient } from 'convex-svelte';
+	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 	import { authClient } from '$lib/auth/api/auth-client';
 

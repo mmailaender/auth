@@ -13,7 +13,7 @@
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 
 	// API
-	import { useQuery } from 'convex-svelte';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { authClient } from '$lib/auth/api/auth-client';

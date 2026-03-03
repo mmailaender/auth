@@ -1955,27 +1955,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         Name
       >;
     };
-    auth: {
-      deviceCode: FunctionReference<
-        "query",
-        "internal",
-        { deviceCode: string },
-        {
-          _creationTime: number;
-          _id: string;
-          clientId?: null | string;
-          deviceCode: string;
-          expiresAt: number;
-          lastPolledAt?: null | number;
-          pollingInterval?: null | number;
-          scope?: null | string;
-          status: string;
-          userCode: string;
-          userId?: null | string;
-        } | null,
-        Name
-      >;
-    };
     organization: {
       deleteUser: FunctionReference<
         "mutation",

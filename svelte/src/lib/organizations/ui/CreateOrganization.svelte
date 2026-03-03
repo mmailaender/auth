@@ -21,7 +21,7 @@
 	import { optimizeImage } from '$lib/primitives/utils/optimizeImage';
 
 	// API
-	import { useConvexClient, useQuery } from 'convex-svelte';
+	import { useConvexClient, useQuery } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	const client = useConvexClient();

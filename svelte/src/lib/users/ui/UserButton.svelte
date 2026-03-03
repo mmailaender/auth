@@ -16,7 +16,7 @@
 
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { useQuery } from 'convex-svelte';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { api } from '$convex/_generated/api';
 
 	// Constants
