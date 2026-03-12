@@ -14,16 +14,15 @@
 	import CopyIcon from '@lucide/svelte/icons/copy';
 	import CheckIcon from '@lucide/svelte/icons/check';
 	// Types
-	import type { FunctionReturnType } from 'convex/server';
 	import { Portal } from '@ark-ui/svelte';
-	type ListApiKeysType = FunctionReturnType<typeof api.users.queries.listApiKeys>;
+	import type { ListApiKeysType } from '$lib/types';
 	type ApiKeyType = ListApiKeysType[number];
 
 	// API
-	import { api } from '$convex/_generated/api';
 	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient } = getAuthContext();
 
 	let { initialData }: { initialData?: { apiKeys?: ListApiKeysType } } = $props();
 

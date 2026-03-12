@@ -14,19 +14,13 @@
 
 	// API
 	import { useQuery } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient } = getAuthContext();
 
-	// API Types
-	type Member = typeof authClient.$Infer.Member;
-	type Role = Member['role'];
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
+	// Types
+	import type { Member, Role, GetActiveOrganizationType, GetActiveUserType } from '$lib/types';
 
 	// Props
 	let {

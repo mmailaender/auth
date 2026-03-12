@@ -4,7 +4,8 @@
 
 	// API
 	import { useConvexClient } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api } = getAuthContext();
 
 	type AuthMethod = 'password' | 'emailOTP' | 'magicLink';
 

@@ -22,12 +22,13 @@
 
 	// API
 	import { useConvexClient, useQuery } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api } = getAuthContext();
 	const client = useConvexClient();
 
 	// Types
-	import type { Id } from '$convex/_generated/dataModel';
+	import type { GenericId } from 'convex/values';
 	import type { Pathname } from '$app/types';
 
 	// Auth state
@@ -137,7 +138,7 @@
 		isCreating = true;
 
 		try {
-			let logoStorageId: Id<'_storage'> | undefined = undefined;
+			let logoStorageId: GenericId<'_storage'> | undefined = undefined;
 
 			// Upload the logo if one was selected
 			if (logoFile) {
@@ -151,7 +152,7 @@
 				});
 				if (!response.ok) throw new Error('Failed to upload file');
 				const result = await response.json();
-				logoStorageId = result.storageId as Id<'_storage'>;
+				logoStorageId = result.storageId as GenericId<'_storage'>;
 			}
 
 			const currentUrl = new SvelteURL(window.location.href);

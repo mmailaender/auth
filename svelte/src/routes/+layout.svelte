@@ -5,13 +5,15 @@
 
 	import { createSvelteAuthClient } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { authClient } from '$lib/auth/api/auth-client';
+	import { api } from '$convex/_generated/api';
+	import { AUTH_CONSTANTS } from '$convex/auth.constants';
 
 	import { Toaster } from '$lib/primitives/ui/sonner';
 	import OrganizationSwitcher from '$lib/organizations/ui/OrganizationSwitcher.svelte';
 	import UserButton from '$lib/users/ui/UserButton.svelte';
-	import AuthDialogProvider from '$lib/auth/ui/AuthDialogProvider.svelte';
-
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	import AuthProvider from '$lib/auth/ui/AuthProvider.svelte';
+	import UserProfileHost from '$lib/users/ui/UserProfileHost.svelte';
+	import OrganizationProfileHost from '$lib/organizations/ui/OrganizationProfileHost.svelte';
 
 	let { children, data } = $props();
 
@@ -23,8 +25,8 @@
 </svelte:head>
 
 <Toaster position="top-center" />
-<AuthDialogProvider initialData={data.initialData}>
-	<div class="grid min-h-[100dvh] grid-rows-[auto_1fr] overflow-x-hidden">
+<AuthProvider {api} {authClient} authConstants={AUTH_CONSTANTS}>
+	<div class="flex min-h-[100dvh] flex-col">
 		<header class="flex items-center justify-between gap-5 p-4">
 			<a href={resolve('/')} class="mr-auto text-2xl font-bold text-orange-500">Svelte</a>
 			{#if AUTH_CONSTANTS.organizations}
@@ -36,4 +38,10 @@
 			{@render children()}
 		</main>
 	</div>
-</AuthDialogProvider>
+
+	<UserProfileHost initialData={data.initialData} />
+
+	{#if AUTH_CONSTANTS.organizations}
+		<OrganizationProfileHost initialData={data.initialData} />
+	{/if}
+</AuthProvider>

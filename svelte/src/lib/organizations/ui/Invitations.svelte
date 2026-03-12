@@ -8,17 +8,13 @@
 
 	// API
 	import { useQuery } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient } = getAuthContext();
 
 	// Types
-	type Role = typeof authClient.$Infer.Member.role;
-	import type { FunctionReturnType } from 'convex/server';
-	type ListInvitationsType = FunctionReturnType<
-		typeof api.organizations.invitations.queries.listInvitations
-	>;
+	import type { Role, ListInvitationsType } from '$lib/types';
 
 	// Props
 	let {

@@ -2,10 +2,10 @@
 	// Svelte
 	import { page } from '$app/state';
 	// API
-	import { api } from '$convex/_generated/api';
 	import { useQuery } from '@mmailaender/convex-svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient } = getAuthContext();
 
 	// Icons
 	import PencilIcon from '@lucide/svelte/icons/pencil';
@@ -14,8 +14,7 @@
 	import { tick } from 'svelte';
 
 	// Types
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
+	import type { GetActiveUserType } from '$lib/types';
 
 	// Props
 	let { initialData }: { initialData?: { activeUser?: GetActiveUserType } } = $props();

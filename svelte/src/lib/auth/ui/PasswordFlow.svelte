@@ -7,11 +7,8 @@
 
 	// API
 	import { useConvexClient } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
-	import { authClient } from '$lib/auth/api/auth-client';
-
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient, authConstants } = getAuthContext();
 
 	interface PasswordFlowProps {
 		email: string;
@@ -103,7 +100,7 @@
 				{ email, password, name, callbackURL },
 				{
 					onSuccess: () => {
-						if (AUTH_CONSTANTS.sendEmails) {
+						if (authConstants.sendEmails) {
 							onVerifyEmail?.();
 							toast.success('Verification email sent!');
 						}
@@ -201,7 +198,7 @@
 					<Password.Strength />
 				{/if}
 			</Password.Root>
-			{#if mode === 'login' && AUTH_CONSTANTS.sendEmails}
+			{#if mode === 'login' && authConstants.sendEmails}
 				<div class="flex flex-row items-center justify-end pt-1">
 					<button
 						type="button"

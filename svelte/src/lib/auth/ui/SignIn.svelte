@@ -18,8 +18,9 @@
 	// Utils
 	import { cn } from '$lib/primitives/utils';
 
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	// Context
+	import { getAuthContext } from '$lib/context.svelte';
+	const { authConstants } = getAuthContext();
 
 	// SvelteKit types
 	import type { Pathname } from '$app/types';
@@ -62,15 +63,15 @@
 	// Initialize available methods
 	$effect(() => {
 		const methods: EmailAuthMethod[] = [];
-		if (AUTH_CONSTANTS.providers.password) methods.push('password');
-		if (AUTH_CONSTANTS.providers.emailOTP && AUTH_CONSTANTS.sendEmails) methods.push('emailOTP');
-		if (AUTH_CONSTANTS.providers.magicLink && AUTH_CONSTANTS.sendEmails) methods.push('magicLink');
+		if (authConstants.providers.password) methods.push('password');
+		if (authConstants.providers.emailOTP && authConstants.sendEmails) methods.push('emailOTP');
+		if (authConstants.providers.magicLink && authConstants.sendEmails) methods.push('magicLink');
 		availableEmailMethods = methods;
 	});
 
 	// Legal links (handle empty/null/undefined gracefully)
-	const termsUrl = $derived((AUTH_CONSTANTS.terms ?? '').trim());
-	const privacyUrl = $derived((AUTH_CONSTANTS.privacy ?? '').trim());
+	const termsUrl = $derived((authConstants.terms ?? '').trim());
+	const privacyUrl = $derived((authConstants.privacy ?? '').trim());
 	const showTerms = $derived(Boolean(termsUrl));
 	const showPrivacy = $derived(Boolean(privacyUrl));
 	const showLegal = $derived(showTerms || showPrivacy);
@@ -222,7 +223,7 @@
 		const isVerifyEmail = currentStep === 'verify-email';
 
 		// no email sending → no verify/magic/otp screens
-		if (!AUTH_CONSTANTS.sendEmails && (isVerifyEmail || isMagic || isOtp)) {
+		if (!authConstants.sendEmails && (isVerifyEmail || isMagic || isOtp)) {
 			resetToEmailStep();
 			return;
 		}
@@ -235,7 +236,7 @@
 </script>
 
 <div class={cn('mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8', className)}>
-	{#if AUTH_CONSTANTS.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
+	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
 		<div class="flex flex-col">
 			<!-- Circle -->
 			<div class="mb-4 flex">

@@ -5,8 +5,9 @@
 	import { resolve } from '$app/paths';
 	import { tick } from 'svelte';
 
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	// Context
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient, authConstants } = getAuthContext();
 
 	// UI Components
 	// Primitives
@@ -57,17 +58,14 @@
 	import { isEditableElement, scheduleScrollIntoView } from '$lib/primitives/utils/focusScroll';
 
 	// API
-	import { api } from '$convex/_generated/api';
-	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { useConvexClient, useQuery } from '@mmailaender/convex-svelte';
 	import { ConvexError } from 'convex/values';
 	const client = useConvexClient();
 
 	// Types
-	import type { FunctionReturnType } from 'convex/server';
 	import type { Pathname } from '$app/types';
-	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
+	import type { ListAccountsType } from '$lib/types';
 
 	let { initialData }: { initialData?: { accountList?: ListAccountsType } } = $props();
 
@@ -112,11 +110,11 @@
 	});
 
 	// Get available providers (only enabled ones, exclude emailOTP and magicLink)
-	const allProviders = Object.keys(AUTH_CONSTANTS.providers).filter(
+	const allProviders = Object.keys(authConstants.providers).filter(
 		(provider) =>
 			provider !== 'emailOTP' &&
 			provider !== 'magicLink' &&
-			AUTH_CONSTANTS.providers[provider as keyof typeof AUTH_CONSTANTS.providers] === true
+			authConstants.providers[provider as keyof typeof authConstants.providers] === true
 	);
 
 	// Get providers that can be linked (not already linked)
@@ -133,39 +131,39 @@
 	});
 
 	// Build a map of provider IDs to icons for enabled providers
-	// NOTE: We reference AUTH_CONSTANTS directly so bundlers can tree-shake
+	// NOTE: We reference authConstants directly so bundlers can tree-shake
 	// branches and drop unused icon imports at build time.
 	type ProviderIconComponent = typeof KeyRoundIcon | typeof SiGithub;
 	const providerIconMap: Record<string, ProviderIconComponent> = {
 		credential: KeyRoundIcon
 	};
-	if (AUTH_CONSTANTS.providers.github) providerIconMap.github = SiGithub;
-	if (AUTH_CONSTANTS.providers.google) providerIconMap.google = SiGoogle;
-	if (AUTH_CONSTANTS.providers.facebook) providerIconMap.facebook = SiFacebook;
-	if (AUTH_CONSTANTS.providers.apple) providerIconMap.apple = SiApple;
-	if (AUTH_CONSTANTS.providers.atlassian) providerIconMap.atlassian = SiAtlassian;
-	if (AUTH_CONSTANTS.providers.discord) providerIconMap.discord = SiDiscord;
-	if (AUTH_CONSTANTS.providers.figma) providerIconMap.figma = SiFigma;
-	if (AUTH_CONSTANTS.providers.line) providerIconMap.line = SiLine;
-	if (AUTH_CONSTANTS.providers.huggingface) providerIconMap.huggingface = SiHuggingface;
-	if (AUTH_CONSTANTS.providers.kakao) providerIconMap.kakao = SiKakao;
-	if (AUTH_CONSTANTS.providers.kick) providerIconMap.kick = SiKick;
-	if (AUTH_CONSTANTS.providers.paypal) providerIconMap.paypal = SiPaypal;
-	if (AUTH_CONSTANTS.providers.salesforce) providerIconMap.salesforce = SiSalesforce;
-	if (AUTH_CONSTANTS.providers.slack) providerIconMap.slack = SiSlack;
-	if (AUTH_CONSTANTS.providers.notion) providerIconMap.notion = SiNotion;
-	if (AUTH_CONSTANTS.providers.naver) providerIconMap.naver = SiNaver;
-	if (AUTH_CONSTANTS.providers.tiktok) providerIconMap.tiktok = SiTiktok;
-	if (AUTH_CONSTANTS.providers.twitch) providerIconMap.twitch = SiTwitch;
-	if (AUTH_CONSTANTS.providers.x) providerIconMap.x = SiX;
-	if (AUTH_CONSTANTS.providers.dropbox) providerIconMap.dropbox = SiDropbox;
-	if (AUTH_CONSTANTS.providers.linear) providerIconMap.linear = SiLinear;
-	if (AUTH_CONSTANTS.providers.gitlab) providerIconMap.gitlab = SiGitlab;
-	if (AUTH_CONSTANTS.providers.reddit) providerIconMap.reddit = SiReddit;
-	if (AUTH_CONSTANTS.providers.roblox) providerIconMap.roblox = SiRoblox;
-	if (AUTH_CONSTANTS.providers.spotify) providerIconMap.spotify = SiSpotify;
-	if (AUTH_CONSTANTS.providers.vk) providerIconMap.vk = SiVk;
-	if (AUTH_CONSTANTS.providers.zoom) providerIconMap.zoom = SiZoom;
+	if (authConstants.providers.github) providerIconMap.github = SiGithub;
+	if (authConstants.providers.google) providerIconMap.google = SiGoogle;
+	if (authConstants.providers.facebook) providerIconMap.facebook = SiFacebook;
+	if (authConstants.providers.apple) providerIconMap.apple = SiApple;
+	if (authConstants.providers.atlassian) providerIconMap.atlassian = SiAtlassian;
+	if (authConstants.providers.discord) providerIconMap.discord = SiDiscord;
+	if (authConstants.providers.figma) providerIconMap.figma = SiFigma;
+	if (authConstants.providers.line) providerIconMap.line = SiLine;
+	if (authConstants.providers.huggingface) providerIconMap.huggingface = SiHuggingface;
+	if (authConstants.providers.kakao) providerIconMap.kakao = SiKakao;
+	if (authConstants.providers.kick) providerIconMap.kick = SiKick;
+	if (authConstants.providers.paypal) providerIconMap.paypal = SiPaypal;
+	if (authConstants.providers.salesforce) providerIconMap.salesforce = SiSalesforce;
+	if (authConstants.providers.slack) providerIconMap.slack = SiSlack;
+	if (authConstants.providers.notion) providerIconMap.notion = SiNotion;
+	if (authConstants.providers.naver) providerIconMap.naver = SiNaver;
+	if (authConstants.providers.tiktok) providerIconMap.tiktok = SiTiktok;
+	if (authConstants.providers.twitch) providerIconMap.twitch = SiTwitch;
+	if (authConstants.providers.x) providerIconMap.x = SiX;
+	if (authConstants.providers.dropbox) providerIconMap.dropbox = SiDropbox;
+	if (authConstants.providers.linear) providerIconMap.linear = SiLinear;
+	if (authConstants.providers.gitlab) providerIconMap.gitlab = SiGitlab;
+	if (authConstants.providers.reddit) providerIconMap.reddit = SiReddit;
+	if (authConstants.providers.roblox) providerIconMap.roblox = SiRoblox;
+	if (authConstants.providers.spotify) providerIconMap.spotify = SiSpotify;
+	if (authConstants.providers.vk) providerIconMap.vk = SiVk;
+	if (authConstants.providers.zoom) providerIconMap.zoom = SiZoom;
 
 	const getProviderIcon = (provider: string) => {
 		return providerIconMap[provider] ?? LockIcon;

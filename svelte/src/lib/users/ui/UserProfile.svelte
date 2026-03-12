@@ -5,13 +5,12 @@
 	import Accounts from './Accounts.svelte';
 	import ApiKeys from './ApiKeys.svelte';
 
-	import type { FunctionReturnType } from 'convex/server';
-	import type { api } from '$convex/_generated/api';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
+	// Context
+	import { getAuthContext } from '$lib/context.svelte';
+	const { authConstants } = getAuthContext();
 
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	// Types
+	import type { GetActiveUserType, ListAccountsType } from '$lib/types';
 
 	let {
 		initialData
@@ -30,7 +29,7 @@
 	</div>
 
 	<Accounts {initialData} />
-	{#if AUTH_CONSTANTS.apiKeys}
+	{#if authConstants.apiKeys}
 		<ApiKeys />
 	{/if}
 	<DeleteUser />

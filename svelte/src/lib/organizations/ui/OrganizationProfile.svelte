@@ -26,20 +26,15 @@
 
 	// API
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { api } from '$convex/_generated/api';
 
-	// API Types
-	import type { authClient } from '$lib/auth/api/auth-client';
-	import type { FunctionReturnType } from 'convex/server';
+	// Types
 	import type { Pathname } from '$app/types';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListInvitationType = FunctionReturnType<
-		typeof api.organizations.invitations.queries.listInvitations
-	>;
-	type Role = typeof authClient.$Infer.Member.role;
+	import type {
+		GetActiveOrganizationType,
+		GetActiveUserType,
+		ListInvitationsType,
+		Role
+	} from '$lib/types';
 
 	// Types
 	type OrganizationProfileProps = {
@@ -59,7 +54,7 @@
 			activeUser?: GetActiveUserType;
 			activeOrganization?: GetActiveOrganizationType;
 			// For MembersAndInvitations component
-			invitationList?: ListInvitationType;
+			invitationList?: ListInvitationsType;
 			role?: Role;
 		};
 	};

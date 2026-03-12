@@ -17,17 +17,16 @@
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { useQuery } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api } = getAuthContext();
 
 	// Constants
 	import { DIALOG_KEY } from '$lib/users/utils/user.constants';
 
 	// Types
 	import type { PopoverRootProps } from '@ark-ui/svelte';
-	import type { FunctionReturnType } from 'convex/server';
 	import type { Pathname } from '$app/types';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
+	import type { GetActiveUserType, ListAccountsType } from '$lib/types';
 
 	// Props
 	const {

@@ -33,11 +33,9 @@
 		SiZoom
 	} from '@icons-pack/svelte-simple-icons';
 
-	// API
-	import { authClient } from '$lib/auth/api/auth-client';
-
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	// Context
+	import { getAuthContext } from '$lib/context.svelte';
+	const { authClient, authConstants } = getAuthContext();
 
 	type Provider =
 		| 'github'
@@ -92,70 +90,70 @@
 	let submittingProvider: Provider | null = $state(null);
 
 	// Build a normalized list of active providers with icon and label
-	// NOTE: We reference AUTH_CONSTANTS directly so bundlers can tree-shake
+	// NOTE: We reference authConstants directly so bundlers can tree-shake
 	// branches and drop unused icon imports at build time.
 	const activeProviders: Array<{ id: Provider; label: string; Icon: typeof SiGithub }> = [];
-	if (AUTH_CONSTANTS.providers.github)
+	if (authConstants.providers.github)
 		activeProviders.push({ id: 'github', label: 'Sign in with GitHub', Icon: SiGithub });
-	if (AUTH_CONSTANTS.providers.google)
+	if (authConstants.providers.google)
 		activeProviders.push({ id: 'google', label: 'Sign in with Google', Icon: SiGoogle });
-	if (AUTH_CONSTANTS.providers.facebook)
+	if (authConstants.providers.facebook)
 		activeProviders.push({ id: 'facebook', label: 'Sign in with Facebook', Icon: SiFacebook });
-	if (AUTH_CONSTANTS.providers.apple)
+	if (authConstants.providers.apple)
 		activeProviders.push({ id: 'apple', label: 'Sign in with Apple', Icon: SiApple });
-	if (AUTH_CONSTANTS.providers.atlassian)
+	if (authConstants.providers.atlassian)
 		activeProviders.push({ id: 'atlassian', label: 'Sign in with Atlassian', Icon: SiAtlassian });
-	if (AUTH_CONSTANTS.providers.discord)
+	if (authConstants.providers.discord)
 		activeProviders.push({ id: 'discord', label: 'Sign in with Discord', Icon: SiDiscord });
-	if (AUTH_CONSTANTS.providers.figma)
+	if (authConstants.providers.figma)
 		activeProviders.push({ id: 'figma', label: 'Sign in with Figma', Icon: SiFigma });
-	if (AUTH_CONSTANTS.providers.line)
+	if (authConstants.providers.line)
 		activeProviders.push({ id: 'line', label: 'Sign in with Line', Icon: SiLine });
-	if (AUTH_CONSTANTS.providers.huggingface)
+	if (authConstants.providers.huggingface)
 		activeProviders.push({
 			id: 'huggingface',
 			label: 'Sign in with Hugging Face',
 			Icon: SiHuggingface
 		});
-	if (AUTH_CONSTANTS.providers.kakao)
+	if (authConstants.providers.kakao)
 		activeProviders.push({ id: 'kakao', label: 'Sign in with Kakao', Icon: SiKakao });
-	if (AUTH_CONSTANTS.providers.kick)
+	if (authConstants.providers.kick)
 		activeProviders.push({ id: 'kick', label: 'Sign in with Kick', Icon: SiKick });
-	if (AUTH_CONSTANTS.providers.paypal)
+	if (authConstants.providers.paypal)
 		activeProviders.push({ id: 'paypal', label: 'Sign in with PayPal', Icon: SiPaypal });
-	if (AUTH_CONSTANTS.providers.salesforce)
+	if (authConstants.providers.salesforce)
 		activeProviders.push({
 			id: 'salesforce',
 			label: 'Sign in with Salesforce',
 			Icon: SiSalesforce
 		});
-	if (AUTH_CONSTANTS.providers.slack)
+	if (authConstants.providers.slack)
 		activeProviders.push({ id: 'slack', label: 'Sign in with Slack', Icon: SiSlack });
-	if (AUTH_CONSTANTS.providers.notion)
+	if (authConstants.providers.notion)
 		activeProviders.push({ id: 'notion', label: 'Sign in with Notion', Icon: SiNotion });
-	if (AUTH_CONSTANTS.providers.naver)
+	if (authConstants.providers.naver)
 		activeProviders.push({ id: 'naver', label: 'Sign in with Naver', Icon: SiNaver });
-	if (AUTH_CONSTANTS.providers.tiktok)
+	if (authConstants.providers.tiktok)
 		activeProviders.push({ id: 'tiktok', label: 'Sign in with TikTok', Icon: SiTiktok });
-	if (AUTH_CONSTANTS.providers.twitch)
+	if (authConstants.providers.twitch)
 		activeProviders.push({ id: 'twitch', label: 'Sign in with Twitch', Icon: SiTwitch });
-	if (AUTH_CONSTANTS.providers.x)
+	if (authConstants.providers.x)
 		activeProviders.push({ id: 'twitter', label: 'Sign in with X', Icon: SiX });
-	if (AUTH_CONSTANTS.providers.dropbox)
+	if (authConstants.providers.dropbox)
 		activeProviders.push({ id: 'dropbox', label: 'Sign in with Dropbox', Icon: SiDropbox });
-	if (AUTH_CONSTANTS.providers.linear)
+	if (authConstants.providers.linear)
 		activeProviders.push({ id: 'linear', label: 'Sign in with Linear', Icon: SiLinear });
-	if (AUTH_CONSTANTS.providers.gitlab)
+	if (authConstants.providers.gitlab)
 		activeProviders.push({ id: 'gitlab', label: 'Sign in with GitLab', Icon: SiGitlab });
-	if (AUTH_CONSTANTS.providers.reddit)
+	if (authConstants.providers.reddit)
 		activeProviders.push({ id: 'reddit', label: 'Sign in with Reddit', Icon: SiReddit });
-	if (AUTH_CONSTANTS.providers.roblox)
+	if (authConstants.providers.roblox)
 		activeProviders.push({ id: 'roblox', label: 'Sign in with Roblox', Icon: SiRoblox });
-	if (AUTH_CONSTANTS.providers.spotify)
+	if (authConstants.providers.spotify)
 		activeProviders.push({ id: 'spotify', label: 'Sign in with Spotify', Icon: SiSpotify });
-	if (AUTH_CONSTANTS.providers.vk)
+	if (authConstants.providers.vk)
 		activeProviders.push({ id: 'vk', label: 'Sign in with VK', Icon: SiVk });
-	if (AUTH_CONSTANTS.providers.zoom)
+	if (authConstants.providers.zoom)
 		activeProviders.push({ id: 'zoom', label: 'Sign in with Zoom', Icon: SiZoom });
 
 	const hasAnyProvider = activeProviders.length > 0;

@@ -22,6 +22,7 @@ export default defineConfig({
 		excludeDeps: ['svelte', '@sveltejs/kit'],
 		outputs: [repository({ format: true })],
 		items: [
+			// ── Base & config ────────────────────────────────────────────────
 			{
 				name: 'config',
 				add: 'when-added',
@@ -33,8 +34,13 @@ export default defineConfig({
 							{
 								path: 'convex',
 								files: [
-									{ path: 'auth.ts' },
-									{ path: 'storage.ts' },
+									{
+										path: 'auth.ts',
+										dependencyResolution: 'manual',
+										dependencies: ['@convex-dev/better-auth', 'better-auth']
+									},
+									{ path: 'storage.ts', dependencyResolution: 'manual' },
+									{ path: 'auth.constants.ts' },
 									{ path: 'auth.constants.types.ts' }
 								]
 							}
@@ -43,199 +49,25 @@ export default defineConfig({
 				]
 			},
 			{
-				name: 'routes/api/auth/[...all]',
-				add: 'when-added',
-				type: 'routes',
-				files: [
-					{
-						path: 'src/routes/**/auth/*/+server.ts'
-					}
-				]
-			},
-			{
-				name: 'routes/api/organization/accept-invitation/[invitationId]',
-				add: 'when-added',
-				type: 'routes',
-				files: [
-					{
-						path: 'src/routes/**/accept-invitation/*/+page.svelte'
-					}
-				]
-			},
-			{
-				name: 'lib/auth',
-				add: 'when-added',
-				type: 'lib',
-				files: [
-					{
-						path: 'src/lib/auth'
-					}
-				]
-			},
-			{
-				name: 'routes/(auth)/reset-password',
-				add: 'when-added',
-				type: 'routes',
-				files: [
-					{
-						path: 'src/routes/*/reset-password/+page.svelte'
-					}
-				]
-			},
-			{
-				name: 'routes/(auth)/signin',
-				add: 'when-added',
-				type: 'routes',
-				files: [
-					{
-						path: 'src/routes/*/signin/+page.svelte'
-					}
-				]
-			},
-
-			{
-				name: 'convex/users',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/users'
-					},
-					{
-						path: 'src/convex/betterAuth',
-						files: [
-							{
-								path: 'user.ts'
-							}
-						]
-					}
-				]
-			},
-			{
-				name: 'lib/users',
-				add: 'when-added',
-				type: 'lib',
-				files: [
-					{
-						path: 'src/lib/users'
-					}
-				]
-			},
-			{
-				name: 'convex/email',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/email.ts'
-					},
-					{
-						path: 'src/convex/model',
-						files: [
-							{
-								path: 'emails'
-							}
-						]
-					}
-				]
-			},
-			{
-				name: 'convex/organizations',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/organizations'
-					},
-					{
-						path: 'src/convex/model',
-						files: [
-							{
-								path: 'organizations'
-							}
-						]
-					},
-					{
-						path: 'src/convex/betterAuth',
-						files: [
-							{
-								path: 'organization.ts'
-							}
-						]
-					}
-				]
-			},
-			{
-				name: 'lib/organizations',
-				add: 'when-added',
-				type: 'lib',
-				files: [
-					{
-						path: 'src/lib/organizations'
-					}
-				]
-			},
-
-			{
-				name: 'convex/deviceAuthorization',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/deviceAuthorization.ts'
-					}
-				]
-			},
-			{
-				name: 'routes/(auth)/device-authorization',
-				add: 'when-added',
-				type: 'routes',
-				files: [
-					{
-						path: 'src/routes/*/device-authorization/*/+page.svelte'
-					}
-				]
-			},
-
-			{
-				name: 'primitives',
-				add: 'when-needed',
-				type: 'lib',
-				files: [
-					{
-						path: 'src/lib/primitives'
-					}
-				]
-			},
-
-			{
-				name: 'themes',
-				add: 'when-added',
-				type: 'themes',
-				files: [
-					{
-						path: 'src/themes/auth.css'
-					}
-				]
-			},
-			{
 				name: 'base',
 				add: 'when-added',
 				type: 'base',
 				files: [
-					{ path: 'convex.json', target: 'convex.json' },
+					{ path: 'convex.dist.json', target: 'convex.json' },
 					{ path: 'svelte.config.js', target: 'svelte.config.js' },
 					{
 						path: 'src',
 						files: [
 							{ path: 'app.html' },
 							{ path: 'app.d.ts' },
-							{ path: 'hooks.server.ts' },
 							{
 								path: 'routes',
 								files: [
-									{ path: '+layout.svelte' },
-									{ path: '+layout.server.ts' },
+									{
+										path: '+layout.svelte',
+										dependencyResolution: 'manual',
+										dependencies: ['@mmailaender/convex-better-auth-svelte']
+									},
 									{
 										path: 'layout.css',
 										dependencyResolution: 'manual',
@@ -260,9 +92,6 @@ export default defineConfig({
 								path: 'convex',
 								files: [
 									{
-										path: 'auth.constants.ts'
-									},
-									{
 										path: 'tsconfig.json'
 									},
 									{
@@ -272,7 +101,8 @@ export default defineConfig({
 										path: 'convex.config.ts'
 									},
 									{
-										path: 'http.ts'
+										path: 'http.ts',
+										dependencyResolution: 'manual'
 									},
 									{
 										path: 'polyfills.ts'
@@ -281,17 +111,13 @@ export default defineConfig({
 										path: 'schema.ts'
 									},
 									{
-										path: 'migrations.ts'
-									},
-									{
-										path: '_generated'
+										path: 'migrations.ts',
+										dependencyResolution: 'manual',
+										dependencies: ['@convex-dev/migrations']
 									},
 									{
 										path: 'betterAuth',
 										files: [
-											{
-												path: '_generated'
-											},
 											{
 												path: 'adapter.ts'
 											},
@@ -306,6 +132,273 @@ export default defineConfig({
 								]
 							}
 						]
+					}
+				]
+			},
+			{
+				name: 'base/ssr',
+				add: 'when-added',
+				type: 'base',
+				files: [
+					{
+						path: 'src',
+						files: [
+							{ path: 'hooks.server.ts' },
+							{
+								path: 'routes',
+								files: [
+									{
+										path: '+layout.server.ts',
+										dependencyResolution: 'manual',
+										dependencies: ['@mmailaender/convex-better-auth-svelte']
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				name: 'primitives',
+				add: 'when-needed',
+				type: 'lib',
+				files: [
+					{
+						path: 'src/lib/primitives'
+					}
+				]
+			},
+			{
+				name: 'themes',
+				add: 'when-added',
+				type: 'themes',
+				files: [
+					{
+						path: 'src/themes/auth.css'
+					}
+				]
+			},
+
+			// ── Auth ─────────────────────────────────────────────────────────
+			{
+				name: 'auth/lib',
+				add: 'when-added',
+				type: 'lib',
+				files: [
+					{
+						path: 'src/lib',
+						files: [
+							{ path: 'context.svelte.ts' },
+							{
+								path: 'types.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex']
+							}
+						]
+					},
+					{
+						path: 'src/lib/auth'
+					}
+				]
+			},
+			{
+				name: 'auth/routes',
+				add: 'when-added',
+				type: 'routes',
+				files: [
+					{
+						path: 'src/routes/**/auth/*/+server.ts'
+					},
+					{
+						path: 'src/routes/*/signin/+page.svelte'
+					},
+					{
+						path: 'src/routes/*/reset-password/+page.svelte'
+					}
+				]
+			},
+
+			// ── Users ────────────────────────────────────────────────────────
+			{
+				name: 'users/convex',
+				add: 'when-added',
+				type: 'convex',
+				files: [
+					{
+						path: 'src/convex/users',
+						files: [
+							{
+								path: 'actions.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex']
+							},
+							{
+								path: 'mutations.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex', 'better-auth']
+							},
+							{
+								path: 'queries.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex', 'better-auth']
+							}
+						]
+					},
+					{
+						path: 'src/convex/betterAuth',
+						files: [
+							{
+								path: 'user.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex', 'convex-helpers']
+							}
+						]
+					}
+				]
+			},
+			{
+				name: 'users/lib',
+				add: 'when-added',
+				type: 'lib',
+				files: [
+					{
+						path: 'src/lib/users'
+					}
+				]
+			},
+
+			// ── Organizations ────────────────────────────────────────────────
+			{
+				name: 'organizations/convex',
+				add: 'when-added',
+				type: 'convex',
+				files: [
+					{
+						path: 'src/convex/organizations',
+						files: [
+							{
+								path: 'mutations.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex', 'better-auth']
+							},
+							{
+								path: 'queries.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex']
+							},
+							{
+								path: 'invitations',
+								files: [{ path: 'queries.ts', dependencyResolution: 'manual' }]
+							},
+							{
+								path: 'members',
+								files: [
+									{
+										path: 'mutations.ts',
+										dependencyResolution: 'manual',
+										dependencies: ['convex', 'better-auth']
+									}
+								]
+							}
+						]
+					},
+					{
+						path: 'src/convex/model',
+						files: [
+							{
+								path: 'organizations',
+								files: [
+									{
+										path: 'index.ts',
+										dependencyResolution: 'manual',
+										dependencies: ['convex', 'better-auth']
+									}
+								]
+							}
+						]
+					},
+					{
+						path: 'src/convex/betterAuth',
+						files: [
+							{
+								path: 'organization.ts',
+								dependencyResolution: 'manual',
+								dependencies: ['convex', 'convex-helpers']
+							}
+						]
+					}
+				]
+			},
+			{
+				name: 'organizations/lib',
+				add: 'when-added',
+				type: 'lib',
+				files: [
+					{
+						path: 'src/lib/organizations'
+					}
+				]
+			},
+			{
+				name: 'organizations/routes',
+				add: 'when-added',
+				type: 'routes',
+				files: [
+					{
+						path: 'src/routes/**/accept-invitation/*/+page.svelte'
+					}
+				]
+			},
+
+			// ── Email ────────────────────────────────────────────────────────
+			{
+				name: 'email/convex',
+				add: 'when-added',
+				type: 'convex',
+				files: [
+					{
+						path: 'src/convex/email.ts',
+						dependencyResolution: 'manual',
+						dependencies: ['@convex-dev/resend']
+					},
+					{
+						path: 'src/convex/model',
+						files: [
+							{
+								path: 'emails',
+								files: [
+									{ path: 'validateEmail.ts', dependencyResolution: 'manual' },
+									{
+										path: 'templates',
+										files: [{ path: 'baseEmail.ts' }, { path: 'emailTemplates.ts' }]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+
+			// ── Device Authorization ─────────────────────────────────────────
+			{
+				name: 'device-authorization/convex',
+				add: 'when-added',
+				type: 'convex',
+				files: [
+					{
+						path: 'src/convex/deviceAuthorization.ts',
+						dependencyResolution: 'manual',
+						dependencies: ['convex', 'better-auth']
+					}
+				]
+			},
+			{
+				name: 'device-authorization/routes',
+				add: 'when-added',
+				type: 'routes',
+				files: [
+					{
+						path: 'src/routes/*/device-authorization/*/+page.svelte'
 					}
 				]
 			}

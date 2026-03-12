@@ -4,8 +4,8 @@
 
 	// API
 	import { useConvexClient } from '@mmailaender/convex-svelte';
-	import { api } from '$convex/_generated/api';
-	import { authClient } from '$lib/auth/api/auth-client';
+	import { getAuthContext } from '$lib/context.svelte';
+	const { api, authClient } = getAuthContext();
 
 	interface EmailOtpFlowProps {
 		email: string;

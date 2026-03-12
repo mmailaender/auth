@@ -1,11 +1,10 @@
 // API
 import { useQuery } from '@mmailaender/convex-svelte';
-import { api } from '$convex/_generated/api';
-import { authClient } from '$lib/auth/api/auth-client';
 import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+import { getAuthContext } from '$lib/context.svelte';
 
 // Types
-type Role = typeof authClient.$Infer.Member.role;
+import type { Role } from '$lib/types';
 
 type UseRolesArgs = {
 	orgId?: string;
@@ -18,6 +17,7 @@ type UseRolesOptions =
 	| (() => { initialData?: Role });
 
 export function useRoles(args: UseRolesArgs = {}, options?: UseRolesOptions) {
+	const { api } = getAuthContext();
 	const auth = useAuth();
 
 	const getOptions = typeof options === 'function' ? options : () => options;
