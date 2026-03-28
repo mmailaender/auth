@@ -36,7 +36,11 @@
 	let mode = $state<'login' | 'register'>('login');
 	let isRequestingReset = $state(false);
 
-	// Determine if this is login or register based on email
+	function setMode(nextMode: 'login' | 'register'): void {
+		mode = nextMode;
+		onModeChange?.(nextMode);
+	}
+
 	$effect(() => {
 		const validateEmail = async () => {
 			try {
@@ -48,8 +52,7 @@
 					onBack();
 					return;
 				}
-				mode = data.exists ? 'login' : 'register';
-				onModeChange?.(mode);
+				setMode(data.exists ? 'login' : 'register');
 			} catch (error) {
 				console.error('Email validation error:', error);
 			}
@@ -79,10 +82,12 @@
 						if (ctx.error.message) {
 							if (ctx.error.status === 403) {
 								errorMessage = 'Please verify your email address.';
-							} else if (ctx.error.message.includes('Invalid password')) {
-								errorMessage = 'Invalid password. Please try again.';
-							} else if (ctx.error.message.includes('not found')) {
-								errorMessage = 'Account not found. Please check your email or sign up.';
+							} else if (
+								ctx.error.message.includes('Invalid password') ||
+								ctx.error.message.includes('not found')
+							) {
+								errorMessage =
+									'Could not sign in. Please check your credentials or create an account.';
 							} else {
 								errorMessage = ctx.error.message;
 							}

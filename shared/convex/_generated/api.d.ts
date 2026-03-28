@@ -333,6 +333,7 @@ export declare const components: {
               }
             | {
                 data: {
+                  configId: string;
                   createdAt: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -346,13 +347,13 @@ export declare const components: {
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt: number;
-                  userId: string;
                 };
                 model: "apikey";
               }
@@ -657,11 +658,12 @@ export declare const components: {
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -1029,11 +1031,12 @@ export declare const components: {
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -1137,6 +1140,7 @@ export declare const components: {
             maximumRowsRead?: number;
             numItems: number;
           };
+          select?: Array<string>;
           sortBy?: { direction: "asc" | "desc"; field: string };
           where?: Array<{
             connector?: "AND" | "OR";
@@ -1559,6 +1563,7 @@ export declare const components: {
             | {
                 model: "apikey";
                 update: {
+                  configId?: string;
                   createdAt?: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -1572,22 +1577,23 @@ export declare const components: {
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId?: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt?: number;
-                  userId?: string;
                 };
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -2036,6 +2042,7 @@ export declare const components: {
             | {
                 model: "apikey";
                 update: {
+                  configId?: string;
                   createdAt?: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -2049,22 +2056,23 @@ export declare const components: {
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId?: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt?: number;
-                  userId?: string;
                 };
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"

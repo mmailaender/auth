@@ -127,6 +127,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
               }
             | {
                 data: {
+                  configId: string;
                   createdAt: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -140,13 +141,13 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt: number;
-                  userId: string;
                 };
                 model: "apikey";
               }
@@ -452,11 +453,12 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -825,11 +827,12 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -934,6 +937,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             maximumRowsRead?: number;
             numItems: number;
           };
+          select?: Array<string>;
           sortBy?: { direction: "asc" | "desc"; field: string };
           where?: Array<{
             connector?: "AND" | "OR";
@@ -1358,6 +1362,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "apikey";
                 update: {
+                  configId?: string;
                   createdAt?: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -1371,22 +1376,23 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId?: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt?: number;
-                  userId?: string;
                 };
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"
@@ -1836,6 +1842,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 model: "apikey";
                 update: {
+                  configId?: string;
                   createdAt?: number;
                   enabled?: null | boolean;
                   expiresAt?: null | number;
@@ -1849,22 +1856,23 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   rateLimitEnabled?: null | boolean;
                   rateLimitMax?: null | number;
                   rateLimitTimeWindow?: null | number;
+                  referenceId?: string;
                   refillAmount?: null | number;
                   refillInterval?: null | number;
                   remaining?: null | number;
                   requestCount?: null | number;
                   start?: null | string;
                   updatedAt?: number;
-                  userId?: string;
                 };
                 where?: Array<{
                   connector?: "AND" | "OR";
                   field:
+                    | "configId"
                     | "name"
                     | "start"
+                    | "referenceId"
                     | "prefix"
                     | "key"
-                    | "userId"
                     | "refillInterval"
                     | "refillAmount"
                     | "lastRefillAt"

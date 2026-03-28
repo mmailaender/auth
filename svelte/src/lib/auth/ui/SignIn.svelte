@@ -146,6 +146,7 @@
 		submitting = false;
 		isSigningIn = false;
 		passwordMode = 'login';
+		otpMode = 'login';
 		verifyContext = 'emailVerification';
 		magicAutoSendPending = false;
 		magicLinkSent = false;

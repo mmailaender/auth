@@ -35,9 +35,12 @@
 	let emailChecked = $state(false);
 	let otpSentRef = { current: false };
 
-	// Check email availability and send OTP when component mounts
+	function setMode(nextMode: 'login' | 'register'): void {
+		mode = nextMode;
+		onModeChange?.(nextMode);
+	}
+
 	$effect(() => {
-		// Prevent multiple checks and OTP sends
 		if (otpSentRef.current || emailChecked) return;
 		otpSentRef.current = true;
 
@@ -45,23 +48,19 @@
 			onSubmittingChange(true);
 
 			try {
-				// First, check if email exists
 				const emailData = await client.action(api.users.actions.checkEmailAvailabilityAndValidity, {
 					email
 				});
 				if (!emailData.valid) {
 					toast.error(emailData.reason || 'Please enter a valid email address.');
 					onSubmittingChange(false);
-					// Reset the refs so user can go back and correct the email
 					otpSentRef.current = false;
 					emailChecked = false;
 					return;
 				}
-				mode = emailData.exists ? 'login' : 'register';
-				onModeChange?.(mode);
+				setMode(emailData.exists ? 'login' : 'register');
 				emailChecked = true;
 
-				// Then send OTP
 				await authClient.emailOtp.sendVerificationOtp(
 					{ email, type: 'sign-in' },
 					{
@@ -77,7 +76,6 @@
 								ctx.error.message || 'Failed to send verification code. Please try again.'
 							);
 							onSubmittingChange(false);
-							// Reset the refs on error so user can retry
 							otpSentRef.current = false;
 							emailChecked = false;
 						}
@@ -87,7 +85,6 @@
 				console.error('Email validation error:', error);
 				toast.error('Failed to validate email. Please try again.');
 				onSubmittingChange(false);
-				// Reset the refs on error so user can retry
 				otpSentRef.current = false;
 				emailChecked = false;
 			}
@@ -102,35 +99,10 @@
 	async function handleVerifyOtp(): Promise<void> {
 		onSubmittingChange(true);
 
-		if (mode === 'login') {
-			// Existing user - use regular sign in
-			await authClient.signIn.emailOtp(
-				{ email, otp },
-				{
-					onSuccess,
-					onError: (ctx) => {
-						console.error('OTP verification error:', ctx.error);
-						toast.error(ctx.error.message || 'Invalid verification code. Please try again.');
-						onSubmittingChange(false);
-					}
-				}
-			);
-		} else {
-			// New user - use sign up with OTP
-			try {
+		try {
+			if (mode === 'login') {
 				await authClient.signIn.emailOtp(
 					{ email, otp },
-					{
-						onError: (ctx) => {
-							console.error('OTP verification error:', ctx.error);
-							toast.error(ctx.error.message || 'Invalid verification code. Please try again.');
-							onSubmittingChange(false);
-						}
-					}
-				);
-
-				await authClient.updateUser(
-					{ name },
 					{
 						onSuccess,
 						onError: (ctx) => {
@@ -140,23 +112,47 @@
 						}
 					}
 				);
-			} catch (error) {
-				console.error('OTP sign up error:', error);
-				let errorMessage = 'Invalid verification code. Please try again.';
+				return;
+			}
 
-				if (error instanceof Error) {
-					if (error.message.includes('Invalid OTP')) {
-						errorMessage = 'Invalid verification code. Please try again.';
-					} else if (error.message.includes('expired')) {
-						errorMessage = 'Verification code has expired. Please request a new one.';
-					} else {
-						errorMessage = error.message;
+			await authClient.signIn.emailOtp(
+				{ email, otp },
+				{
+					onError: (ctx) => {
+						console.error('OTP verification error:', ctx.error);
+						toast.error(ctx.error.message || 'Invalid verification code. Please try again.');
+						onSubmittingChange(false);
 					}
 				}
+			);
 
-				toast.error(errorMessage);
-				onSubmittingChange(false);
+			await authClient.updateUser(
+				{ name },
+				{
+					onSuccess,
+					onError: (ctx) => {
+						console.error('Profile update error:', ctx.error);
+						toast.error(ctx.error.message || 'Signed in, but failed to save your name.');
+						onSubmittingChange(false);
+					}
+				}
+			);
+		} catch (error) {
+			console.error('OTP sign in error:', error);
+			let errorMessage = 'Invalid verification code. Please try again.';
+
+			if (error instanceof Error) {
+				if (error.message.includes('Invalid OTP')) {
+					errorMessage = 'Invalid verification code. Please try again.';
+				} else if (error.message.includes('expired')) {
+					errorMessage = 'Verification code has expired. Please request a new one.';
+				} else {
+					errorMessage = error.message;
+				}
 			}
+
+			toast.error(errorMessage);
+			onSubmittingChange(false);
 		}
 	}
 
@@ -192,7 +188,7 @@
 					placeholder="Enter your full name"
 					autocomplete="name"
 					required
-					disabled={submitting || !otpSent}
+					disabled={submitting}
 				/>
 			</div>
 		{/if}

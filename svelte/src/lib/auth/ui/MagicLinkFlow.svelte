@@ -34,9 +34,11 @@
 	let emailChecked = $state(false);
 	let linkSentRef = { current: false };
 
-	// Check email availability and send magic link when component mounts
+	function setMode(nextMode: 'login' | 'register'): void {
+		mode = nextMode;
+	}
+
 	$effect(() => {
-		// Prevent multiple checks and magic link sends
 		if (linkSentRef.current || emailChecked) return;
 		linkSentRef.current = true;
 
@@ -45,7 +47,6 @@
 			onAutoSendChange?.(true);
 
 			try {
-				// First, check if email exists
 				const emailData = await client.action(api.users.actions.checkEmailAvailabilityAndValidity, {
 					email
 				});
@@ -53,15 +54,13 @@
 					toast.error(emailData.reason || 'Please enter a valid email address.');
 					onSubmittingChange(false);
 					onAutoSendChange?.(false);
-					// Reset refs so user can go back and correct the email
 					linkSentRef.current = false;
 					emailChecked = false;
 					return;
 				}
-				mode = emailData.exists ? 'login' : 'register';
+				setMode(emailData.exists ? 'login' : 'register');
 				emailChecked = true;
 
-				// If user exists, send magic link immediately
 				if (emailData.exists) {
 					await authClient.signIn.magicLink(
 						{
@@ -81,7 +80,6 @@
 								console.error('Magic link send error:', ctx.error);
 								toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 								onSubmittingChange(false);
-								// Reset the refs on error so user can retry
 								linkSentRef.current = false;
 								emailChecked = false;
 								onAutoSendChange?.(false);
@@ -89,7 +87,6 @@
 						}
 					);
 				} else {
-					// New user - just stop loading, we'll ask for name first
 					onSubmittingChange(false);
 					onAutoSendChange?.(false);
 				}
@@ -97,7 +94,6 @@
 				console.error('Email validation error:', error);
 				toast.error('Failed to validate email. Please try again.');
 				onSubmittingChange(false);
-				// Reset the refs on error so user can retry
 				linkSentRef.current = false;
 				emailChecked = false;
 				onAutoSendChange?.(false);
@@ -107,11 +103,9 @@
 		checkEmailAndSendMagicLink();
 	});
 
-	/**
-	 * Handles sending magic link for new users
-	 */
 	async function handleSendMagicLink(): Promise<void> {
 		onSubmittingChange(true);
+		onAutoSendChange?.(true);
 
 		try {
 			await authClient.signIn.magicLink(
@@ -127,11 +121,14 @@
 						linkSent = true;
 						onSubmittingChange(false);
 						toast.success('Magic link sent to your email!');
+						onAutoSendChange?.(false);
+						onLinkSent?.();
 					},
 					onError: (ctx) => {
 						console.error('Magic link send error:', ctx.error);
 						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 						onSubmittingChange(false);
+						onAutoSendChange?.(false);
 					}
 				}
 			);
@@ -139,6 +136,7 @@
 			console.error('Magic link error:', error);
 			toast.error('Failed to send magic link. Please try again.');
 			onSubmittingChange(false);
+			onAutoSendChange?.(false);
 		}
 	}
 

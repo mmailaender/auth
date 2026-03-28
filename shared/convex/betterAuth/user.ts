@@ -15,7 +15,7 @@ export const getUserById = query({
 		v.object(withSystemFields('user', schema.tables.user.validator.fields))
 	),
 	handler: async (ctx, args) => {
-		return ctx.db.get(args.userId);
+		return ctx.db.get('user', args.userId);
 	}
 });
 
@@ -45,6 +45,6 @@ export const updateUser = mutation({
 	},
 	returns: v.null(),
 	handler: async (ctx, args) => {
-		return ctx.db.patch(args.userId, args.data);
+		return ctx.db.patch('user', args.userId, args.data);
 	}
 });

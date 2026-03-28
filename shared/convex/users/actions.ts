@@ -1,12 +1,12 @@
 import { v } from 'convex/values';
 import { action } from '../_generated/server';
-import { api } from '../_generated/api.js';
 import validateEmail from '../model/emails/validateEmail.js';
 import { AUTH_CONSTANTS } from '../auth.constants';
+import { components } from '../_generated/api';
 
 /**
- * Checks if a user with this email already exists. If yes, returns information about the existing user.
- * If not, verifies the email format and validity using the email verification service.
+ * Validates the email address and returns whether the auth flow should
+ * continue with sign-in or sign-up.
  */
 export const checkEmailAvailabilityAndValidity = action({
 	args: {
@@ -14,12 +14,10 @@ export const checkEmailAvailabilityAndValidity = action({
 	},
 	handler: async (ctx, args) => {
 		const { email } = args;
+		const user = await ctx.runQuery(components.betterAuth.user.getUserByEmail, { email });
+		const exists = user !== null;
 
-		// First check if user with this email already exists
-		const userExists = await ctx.runQuery(api.users.queries.isUserExisting, { email });
-
-		// If user exists, return early with the appropriate information
-		if (userExists) {
+		if (exists) {
 			return {
 				valid: true,
 				exists: true,
@@ -29,16 +27,18 @@ export const checkEmailAvailabilityAndValidity = action({
 		}
 
 		if (AUTH_CONSTANTS.validateEmails) {
-			// If user doesn't exist, verify email format and validity
-			const verificationResult = await validateEmail(ctx, email);
-			return verificationResult;
-		} else {
+			const result = await validateEmail(ctx, email);
 			return {
-				valid: true,
-				exists: false,
-				email,
-				reason: 'Email verification disabled'
+				...result,
+				exists: false
 			};
 		}
+
+		return {
+			valid: true,
+			exists: false,
+			email,
+			reason: 'Email verification disabled'
+		};
 	}
 });

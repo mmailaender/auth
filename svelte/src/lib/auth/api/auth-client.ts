@@ -4,9 +4,9 @@ import {
 	emailOTPClient,
 	organizationClient,
 	magicLinkClient,
-	apiKeyClient,
 	deviceAuthorizationClient
 } from 'better-auth/client/plugins';
+import { apiKeyClient } from '@better-auth/api-key/client';
 
 import { AUTH_CONSTANTS } from '$convex/auth.constants';
 

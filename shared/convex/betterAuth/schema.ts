@@ -90,8 +90,8 @@ export const tables = {
 		role: v.string(),
 		createdAt: v.number()
 	})
-		.index('organizationId_userId', ['organizationId', 'userId'])
 		.index('organizationId', ['organizationId'])
+		.index('organizationId_userId', ['organizationId', 'userId'])
 		.index('userId', ['userId'])
 		.index('role', ['role']),
 	invitation: defineTable({
@@ -109,11 +109,12 @@ export const tables = {
 		.index('status', ['status'])
 		.index('inviterId', ['inviterId']),
 	apikey: defineTable({
+		configId: v.string(),
 		name: v.optional(v.union(v.null(), v.string())),
 		start: v.optional(v.union(v.null(), v.string())),
+		referenceId: v.string(),
 		prefix: v.optional(v.union(v.null(), v.string())),
 		key: v.string(),
-		userId: v.string(),
 		refillInterval: v.optional(v.union(v.null(), v.number())),
 		refillAmount: v.optional(v.union(v.null(), v.number())),
 		lastRefillAt: v.optional(v.union(v.null(), v.number())),
@@ -129,7 +130,7 @@ export const tables = {
 		updatedAt: v.number(),
 		permissions: v.optional(v.union(v.null(), v.string())),
 		metadata: v.optional(v.union(v.null(), v.string()))
-	}).index('userId', ['userId']),
+	}).index('referenceId', ['referenceId']),
 	deviceCode: defineTable({
 		deviceCode: v.string(),
 		userCode: v.string(),

@@ -16,7 +16,7 @@
 	// Types
 	import { Portal } from '@ark-ui/svelte';
 	import type { ListApiKeysType } from '$lib/types';
-	type ApiKeyType = ListApiKeysType[number];
+	type ApiKeyType = NonNullable<ListApiKeysType>[number];
 
 	// API
 	import { useQuery } from '@mmailaender/convex-svelte';

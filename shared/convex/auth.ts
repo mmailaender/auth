@@ -9,13 +9,8 @@ import { betterAuth, type BetterAuthOptions } from 'better-auth';
 
 // Plugins
 import { convex } from '@convex-dev/better-auth/plugins';
-import {
-	emailOTP,
-	magicLink,
-	organization,
-	apiKey,
-	deviceAuthorization
-} from 'better-auth/plugins';
+import { emailOTP, magicLink, organization, deviceAuthorization } from 'better-auth/plugins';
+import { apiKey } from '@better-auth/api-key';
 
 // Emails
 import {
@@ -278,7 +273,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 			},
 			changeEmail: {
 				enabled: true,
-				sendChangeEmailVerification: async ({ user, newEmail, url }) => {
+				sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
 					await sendChangeEmailVerification(requireActionCtx(ctx), {
 						to: user.email,
 						url,
