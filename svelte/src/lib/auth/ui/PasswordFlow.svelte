@@ -7,7 +7,7 @@
 
 	// API
 	import { useConvexClient } from '@mmailaender/convex-svelte';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api, authClient, authConstants } = getAuthContext();
 
 	interface PasswordFlowProps {

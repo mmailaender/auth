@@ -15,13 +15,13 @@
 	import CheckIcon from '@lucide/svelte/icons/check';
 	// Types
 	import { Portal } from '@ark-ui/svelte';
-	import type { ListApiKeysType } from '$lib/types';
+	import type { ListApiKeysType } from '$lib/auth/types';
 	type ApiKeyType = NonNullable<ListApiKeysType>[number];
 
 	// API
 	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api, authClient } = getAuthContext();
 
 	let { initialData }: { initialData?: { apiKeys?: ListApiKeysType } } = $props();

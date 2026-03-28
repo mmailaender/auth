@@ -20,7 +20,7 @@
 		GetActiveUserType,
 		ListInvitationsType,
 		Role
-	} from '$lib/types';
+	} from '$lib/auth/types';
 
 	type OrganizationProfileHostProps = {
 		initialData?: {

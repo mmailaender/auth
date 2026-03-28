@@ -32,9 +32,10 @@
 				{
 					"type": "base",
 					"role": "file",
-					"path": "src/convex/auth.ts",
+					"path": "auth.ts",
 					"relativePath": "src/convex/auth.ts",
 					"_imports_": [],
+					"target": "src/convex/auth.ts",
 					"registryDependencies": [],
 					"dependencies": [
 						{
@@ -51,9 +52,10 @@
 				{
 					"type": "base",
 					"role": "file",
-					"path": "src/convex/storage.ts",
+					"path": "storage.ts",
 					"relativePath": "src/convex/storage.ts",
 					"_imports_": [],
+					"target": "src/convex/storage.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -61,19 +63,20 @@
 				{
 					"type": "base",
 					"role": "file",
-					"path": "src/convex/auth.constants.ts",
-					"relativePath": "src/convex/auth.constants.ts",
+					"path": "auth.constants.dist.ts",
+					"relativePath": "src/convex/auth.constants.dist.ts",
 					"_imports_": [
 						{
 							"import": "./auth.constants.types",
 							"item": "config",
 							"file": {
 								"type": "base",
-								"path": "src/convex/auth.constants.types.ts"
+								"path": "auth.constants.types.ts"
 							},
 							"meta": {}
 						}
 					],
+					"target": "src/convex/auth.constants.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -81,9 +84,10 @@
 				{
 					"type": "base",
 					"role": "file",
-					"path": "src/convex/auth.constants.types.ts",
+					"path": "auth.constants.types.ts",
 					"relativePath": "src/convex/auth.constants.types.ts",
 					"_imports_": [],
+					"target": "src/convex/auth.constants.types.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -101,12 +105,12 @@
 				{
 					"ecosystem": "js",
 					"name": "convex",
-					"version": "^1.32.0"
+					"version": "^1.34.1"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@convex-dev/better-auth",
-					"version": "0.10.10"
+					"version": "0.11.3"
 				},
 				{
 					"ecosystem": "js",
@@ -116,7 +120,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@convex-dev/migrations",
-					"version": "^0.3.1"
+					"version": "^0.3.3"
 				}
 			],
 			"devDependencies": [
@@ -128,7 +132,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@sveltejs/vite-plugin-svelte",
-					"version": "^6.2.4"
+					"version": "^7.0.0"
 				}
 			],
 			"files": [
@@ -331,7 +335,7 @@
 							"item": "config",
 							"file": {
 								"type": "base",
-								"path": "src/convex/auth.ts"
+								"path": "auth.ts"
 							},
 							"meta": {}
 						}
@@ -374,12 +378,17 @@
 				{
 					"ecosystem": "js",
 					"name": "better-auth",
-					"version": "1.4.9"
+					"version": "1.5.3"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.2"
+					"version": "^0.7.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-svelte",
+					"version": "^0.18.0"
 				}
 			],
 			"devDependencies": [],
@@ -404,7 +413,7 @@
 							"item": "config",
 							"file": {
 								"type": "base",
-								"path": "src/convex/auth.ts"
+								"path": "auth.ts"
 							},
 							"meta": {}
 						}
@@ -449,7 +458,7 @@
 				{
 					"ecosystem": "js",
 					"name": "svelte-easy-crop",
-					"version": "^5.0.0"
+					"version": "^5.0.1"
 				},
 				{
 					"ecosystem": "js",
@@ -474,14 +483,14 @@
 				{
 					"ecosystem": "js",
 					"name": "path-to-regexp",
-					"version": "^8.3.0"
+					"version": "^8.4.0"
 				}
 			],
 			"devDependencies": [
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				},
 				{
 					"ecosystem": "js",
@@ -491,7 +500,7 @@
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.8"
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
@@ -3421,29 +3430,18 @@
 			"type": "lib",
 			"add": "when-added",
 			"registryDependencies": [
-				"config",
 				"primitives"
 			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@convex-dev/better-auth",
-					"version": "0.10.10"
-				},
-				{
-					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.17.0"
+					"version": "^0.18.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.2"
+					"version": "^0.7.1"
 				},
 				{
 					"ecosystem": "js",
@@ -3455,27 +3453,27 @@
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.8"
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				}
 			],
 			"files": [
 				{
 					"type": "lib",
 					"role": "file",
-					"path": "lib/context.svelte.ts",
-					"relativePath": "src/lib/context.svelte.ts",
+					"path": "auth/context.svelte.ts",
+					"relativePath": "src/lib/auth/context.svelte.ts",
 					"_imports_": [
 						{
 							"import": "./types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -3487,8 +3485,8 @@
 				{
 					"type": "lib",
 					"role": "file",
-					"path": "lib/types.ts",
-					"relativePath": "src/lib/types.ts",
+					"path": "auth/types.ts",
+					"relativePath": "src/lib/auth/types.ts",
 					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [
@@ -3504,19 +3502,24 @@
 					"role": "file",
 					"path": "auth/api/auth-client.ts",
 					"relativePath": "src/lib/auth/api/auth-client.ts",
-					"_imports_": [
+					"_imports_": [],
+					"registryDependencies": [
+						"config"
+					],
+					"dependencies": [
 						{
-							"import": "$convex/auth.constants",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "@better-auth/api-key"
+						},
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth"
 						}
 					],
-					"registryDependencies": [],
-					"dependencies": [],
 					"devDependencies": []
 				},
 				{
@@ -3526,20 +3529,20 @@
 					"relativePath": "src/lib/auth/ui/AuthProvider.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -3555,11 +3558,11 @@
 					"relativePath": "src/lib/auth/ui/EmailOtpFlow.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3575,11 +3578,11 @@
 					"relativePath": "src/lib/auth/ui/EmailStep.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3595,11 +3598,11 @@
 					"relativePath": "src/lib/auth/ui/MagicLinkFlow.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3624,11 +3627,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3698,11 +3701,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3727,11 +3730,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3747,11 +3750,11 @@
 					"relativePath": "src/lib/auth/ui/SocialFlow.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -3774,19 +3777,19 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.2"
+					"version": "^0.7.1"
 				}
 			],
 			"devDependencies": [
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.8"
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				}
 			],
 			"files": [
@@ -3955,29 +3958,29 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.2"
+					"version": "^0.7.1"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.17.0"
+					"version": "^0.18.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "convex",
-					"version": "^1.32.0"
+					"version": "^1.34.1"
 				}
 			],
 			"devDependencies": [
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.8"
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				}
 			],
 			"files": [
@@ -3988,11 +3991,11 @@
 					"relativePath": "src/lib/users/ui/Accounts.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -4051,11 +4054,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4098,20 +4101,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -4136,11 +4139,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -4165,20 +4168,20 @@
 					"relativePath": "src/lib/users/ui/Emails.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4194,11 +4197,11 @@
 					"relativePath": "src/lib/users/ui/ProfileInfo.svelte",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -4230,11 +4233,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4295,11 +4298,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -4313,11 +4316,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4378,20 +4381,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4443,11 +4446,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4601,17 +4604,17 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.17.0"
+					"version": "^0.18.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.2"
+					"version": "^0.7.1"
 				},
 				{
 					"ecosystem": "js",
 					"name": "convex",
-					"version": "^1.32.0"
+					"version": "^1.34.1"
 				},
 				{
 					"ecosystem": "js",
@@ -4623,12 +4626,12 @@
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.8"
+					"version": "^1.1.0"
 				}
 			],
 			"files": [
@@ -4639,20 +4642,20 @@
 					"relativePath": "src/lib/organizations/api/roles.svelte.ts",
 					"_imports_": [
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4695,11 +4698,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -4724,11 +4727,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -4742,11 +4745,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4798,20 +4801,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4845,20 +4848,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4883,20 +4886,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -4939,20 +4942,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5013,20 +5016,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5105,20 +5108,20 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5197,11 +5200,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5244,11 +5247,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5318,11 +5321,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/context.svelte",
+							"import": "$lib/auth/context.svelte",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/context.svelte.ts"
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
@@ -5336,11 +5339,11 @@
 							"meta": {}
 						},
 						{
-							"import": "$lib/types",
+							"import": "$lib/auth/types",
 							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "lib/types.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5373,7 +5376,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.576.0"
+					"version": "^0.577.0"
 				}
 			],
 			"files": [
@@ -5497,10 +5500,7 @@
 			"name": "device-authorization/routes",
 			"type": "routes",
 			"add": "when-added",
-			"registryDependencies": [
-				"auth/lib",
-				"config"
-			],
+			"registryDependencies": [],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
@@ -5509,27 +5509,11 @@
 					"role": "file",
 					"path": "(auth)/device-authorization/[code]/+page.svelte",
 					"relativePath": "src/routes/(auth)/device-authorization/[code]/+page.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "auth/lib",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
+					"_imports_": [],
+					"registryDependencies": [
+						"auth/lib",
+						"config"
 					],
-					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				}

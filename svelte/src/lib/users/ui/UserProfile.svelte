@@ -6,11 +6,11 @@
 	import ApiKeys from './ApiKeys.svelte';
 
 	// Context
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { authConstants } = getAuthContext();
 
 	// Types
-	import type { GetActiveUserType, ListAccountsType } from '$lib/types';
+	import type { GetActiveUserType, ListAccountsType } from '$lib/auth/types';
 
 	let {
 		initialData

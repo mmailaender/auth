@@ -6,7 +6,7 @@
 	import { tick } from 'svelte';
 
 	// Context
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api, authClient, authConstants } = getAuthContext();
 
 	// UI Components
@@ -65,7 +65,7 @@
 
 	// Types
 	import type { Pathname } from '$app/types';
-	import type { ListAccountsType } from '$lib/types';
+	import type { ListAccountsType } from '$lib/auth/types';
 
 	let { initialData }: { initialData?: { accountList?: ListAccountsType } } = $props();
 

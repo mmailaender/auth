@@ -29,22 +29,23 @@ export default defineConfig({
 				type: 'base',
 				files: [
 					{
-						path: 'src',
-						files: [
-							{
-								path: 'convex',
-								files: [
-									{
-										path: 'auth.ts',
-										dependencyResolution: 'manual',
-										dependencies: ['@convex-dev/better-auth', 'better-auth']
-									},
-									{ path: 'storage.ts', dependencyResolution: 'manual' },
-									{ path: 'auth.constants.ts' },
-									{ path: 'auth.constants.types.ts' }
-								]
-							}
-						]
+						path: 'src/convex/auth.ts',
+						target: 'src/convex/auth.ts',
+						dependencyResolution: 'manual',
+						dependencies: ['@convex-dev/better-auth', 'better-auth']
+					},
+					{
+						path: 'src/convex/storage.ts',
+						target: 'src/convex/storage.ts',
+						dependencyResolution: 'manual'
+					},
+					{
+						path: 'src/convex/auth.constants.dist.ts',
+						target: 'src/convex/auth.constants.ts'
+					},
+					{
+						path: 'src/convex/auth.constants.types.ts',
+						target: 'src/convex/auth.constants.types.ts'
 					}
 				]
 			},
@@ -186,18 +187,29 @@ export default defineConfig({
 				type: 'lib',
 				files: [
 					{
-						path: 'src/lib',
+						path: 'src/lib/auth',
 						files: [
 							{ path: 'context.svelte.ts' },
 							{
 								path: 'types.ts',
 								dependencyResolution: 'manual',
 								dependencies: ['convex']
+							},
+							{
+								path: 'api',
+								files: [
+									{
+										path: 'auth-client.ts',
+										dependencyResolution: 'manual',
+										registryDependencies: ['config'],
+										dependencies: ['@better-auth/api-key', '@convex-dev/better-auth', 'better-auth']
+									}
+								]
+							},
+							{
+								path: 'ui'
 							}
 						]
-					},
-					{
-						path: 'src/lib/auth'
 					}
 				]
 			},
@@ -398,7 +410,9 @@ export default defineConfig({
 				type: 'routes',
 				files: [
 					{
-						path: 'src/routes/*/device-authorization/*/+page.svelte'
+						path: 'src/routes/*/device-authorization/*/+page.svelte',
+						dependencyResolution: 'manual',
+						registryDependencies: ['auth/lib', 'config']
 					}
 				]
 			}

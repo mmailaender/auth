@@ -23,7 +23,7 @@
 	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api, authConstants } = getAuthContext();
 	const client = useConvexClient();
 
@@ -39,7 +39,7 @@
 		GetActiveUserType,
 		ListInvitationsType,
 		Role
-	} from '$lib/types';
+	} from '$lib/auth/types';
 
 	// Props
 	const {

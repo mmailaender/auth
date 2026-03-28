@@ -20,7 +20,7 @@
 
 	// Types
 	import type { Pathname } from '$app/types';
-	import type { GetActiveUserType, ListAccountsType } from '$lib/types';
+	import type { GetActiveUserType, ListAccountsType } from '$lib/auth/types';
 
 	type UserProfileHostProps = {
 		initialData?: {

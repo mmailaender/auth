@@ -23,12 +23,12 @@
 	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api } = getAuthContext();
 
 	// Types
 	import type { Pathname } from '$app/types';
-	import type { GetActiveOrganizationType, GetActiveUserType, Role } from '$lib/types';
+	import type { GetActiveOrganizationType, GetActiveUserType, Role } from '$lib/auth/types';
 
 	// Props
 	let {

@@ -34,7 +34,7 @@
 		GetActiveUserType,
 		ListInvitationsType,
 		Role
-	} from '$lib/types';
+	} from '$lib/auth/types';
 
 	// Types
 	type OrganizationProfileProps = {

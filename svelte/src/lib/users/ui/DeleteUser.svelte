@@ -8,7 +8,7 @@
 	// API
 	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { ConvexError } from 'convex/values';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api, authClient } = getAuthContext();
 	const client = useConvexClient();
 

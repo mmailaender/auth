@@ -7,7 +7,7 @@
 	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { api } = getAuthContext();
 	const client = useConvexClient();
 
@@ -20,7 +20,7 @@
 
 	// Types
 	import type { Pathname } from '$app/types';
-	import type { GetActiveOrganizationType, Role } from '$lib/types';
+	import type { GetActiveOrganizationType, Role } from '$lib/auth/types';
 
 	/**
 	 * Component for deleting an organization

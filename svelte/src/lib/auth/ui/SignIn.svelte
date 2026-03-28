@@ -19,7 +19,7 @@
 	import { cn } from '$lib/primitives/utils';
 
 	// Context
-	import { getAuthContext } from '$lib/context.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
 	const { authConstants } = getAuthContext();
 
 	// SvelteKit types
