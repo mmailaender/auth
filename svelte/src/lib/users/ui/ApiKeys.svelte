@@ -16,7 +16,8 @@
 	// Types
 	import { Portal } from '@ark-ui/svelte';
 	import type { ListApiKeysType } from '$lib/auth/types';
-	type ApiKeyType = NonNullable<ListApiKeysType>[number];
+	type ListApiKeysResponse = NonNullable<ListApiKeysType>;
+	type ApiKeyType = ListApiKeysResponse['apiKeys'][number];
 
 	// API
 	import { useQuery } from '@mmailaender/convex-svelte';
@@ -35,7 +36,8 @@
 		})
 	);
 
-	const apiKeys = $derived(apiKeysResponse?.data);
+	const apiKeysData = $derived(apiKeysResponse?.data);
+	const apiKeys = $derived(apiKeysData?.apiKeys ?? []);
 
 	// Form state
 	let dialogOpen = $state(false);
@@ -233,7 +235,7 @@
 <div class="flex w-full flex-col gap-3 pb-6">
 	<span class="text-surface-600-400 text-xs">API Keys</span>
 	<!-- List api keys with name, creation data, expiry data -->
-	{#if apiKeys}
+	{#if apiKeysData}
 		{#if apiKeys.length > 0}
 			<div class="table-wrap">
 				<table class="table caption-bottom">

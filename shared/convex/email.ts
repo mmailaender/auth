@@ -11,11 +11,12 @@ import { type ActionCtx } from './_generated/server';
 
 import { Resend } from '@convex-dev/resend';
 import { components } from './_generated/api';
+import { AUTH_CONSTANTS } from './auth.constants';
 
 const EMAIL_SEND_FROM = process.env.EMAIL_SEND_FROM;
-const BRAND_NAME = process.env.BRAND_NAME;
-const BRAND_TAGLINE = process.env.BRAND_TAGLINE;
 const BRAND_LOGO_URL = process.env.BRAND_LOGO_URL;
+const BRAND_NAME = process.env.BRAND_NAME?.trim() || AUTH_CONSTANTS.brandName;
+const BRAND_TAGLINE = process.env.BRAND_TAGLINE?.trim() || AUTH_CONSTANTS.brandTagline;
 
 export const resend: Resend = new Resend(components.resend, {
 	testMode: false

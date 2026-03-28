@@ -15,7 +15,7 @@ export default defineConfig({
 		defaultPaths: {
 			base: './',
 			convex: './src/convex',
-			lib: './src/lib',
+			lib: '$lib',
 			routes: './src/routes',
 			themes: './src/themes'
 		},
@@ -26,17 +26,15 @@ export default defineConfig({
 			{
 				name: 'config',
 				add: 'when-added',
-				type: 'base',
+				type: 'convex',
 				files: [
 					{
 						path: 'src/convex/auth.ts',
-						target: 'src/convex/auth.ts',
 						dependencyResolution: 'manual',
 						dependencies: ['@convex-dev/better-auth', 'better-auth']
 					},
 					{
 						path: 'src/convex/storage.ts',
-						target: 'src/convex/storage.ts',
 						dependencyResolution: 'manual'
 					},
 					{
@@ -44,8 +42,7 @@ export default defineConfig({
 						target: 'src/convex/auth.constants.ts'
 					},
 					{
-						path: 'src/convex/auth.constants.types.ts',
-						target: 'src/convex/auth.constants.types.ts'
+						path: 'src/convex/auth.constants.types.ts'
 					}
 				]
 			},

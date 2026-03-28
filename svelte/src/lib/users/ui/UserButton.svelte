@@ -138,7 +138,7 @@
 			</div>
 		</Popover.Content>
 	</Popover.Root>
-{:else if auth.isLoading}
+{:else if auth.isLoading || auth.isAuthenticated}
 	<div class="placeholder-circle size-10 animate-pulse"></div>
 {:else}
 	<button class="btn preset-filled-primary-500" onclick={() => (signInDialogOpen = true)}>

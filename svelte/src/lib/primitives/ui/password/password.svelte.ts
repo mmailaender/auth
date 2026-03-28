@@ -190,7 +190,13 @@ class PasswordErrorState {
 		// If invalid, craft a stable message without relying solely on validationMessage
 		if (!input.validity.valid) {
 			const v = input.validity;
-			if (v.valueMissing) return 'Please fill out this field.';
+			if (v.valueMissing) {
+				const placeholder = input.getAttribute('placeholder')?.trim();
+				if (placeholder) {
+					return placeholder.endsWith('.') ? placeholder : `${placeholder}.`;
+				}
+				return 'Enter a password.';
+			}
 			// For other cases (pattern, tooShort, etc.) keep native/custom message fallback
 			return input.validationMessage || 'Invalid value';
 		}

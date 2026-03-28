@@ -5,6 +5,7 @@ import { getSessionCookie } from 'better-auth/cookies';
 import { createRouteMatcher } from '$lib/primitives/utils/routeMatcher';
 import { getToken } from '@mmailaender/convex-better-auth-svelte/sveltekit';
 import { createAuth } from '$convex/auth';
+import { withServerConvexToken } from '@mmailaender/convex-svelte/sveltekit/server';
 
 /* --------------------------------------------------------- */
 /* -------------------- route match helpers ---------------- */
@@ -69,9 +70,10 @@ export const setTokenFromCookies: Handle = async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	event.locals.token = await getToken(createAuth, event.cookies);
+	const token = await getToken(createAuth, event.cookies);
+	event.locals.token = token;
 
-	return resolve(event);
+	return withServerConvexToken(token, () => resolve(event));
 };
 
 /* --------------------------------------------------------- */

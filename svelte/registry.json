@@ -16,26 +16,25 @@
 	"defaultPaths": {
 		"base": "./",
 		"convex": "./src/convex",
-		"lib": "./src/lib",
+		"lib": "$lib",
 		"routes": "./src/routes",
 		"themes": "./src/themes"
 	},
 	"items": [
 		{
 			"name": "config",
-			"type": "base",
+			"type": "convex",
 			"add": "when-added",
 			"registryDependencies": [],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
 					"path": "auth.ts",
 					"relativePath": "src/convex/auth.ts",
 					"_imports_": [],
-					"target": "src/convex/auth.ts",
 					"registryDependencies": [],
 					"dependencies": [
 						{
@@ -50,18 +49,17 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
 					"path": "storage.ts",
 					"relativePath": "src/convex/storage.ts",
 					"_imports_": [],
-					"target": "src/convex/storage.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
 					"path": "auth.constants.dist.ts",
 					"relativePath": "src/convex/auth.constants.dist.ts",
@@ -70,7 +68,7 @@
 							"import": "./auth.constants.types",
 							"item": "config",
 							"file": {
-								"type": "base",
+								"type": "convex",
 								"path": "auth.constants.types.ts"
 							},
 							"meta": {}
@@ -82,12 +80,11 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
 					"path": "auth.constants.types.ts",
 					"relativePath": "src/convex/auth.constants.types.ts",
 					"_imports_": [],
-					"target": "src/convex/auth.constants.types.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
@@ -110,7 +107,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@convex-dev/better-auth",
-					"version": "0.11.3"
+					"version": "0.11.4"
 				},
 				{
 					"ecosystem": "js",
@@ -334,7 +331,7 @@
 							"import": "../auth",
 							"item": "config",
 							"file": {
-								"type": "base",
+								"type": "convex",
 								"path": "auth.ts"
 							},
 							"meta": {}
@@ -412,7 +409,7 @@
 							"import": "$convex/auth",
 							"item": "config",
 							"file": {
-								"type": "base",
+								"type": "convex",
 								"path": "auth.ts"
 							},
 							"meta": {}
