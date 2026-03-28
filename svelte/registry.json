@@ -379,7 +379,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.1"
+					"version": "^0.6.2"
 				}
 			],
 			"devDependencies": [],
@@ -3438,12 +3438,12 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.16.0"
+					"version": "^0.17.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.1"
+					"version": "^0.6.2"
 				},
 				{
 					"ecosystem": "js",
@@ -3774,7 +3774,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.1"
+					"version": "^0.6.2"
 				}
 			],
 			"devDependencies": [
@@ -3955,12 +3955,12 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.1"
+					"version": "^0.6.2"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.16.0"
+					"version": "^0.17.0"
 				},
 				{
 					"ecosystem": "js",
@@ -4601,12 +4601,12 @@
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-svelte",
-					"version": "^0.16.0"
+					"version": "^0.17.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.6.1"
+					"version": "^0.6.2"
 				},
 				{
 					"ecosystem": "js",
