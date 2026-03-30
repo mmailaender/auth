@@ -16,14 +16,11 @@
 	import { DIALOG_KEY } from '$lib/users/utils/user.constants';
 
 	// API
-	import { api } from '$convex/_generated/api';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 
-	// API Types
-	import type { FunctionReturnType } from 'convex/server';
+	// Types
 	import type { Pathname } from '$app/types';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
+	import type { GetActiveUserType, ListAccountsType } from '$lib/auth/types';
 
 	type UserProfileHostProps = {
 		initialData?: {

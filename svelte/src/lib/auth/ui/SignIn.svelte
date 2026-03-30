@@ -18,8 +18,9 @@
 	// Utils
 	import { cn } from '$lib/primitives/utils';
 
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	// Context
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { authConstants } = getAuthContext();
 
 	// SvelteKit types
 	import type { Pathname } from '$app/types';
@@ -48,6 +49,7 @@
 	let submitting = $state(false);
 	let availableEmailMethods = $state<EmailAuthMethod[]>([]);
 	let isSigningIn = $state(false);
+	let redirectInProgress = $state(false);
 	let passwordMode = $state<'login' | 'register'>('login');
 	let otpMode = $state<'login' | 'register'>('login');
 	let verifyContext = $state<'emailVerification' | 'magicLink'>('emailVerification');
@@ -62,31 +64,31 @@
 	// Initialize available methods
 	$effect(() => {
 		const methods: EmailAuthMethod[] = [];
-		if (AUTH_CONSTANTS.providers.password) methods.push('password');
-		if (AUTH_CONSTANTS.providers.emailOTP && AUTH_CONSTANTS.sendEmails) methods.push('emailOTP');
-		if (AUTH_CONSTANTS.providers.magicLink && AUTH_CONSTANTS.sendEmails) methods.push('magicLink');
+		if (authConstants.providers.password) methods.push('password');
+		if (authConstants.providers.emailOTP && authConstants.sendEmails) methods.push('emailOTP');
+		if (authConstants.providers.magicLink && authConstants.sendEmails) methods.push('magicLink');
 		availableEmailMethods = methods;
 	});
 
 	// Legal links (handle empty/null/undefined gracefully)
-	const termsUrl = $derived((AUTH_CONSTANTS.terms ?? '').trim());
-	const privacyUrl = $derived((AUTH_CONSTANTS.privacy ?? '').trim());
+	const termsUrl = $derived((authConstants.terms ?? '').trim());
+	const privacyUrl = $derived((authConstants.privacy ?? '').trim());
 	const showTerms = $derived(Boolean(termsUrl));
 	const showPrivacy = $derived(Boolean(privacyUrl));
 	const showLegal = $derived(showTerms || showPrivacy);
+	const brandName = $derived((authConstants.brandName ?? 'self hosted Auth').trim());
+	const brandTagline = $derived(
+		(authConstants.brandTagline ?? 'Plug & Play Auth Widgets for your application.').trim()
+	);
 
 	// Monitor authentication state and redirect once Convex auth is synchronized
 	$effect(() => {
-		if (isAuthenticated && !isLoading) {
+		if (isAuthenticated && !isLoading && isSigningIn && !redirectInProgress) {
+			redirectInProgress = true;
 			// Always close the dialog when authenticated
 			onSignIn?.();
-			if (isSigningIn) {
-				// Only redirect when the sign-in originated from this component
-				console.log('Convex auth synchronized, redirecting...');
-				handleRedirect();
-				submitting = false;
-				isSigningIn = false;
-			}
+			console.log('Convex auth synchronized, redirecting...');
+			void finalizeSignIn();
 		}
 	});
 
@@ -109,21 +111,51 @@
 	/**
 	 * Handles the redirect after successful authentication
 	 */
-	function handleRedirect(): void {
+	async function handleRedirect(): Promise<'internal' | 'external' | 'none'> {
 		const redirectURL = getRedirectURL();
-		if (!redirectURL || typeof window === 'undefined') return;
+		if (!redirectURL || typeof window === 'undefined') return 'none';
 
 		try {
 			const target = new URL(redirectURL, window.location.origin);
 			if (target.origin === window.location.origin) {
 				const internalPath = `${target.pathname}${target.search}${target.hash}`;
-				void goto(resolve(internalPath as Pathname));
-			} else {
-				window.location.assign(target.toString());
+				await goto(resolve(internalPath as Pathname), { invalidateAll: true });
+				return 'internal';
 			}
+
+			window.location.assign(target.toString());
+			return 'external';
 		} catch {
 			if (redirectURL.startsWith('/')) {
-				void goto(resolve(redirectURL as Pathname));
+				await goto(resolve(redirectURL as Pathname), { invalidateAll: true });
+				return 'internal';
+			}
+		}
+
+		return 'none';
+	}
+
+	/**
+	 * Completes sign-in by keeping the loading UI active until navigation fully settles
+	 */
+	async function finalizeSignIn(): Promise<void> {
+		let shouldResetState = true;
+
+		try {
+			const redirectMode = await handleRedirect();
+
+			// External redirects unload the page, so keep the spinner visible until then.
+			if (redirectMode === 'external') {
+				shouldResetState = false;
+				return;
+			}
+		} catch (error) {
+			console.error('Sign-in redirect failed:', error);
+		} finally {
+			if (shouldResetState) {
+				submitting = false;
+				isSigningIn = false;
+				redirectInProgress = false;
 			}
 		}
 	}
@@ -133,6 +165,7 @@
 	 */
 	function handleAuthSuccess(): void {
 		// Set flag to monitor auth state instead of immediate redirect
+		submitting = true;
 		isSigningIn = true;
 	}
 
@@ -144,7 +177,9 @@
 		email = '';
 		submitting = false;
 		isSigningIn = false;
+		redirectInProgress = false;
 		passwordMode = 'login';
+		otpMode = 'login';
 		verifyContext = 'emailVerification';
 		magicAutoSendPending = false;
 		magicLinkSent = false;
@@ -184,7 +219,7 @@
 			case 'magic-link-flow':
 				return 'Sign in with magic link';
 			default:
-				return 'Sign in into self hosted Auth';
+				return `Sign in into ${brandName}`;
 		}
 	}
 
@@ -202,7 +237,7 @@
 			case 'magic-link-flow':
 				return "We'll send a magic link to your email address.";
 			default:
-				return 'Plug & Play Auth Widgets for your application.';
+				return brandTagline;
 		}
 	}
 
@@ -222,7 +257,7 @@
 		const isVerifyEmail = currentStep === 'verify-email';
 
 		// no email sending → no verify/magic/otp screens
-		if (!AUTH_CONSTANTS.sendEmails && (isVerifyEmail || isMagic || isOtp)) {
+		if (!authConstants.sendEmails && (isVerifyEmail || isMagic || isOtp)) {
 			resetToEmailStep();
 			return;
 		}
@@ -235,7 +270,7 @@
 </script>
 
 <div class={cn('mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8', className)}>
-	{#if AUTH_CONSTANTS.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
+	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
 		<div class="flex flex-col">
 			<!-- Circle -->
 			<div class="mb-4 flex">

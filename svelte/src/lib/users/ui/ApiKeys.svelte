@@ -14,16 +14,16 @@
 	import CopyIcon from '@lucide/svelte/icons/copy';
 	import CheckIcon from '@lucide/svelte/icons/check';
 	// Types
-	import type { FunctionReturnType } from 'convex/server';
 	import { Portal } from '@ark-ui/svelte';
-	type ListApiKeysType = FunctionReturnType<typeof api.users.queries.listApiKeys>;
-	type ApiKeyType = ListApiKeysType[number];
+	import type { ListApiKeysType } from '$lib/auth/types';
+	type ListApiKeysResponse = NonNullable<ListApiKeysType>;
+	type ApiKeyType = ListApiKeysResponse['apiKeys'][number];
 
 	// API
-	import { api } from '$convex/_generated/api';
-	import { useQuery } from 'convex-svelte';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient } = getAuthContext();
 
 	let { initialData }: { initialData?: { apiKeys?: ListApiKeysType } } = $props();
 
@@ -36,7 +36,8 @@
 		})
 	);
 
-	const apiKeys = $derived(apiKeysResponse?.data);
+	const apiKeysData = $derived(apiKeysResponse?.data);
+	const apiKeys = $derived(apiKeysData?.apiKeys ?? []);
 
 	// Form state
 	let dialogOpen = $state(false);
@@ -234,7 +235,7 @@
 <div class="flex w-full flex-col gap-3 pb-6">
 	<span class="text-surface-600-400 text-xs">API Keys</span>
 	<!-- List api keys with name, creation data, expiry data -->
-	{#if apiKeys}
+	{#if apiKeysData}
 		{#if apiKeys.length > 0}
 			<div class="table-wrap">
 				<table class="table caption-bottom">

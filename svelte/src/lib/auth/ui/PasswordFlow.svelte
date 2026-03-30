@@ -6,12 +6,9 @@
 	import * as Password from '$lib/primitives/ui/password';
 
 	// API
-	import { useConvexClient } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
-	import { authClient } from '$lib/auth/api/auth-client';
-
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
+	import { useConvexClient } from '@mmailaender/convex-svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient, authConstants } = getAuthContext();
 
 	interface PasswordFlowProps {
 		email: string;
@@ -38,8 +35,15 @@
 	const client = useConvexClient();
 	let mode = $state<'login' | 'register'>('login');
 	let isRequestingReset = $state(false);
+	let fullName = $state('');
+	let nameInputRef = $state<HTMLInputElement | null>(null);
+	let didAttemptSubmit = $state(false);
 
-	// Determine if this is login or register based on email
+	function setMode(nextMode: 'login' | 'register'): void {
+		mode = nextMode;
+		onModeChange?.(nextMode);
+	}
+
 	$effect(() => {
 		const validateEmail = async () => {
 			try {
@@ -51,8 +55,7 @@
 					onBack();
 					return;
 				}
-				mode = data.exists ? 'login' : 'register';
-				onModeChange?.(mode);
+				setMode(data.exists ? 'login' : 'register');
 			} catch (error) {
 				console.error('Email validation error:', error);
 			}
@@ -60,14 +63,34 @@
 		validateEmail();
 	});
 
+	const nameErrorMessage = $derived.by(() => {
+		const hasNameValue = fullName.trim().length > 0;
+		const input = nameInputRef;
+		if (!input || !didAttemptSubmit || input.validity.valid) return null;
+
+		if (input.validity.valueMissing && !hasNameValue) {
+			return 'Enter your full name.';
+		}
+
+		return input.validationMessage || 'Enter your full name.';
+	});
+
 	/**
 	 * Handles form submission for login or register
 	 */
 	async function handleSubmit(event: Event): Promise<void> {
 		event.preventDefault();
+		didAttemptSubmit = true;
+
+		const form = event.currentTarget as HTMLFormElement;
+		if (!form.checkValidity()) {
+			form.querySelector<HTMLElement>(':invalid')?.focus();
+			return;
+		}
+
 		onSubmittingChange(true);
 
-		const formData = new FormData(event.currentTarget as HTMLFormElement);
+		const formData = new FormData(form);
 		const password = formData.get('password') as string;
 
 		if (mode === 'login') {
@@ -82,10 +105,12 @@
 						if (ctx.error.message) {
 							if (ctx.error.status === 403) {
 								errorMessage = 'Please verify your email address.';
-							} else if (ctx.error.message.includes('Invalid password')) {
-								errorMessage = 'Invalid password. Please try again.';
-							} else if (ctx.error.message.includes('not found')) {
-								errorMessage = 'Account not found. Please check your email or sign up.';
+							} else if (
+								ctx.error.message.includes('Invalid password') ||
+								ctx.error.message.includes('not found')
+							) {
+								errorMessage =
+									'Could not sign in. Please check your credentials or create an account.';
 							} else {
 								errorMessage = ctx.error.message;
 							}
@@ -97,13 +122,11 @@
 				}
 			);
 		} else {
-			const name = formData.get('name') as string;
-
 			await authClient.signUp.email(
-				{ email, password, name, callbackURL },
+				{ email, password, name: fullName, callbackURL },
 				{
 					onSuccess: () => {
-						if (AUTH_CONSTANTS.sendEmails) {
+						if (authConstants.sendEmails) {
 							onVerifyEmail?.();
 							toast.success('Verification email sent!');
 						}
@@ -158,12 +181,13 @@
 	}
 </script>
 
-<form onsubmit={handleSubmit} autocomplete="off" class="flex flex-col gap-8">
+<form onsubmit={handleSubmit} novalidate autocomplete="off" class="flex flex-col gap-8">
 	<!-- Inputs -->
 	<div class="flex flex-col gap-5">
 		<div class="flex flex-col">
 			<label class="label" for="email">Email</label>
 			<input
+				id="email"
 				type="email"
 				value={email}
 				disabled
@@ -175,13 +199,29 @@
 			<div class="flex flex-col">
 				<label class="label" for="name">Full Name</label>
 				<input
+					id="name"
+					bind:this={nameInputRef}
+					bind:value={fullName}
 					name="name"
 					type="text"
 					class="input preset-filled-surface-200"
 					placeholder="Enter your full name"
+					autocomplete="name"
 					required
 					disabled={submitting}
+					aria-invalid={nameErrorMessage ? true : undefined}
+					aria-describedby={nameErrorMessage ? 'name-error' : undefined}
 				/>
+				{#if nameErrorMessage}
+					<span
+						id="name-error"
+						class="text-error-600-400 pt-1 pb-1 text-xs"
+						aria-live="polite"
+						role="status"
+					>
+						{nameErrorMessage}
+					</span>
+				{/if}
 			</div>
 		{/if}
 
@@ -189,6 +229,7 @@
 			<label class="label" for="password">Password</label>
 			<Password.Root minScore={mode === 'register' ? 3 : 0}>
 				<Password.Input
+					id="password"
 					name="password"
 					placeholder={mode === 'register' ? 'Create a password' : 'Enter your password'}
 					autocomplete={mode === 'register' ? 'new-password' : 'current-password'}
@@ -200,8 +241,9 @@
 				{#if mode === 'register'}
 					<Password.Strength />
 				{/if}
+				<Password.Error />
 			</Password.Root>
-			{#if mode === 'login' && AUTH_CONSTANTS.sendEmails}
+			{#if mode === 'login' && authConstants.sendEmails}
 				<div class="flex flex-row items-center justify-end pt-1">
 					<button
 						type="button"

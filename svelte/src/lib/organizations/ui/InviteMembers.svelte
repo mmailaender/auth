@@ -7,20 +7,13 @@
 	import { createListCollection } from '@ark-ui/svelte/select';
 
 	// API
-	import { useQuery } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
-	import { authClient } from '$lib/auth/api/auth-client';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient, authConstants } = getAuthContext();
 
-	// Constants
-	import { AUTH_CONSTANTS } from '$convex/auth.constants';
-
-	// API Types
-	type Role = typeof authClient.$Infer.Member.role;
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
+	// Types
+	import type { Role, GetActiveOrganizationType } from '$lib/auth/types';
 
 	// Props
 	let {
@@ -178,12 +171,12 @@
 			<button
 				type="submit"
 				class="btn preset-filled-primary-500"
-				disabled={isProcessing || !AUTH_CONSTANTS.sendEmails}
+				disabled={isProcessing || !authConstants.sendEmails}
 			>
 				{isProcessing ? 'Sending...' : 'Send Invitations'}
 			</button>
 		</div>
-		{#if !AUTH_CONSTANTS.sendEmails}
+		{#if !authConstants.sendEmails}
 			<div class="text-error-600-400 px-1 text-xs">
 				Sending Emails is not enabled. Please enable to send invitations.
 			</div>

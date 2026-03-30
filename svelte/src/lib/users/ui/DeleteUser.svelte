@@ -6,10 +6,10 @@
 	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 
 	// API
-	import { authClient } from '$lib/auth/api/auth-client';
-	import { useConvexClient } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { ConvexError } from 'convex/values';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient } = getAuthContext();
 	const client = useConvexClient();
 
 	// Utils

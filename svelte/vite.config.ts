@@ -1,9 +1,42 @@
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'node:path';
+
+const projectRoot = process.cwd();
+const sharedConvexRoot = path.resolve(projectRoot, '../shared/convex');
+const symlinkedConvexRoot = path.resolve(projectRoot, 'src/convex');
+
+function isBareImport(source: string): boolean {
+	return !source.startsWith('.') && !source.startsWith('/') && !source.startsWith('\0');
+}
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit()],
+	plugins: [
+		{
+			name: 'resolve-shared-convex-deps',
+			enforce: 'pre',
+			async resolveId(source, importer) {
+				if (!importer || !isBareImport(source)) {
+					return null;
+				}
+
+				const normalizedImporter = path.normalize(importer);
+				if (!normalizedImporter.startsWith(sharedConvexRoot + path.sep)) {
+					return null;
+				}
+
+				const remappedImporter = path.join(
+					symlinkedConvexRoot,
+					path.relative(sharedConvexRoot, normalizedImporter)
+				);
+
+				return this.resolve(source, remappedImporter, { skipSelf: true });
+			}
+		},
+		tailwindcss(),
+		sveltekit()
+	],
 	server: {
 		fs: {
 			// Allow serving files from one level up from the project root (includes node_modules)

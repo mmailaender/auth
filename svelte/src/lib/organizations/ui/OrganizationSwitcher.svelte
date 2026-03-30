@@ -20,34 +20,26 @@
 	import LeaveOrganization from '$lib/organizations/ui/LeaveOrganization.svelte';
 
 	// API
-	import { useQuery, useConvexClient } from 'convex-svelte';
+	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { api } from '$convex/_generated/api';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authConstants } = getAuthContext();
 	const client = useConvexClient();
 
 	// Constants
 	import { DIALOG_KEY } from '$lib/organizations/utils/organization.constants';
 
 	// Types
-	import type { authClient } from '$lib/auth/api/auth-client';
 	import type { PopoverRootProps } from '@ark-ui/svelte';
-	import type { FunctionReturnType } from 'convex/server';
 	import type { Pathname } from '$app/types';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type ListOrganizationsType = FunctionReturnType<
-		typeof api.organizations.queries.listOrganizations
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListInvitationType = FunctionReturnType<
-		typeof api.organizations.invitations.queries.listInvitations
-	>;
-	type Role = typeof authClient.$Infer.Member.role;
-
-	// Constants
-	import { AUTH_CONSTANTS } from '../../../convex/auth.constants';
+	import type {
+		GetActiveOrganizationType,
+		ListOrganizationsType,
+		GetActiveUserType,
+		ListInvitationsType,
+		Role
+	} from '$lib/auth/types';
 
 	// Props
 	const {
@@ -60,12 +52,12 @@
 			activeUser?: GetActiveUserType;
 			organizationList?: ListOrganizationsType;
 			activeOrganization?: GetActiveOrganizationType;
-			invitationList?: ListInvitationType;
+			invitationList?: ListInvitationsType;
 			role?: Role;
 		};
 	} = $props();
 
-	if (!AUTH_CONSTANTS.organizations) {
+	if (!authConstants.organizations) {
 		console.error(
 			'Organizations are disabled, but OrganizationSwitcher is being used. Please turn them on in auth.constants.ts'
 		);
@@ -247,7 +239,7 @@
 	});
 </script>
 
-{#if !AUTH_CONSTANTS.organizations}
+{#if !authConstants.organizations}
 	<!-- Gate 1: Organizations feature is disabled -->
 	<div class="text-error-600-400">
 		Organizations are disabled, but OrganizationSwitcher is being used. Please turn them on in

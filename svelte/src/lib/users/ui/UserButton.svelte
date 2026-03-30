@@ -16,18 +16,17 @@
 
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
-	import { useQuery } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { useQuery } from '@mmailaender/convex-svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api } = getAuthContext();
 
 	// Constants
 	import { DIALOG_KEY } from '$lib/users/utils/user.constants';
 
 	// Types
 	import type { PopoverRootProps } from '@ark-ui/svelte';
-	import type { FunctionReturnType } from 'convex/server';
 	import type { Pathname } from '$app/types';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListAccountsType = FunctionReturnType<typeof api.users.queries.listAccounts>;
+	import type { GetActiveUserType, ListAccountsType } from '$lib/auth/types';
 
 	// Props
 	const {
@@ -139,7 +138,7 @@
 			</div>
 		</Popover.Content>
 	</Popover.Root>
-{:else if auth.isLoading}
+{:else if auth.isLoading || auth.isAuthenticated}
 	<div class="placeholder-circle size-10 animate-pulse"></div>
 {:else}
 	<button class="btn preset-filled-primary-500" onclick={() => (signInDialogOpen = true)}>

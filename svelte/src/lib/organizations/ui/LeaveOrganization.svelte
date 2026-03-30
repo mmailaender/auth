@@ -13,21 +13,16 @@
 	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 
 	// API
-	import { useQuery, useConvexClient } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { ConvexError } from 'convex/values';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api } = getAuthContext();
 	const client = useConvexClient();
 
 	// Types
-	import type { authClient } from '$lib/auth/api/auth-client';
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type Role = typeof authClient.$Infer.Member.role;
+	import type { GetActiveOrganizationType, GetActiveUserType, Role } from '$lib/auth/types';
 
 	// Props
 	let {

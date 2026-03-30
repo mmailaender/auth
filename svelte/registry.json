@@ -16,122 +16,73 @@
 	"defaultPaths": {
 		"base": "./",
 		"convex": "./src/convex",
-		"lib": "./src/lib",
+		"lib": "$lib",
 		"routes": "./src/routes",
 		"themes": "./src/themes"
 	},
 	"items": [
 		{
 			"name": "config",
-			"type": "base",
+			"type": "convex",
 			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"convex/email"
-			],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "@convex-dev/better-auth",
-					"version": "0.10.10"
-				},
-				{
-					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
-				}
-			],
+			"registryDependencies": [],
+			"dependencies": [],
 			"devDependencies": [],
 			"files": [
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
-					"path": "src/convex/auth.ts",
+					"path": "auth.ts",
 					"relativePath": "src/convex/auth.ts",
-					"_imports_": [
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
 						{
-							"import": "./_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
 						},
 						{
-							"import": "./betterAuth/schema",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/schema.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./auth.config",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.config.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./email",
-							"item": "convex/email",
-							"file": {
-								"type": "convex",
-								"path": "email.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "better-auth"
 						}
 					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "storage.ts",
+					"relativePath": "src/convex/storage.ts",
+					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
-					"path": "src/convex/storage.ts",
-					"relativePath": "src/convex/storage.ts",
+					"path": "auth.constants.dist.ts",
+					"relativePath": "src/convex/auth.constants.dist.ts",
 					"_imports_": [
 						{
-							"import": "./_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./auth",
+							"import": "./auth.constants.types",
 							"item": "config",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
+								"type": "convex",
+								"path": "auth.constants.types.ts"
 							},
 							"meta": {}
 						}
 					],
+					"target": "src/convex/auth.constants.ts",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
-					"path": "src/convex/auth.constants.types.ts",
+					"path": "auth.constants.types.ts",
 					"relativePath": "src/convex/auth.constants.types.ts",
 					"_imports_": [],
 					"registryDependencies": [],
@@ -141,1357 +92,173 @@
 			]
 		},
 		{
-			"name": "routes/api/auth/[...all]",
-			"type": "routes",
-			"add": "when-added",
-			"registryDependencies": [],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.5.0"
-				}
-			],
-			"devDependencies": [],
-			"files": [
-				{
-					"type": "routes",
-					"role": "file",
-					"path": "api/auth/[...all]/+server.ts",
-					"relativePath": "src/routes/api/auth/[...all]/+server.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "routes/api/organization/accept-invitation/[invitationId]",
-			"type": "routes",
+			"name": "base",
+			"type": "base",
 			"add": "when-added",
 			"registryDependencies": [
-				"lib/auth"
-			],
-			"dependencies": [],
-			"devDependencies": [
-				{
-					"ecosystem": "js",
-					"name": "@lucide/svelte",
-					"version": "^0.563.1"
-				}
-			],
-			"files": [
-				{
-					"type": "routes",
-					"role": "file",
-					"path": "api/organization/accept-invitation/[invitationId]/+page.svelte",
-					"relativePath": "src/routes/api/organization/accept-invitation/[invitationId]/+page.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "lib/auth",
-			"type": "lib",
-			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"lib/users",
-				"lib/organizations",
-				"primitives"
+				"config"
 			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
+					"name": "convex",
+					"version": "^1.34.1"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@convex-dev/better-auth",
-					"version": "0.10.10"
+					"version": "0.11.4"
 				},
-				{
-					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex-svelte",
-					"version": "^0.0.12"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.5.0"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@icons-pack/svelte-simple-icons",
-					"version": "^6.5.0"
-				}
-			],
-			"devDependencies": [
-				{
-					"ecosystem": "js",
-					"name": "svelte-sonner",
-					"version": "^1.0.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@lucide/svelte",
-					"version": "^0.563.1"
-				}
-			],
-			"files": [
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/api/auth-client.ts",
-					"relativePath": "src/lib/auth/api/auth-client.ts",
-					"_imports_": [
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/AuthDialogProvider.svelte",
-					"relativePath": "src/lib/auth/ui/AuthDialogProvider.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/users/ui/UserProfileHost.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/UserProfileHost.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/OrganizationProfileHost.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/OrganizationProfileHost.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/EmailOtpFlow.svelte",
-					"relativePath": "src/lib/auth/ui/EmailOtpFlow.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/EmailStep.svelte",
-					"relativePath": "src/lib/auth/ui/EmailStep.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/MagicLinkFlow.svelte",
-					"relativePath": "src/lib/auth/ui/MagicLinkFlow.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/PasswordFlow.svelte",
-					"relativePath": "src/lib/auth/ui/PasswordFlow.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/password",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/password/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/SignIn.svelte",
-					"relativePath": "src/lib/auth/ui/SignIn.svelte",
-					"_imports_": [
-						{
-							"import": "./EmailStep.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/EmailStep.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./PasswordFlow.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/PasswordFlow.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./EmailOtpFlow.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/EmailOtpFlow.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./MagicLinkFlow.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/MagicLinkFlow.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./SocialFlow.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/SocialFlow.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/SignOutButton.svelte",
-					"relativePath": "src/lib/auth/ui/SignOutButton.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/utils",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "auth/ui/SocialFlow.svelte",
-					"relativePath": "src/lib/auth/ui/SocialFlow.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "routes/(auth)/reset-password",
-			"type": "routes",
-			"add": "when-added",
-			"registryDependencies": [
-				"primitives",
-				"lib/auth"
-			],
-			"dependencies": [],
-			"devDependencies": [
-				{
-					"ecosystem": "js",
-					"name": "svelte-sonner",
-					"version": "^1.0.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@lucide/svelte",
-					"version": "^0.563.1"
-				}
-			],
-			"files": [
-				{
-					"type": "routes",
-					"role": "file",
-					"path": "(auth)/reset-password/+page.svelte",
-					"relativePath": "src/routes/(auth)/reset-password/+page.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/password",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/password/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "routes/(auth)/signin",
-			"type": "routes",
-			"add": "when-added",
-			"registryDependencies": [
-				"lib/auth"
-			],
-			"dependencies": [],
-			"devDependencies": [],
-			"files": [
-				{
-					"type": "routes",
-					"role": "file",
-					"path": "(auth)/signin/+page.svelte",
-					"relativePath": "src/routes/(auth)/signin/+page.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/auth/ui/SignIn.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/SignIn.svelte"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "convex/users",
-			"type": "convex",
-			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"convex/email",
-				"config"
-			],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex-helpers",
-					"version": "^0.1.111"
-				}
-			],
-			"devDependencies": [],
-			"files": [
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "users/actions.ts",
-					"relativePath": "src/convex/users/actions.ts",
-					"_imports_": [
-						{
-							"import": "../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../_generated/api.js",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../model/emails/validateEmail.js",
-							"item": "convex/email",
-							"file": {
-								"type": "convex",
-								"path": "model/emails/validateEmail.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "users/mutations.ts",
-					"relativePath": "src/convex/users/mutations.ts",
-					"_imports_": [
-						{
-							"import": "../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "users/queries.ts",
-					"relativePath": "src/convex/users/queries.ts",
-					"_imports_": [
-						{
-							"import": "../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "betterAuth/user.ts",
-					"relativePath": "src/convex/betterAuth/user.ts",
-					"_imports_": [
-						{
-							"import": "./_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/_generated/server.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./schema",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/schema.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "lib/users",
-			"type": "lib",
-			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"primitives",
-				"lib/auth"
-			],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "@ark-ui/svelte",
-					"version": "^5.15.0"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@icons-pack/svelte-simple-icons",
-					"version": "^6.5.0"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.5.0"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex-svelte",
-					"version": "^0.0.12"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				}
-			],
-			"devDependencies": [
-				{
-					"ecosystem": "js",
-					"name": "svelte-sonner",
-					"version": "^1.0.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@lucide/svelte",
-					"version": "^0.563.1"
-				}
-			],
-			"files": [
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/Accounts.svelte",
-					"relativePath": "src/lib/users/ui/Accounts.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/select",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/select/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/drawer",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/drawer/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/password",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/password/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/mobileState.svelte",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/mobileState.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/focusScroll",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/focusScroll.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/ApiKeys.svelte",
-					"relativePath": "src/lib/users/ui/ApiKeys.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/select",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/select/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/menu",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/menu/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/DeleteUser.svelte",
-					"relativePath": "src/lib/users/ui/DeleteUser.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/utils/userProfile",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/utils/userProfile.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/Emails.svelte",
-					"relativePath": "src/lib/users/ui/Emails.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/ProfileInfo.svelte",
-					"relativePath": "src/lib/users/ui/ProfileInfo.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/image-cropper",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/image-cropper/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/optimizeImage",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/optimizeImage.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/UserButton.svelte",
-					"relativePath": "src/lib/users/ui/UserButton.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/popover",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/popover/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/ui/SignIn.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/SignIn.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/ui/SignOutButton.svelte",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/ui/SignOutButton.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/utils/user.constants",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/utils/user.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/UserProfile.svelte",
-					"relativePath": "src/lib/users/ui/UserProfile.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/users/ui/ProfileInfo.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/ProfileInfo.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/ui/Emails.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/Emails.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/ui/DeleteUser.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/DeleteUser.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./Accounts.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/Accounts.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./ApiKeys.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/ApiKeys.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/ui/UserProfileHost.svelte",
-					"relativePath": "src/lib/users/ui/UserProfileHost.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/ui/UserProfile.svelte",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/ui/UserProfile.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/focusScroll",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/focusScroll.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/users/utils/user.constants",
-							"item": "lib/users",
-							"file": {
-								"type": "lib",
-								"path": "users/utils/user.constants.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/utils/user.constants.ts",
-					"relativePath": "src/lib/users/utils/user.constants.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "users/utils/userProfile.ts",
-					"relativePath": "src/lib/users/utils/userProfile.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "convex/email",
-			"type": "convex",
-			"add": "when-added",
-			"registryDependencies": [
-				"base"
-			],
-			"dependencies": [
 				{
 					"ecosystem": "js",
 					"name": "@convex-dev/resend",
 					"version": "0.2.3"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/migrations",
+					"version": "^0.3.3"
 				}
 			],
-			"devDependencies": [],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@sveltejs/adapter-auto",
+					"version": "^7.0.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@sveltejs/vite-plugin-svelte",
+					"version": "^7.0.0"
+				}
+			],
 			"files": [
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "email.ts",
-					"relativePath": "src/convex/email.ts",
-					"_imports_": [
-						{
-							"import": "./polyfills",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/polyfills.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./model/emails/templates/emailTemplates",
-							"item": "convex/email",
-							"file": {
-								"type": "convex",
-								"path": "model/emails/templates/emailTemplates.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
+					"path": "convex.dist.json",
+					"relativePath": "convex.dist.json",
+					"_imports_": [],
+					"target": "convex.json",
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "model/emails/templates/baseEmail.ts",
-					"relativePath": "src/convex/model/emails/templates/baseEmail.ts",
+					"path": "svelte.config.js",
+					"relativePath": "svelte.config.js",
+					"_imports_": [],
+					"target": "svelte.config.js",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/app.html",
+					"relativePath": "src/app.html",
 					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "model/emails/templates/emailTemplates.ts",
-					"relativePath": "src/convex/model/emails/templates/emailTemplates.ts",
+					"path": "src/app.d.ts",
+					"relativePath": "src/app.d.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/routes/+layout.svelte",
+					"relativePath": "src/routes/+layout.svelte",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@mmailaender/convex-better-auth-svelte"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/routes/layout.css",
+					"relativePath": "src/routes/layout.css",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@skeletonlabs/skeleton"
+						},
+						{
+							"ecosystem": "js",
+							"name": "tw-animate-css"
+						},
+						{
+							"ecosystem": "js",
+							"name": "@types/node"
+						},
+						{
+							"ecosystem": "js",
+							"name": "svelte-sonner"
+						}
+					]
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/lib/assets/favicon.svg",
+					"relativePath": "src/lib/assets/favicon.svg",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/tsconfig.json",
+					"relativePath": "src/convex/tsconfig.json",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/auth.config.ts",
+					"relativePath": "src/convex/auth.config.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/convex.config.ts",
+					"relativePath": "src/convex/convex.config.ts",
 					"_imports_": [
 						{
-							"import": "./baseEmail",
-							"item": "convex/email",
+							"import": "./betterAuth/convex.config",
+							"item": "base",
 							"file": {
-								"type": "convex",
-								"path": "model/emails/templates/baseEmail.ts"
+								"type": "base",
+								"path": "src/convex/betterAuth/convex.config.ts"
 							},
 							"meta": {}
 						}
@@ -1501,241 +268,56 @@
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "model/emails/validateEmail.ts",
-					"relativePath": "src/convex/model/emails/validateEmail.ts",
-					"_imports_": [
-						{
-							"import": "../../_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "convex/organizations",
-			"type": "convex",
-			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"config"
-			],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex-helpers",
-					"version": "^0.1.111"
-				}
-			],
-			"devDependencies": [],
-			"files": [
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "organizations/invitations/queries.ts",
-					"relativePath": "src/convex/organizations/invitations/queries.ts",
-					"_imports_": [
-						{
-							"import": "../../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						}
-					],
+					"path": "src/convex/http.ts",
+					"relativePath": "src/convex/http.ts",
+					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "organizations/members/mutations.ts",
-					"relativePath": "src/convex/organizations/members/mutations.ts",
-					"_imports_": [
-						{
-							"import": "../../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						}
-					],
+					"path": "src/convex/polyfills.ts",
+					"relativePath": "src/convex/polyfills.ts",
+					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "organizations/mutations.ts",
-					"relativePath": "src/convex/organizations/mutations.ts",
-					"_imports_": [
-						{
-							"import": "../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../model/organizations",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "model/organizations/index.ts"
-							},
-							"meta": {}
-						}
-					],
+					"path": "src/convex/schema.ts",
+					"relativePath": "src/convex/schema.ts",
+					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "organizations/queries.ts",
-					"relativePath": "src/convex/organizations/queries.ts",
-					"_imports_": [
+					"path": "src/convex/migrations.ts",
+					"relativePath": "src/convex/migrations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
 						{
-							"import": "../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "@convex-dev/migrations"
 						}
 					],
-					"registryDependencies": [],
-					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "model/organizations/index.ts",
-					"relativePath": "src/convex/model/organizations/index.ts",
+					"path": "src/convex/betterAuth/adapter.ts",
+					"relativePath": "src/convex/betterAuth/adapter.ts",
 					"_imports_": [
-						{
-							"import": "../../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "convex",
-					"role": "file",
-					"path": "betterAuth/organization.ts",
-					"relativePath": "src/convex/betterAuth/organization.ts",
-					"_imports_": [
-						{
-							"import": "./_generated/server",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/_generated/server.ts"
-							},
-							"meta": {}
-						},
 						{
 							"import": "./schema",
 							"item": "base",
@@ -1746,86 +328,11 @@
 							"meta": {}
 						},
 						{
-							"import": "./_generated/dataModel",
-							"item": "base",
+							"import": "../auth",
+							"item": "config",
 							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/_generated/dataModel.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "lib/organizations",
-			"type": "lib",
-			"add": "when-added",
-			"registryDependencies": [
-				"base",
-				"lib/auth",
-				"primitives"
-			],
-			"dependencies": [
-				{
-					"ecosystem": "js",
-					"name": "convex-svelte",
-					"version": "^0.0.12"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.5.0"
-				},
-				{
-					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@ark-ui/svelte",
-					"version": "^5.15.0"
-				}
-			],
-			"devDependencies": [
-				{
-					"ecosystem": "js",
-					"name": "@lucide/svelte",
-					"version": "^0.563.1"
-				},
-				{
-					"ecosystem": "js",
-					"name": "svelte-sonner",
-					"version": "^1.0.7"
-				}
-			],
-			"files": [
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/api/roles.svelte.ts",
-					"relativePath": "src/lib/organizations/api/roles.svelte.ts",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
+								"type": "convex",
+								"path": "auth.ts"
 							},
 							"meta": {}
 						}
@@ -1835,734 +342,20 @@
 					"devDependencies": []
 				},
 				{
-					"type": "lib",
+					"type": "base",
 					"role": "file",
-					"path": "organizations/ui/CreateOrganization.svelte",
-					"relativePath": "src/lib/organizations/ui/CreateOrganization.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/image-cropper",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/image-cropper/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/optimizeImage",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/optimizeImage.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						}
-					],
+					"path": "src/convex/betterAuth/convex.config.ts",
+					"relativePath": "src/convex/betterAuth/convex.config.ts",
+					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				},
 				{
-					"type": "lib",
+					"type": "base",
 					"role": "file",
-					"path": "organizations/ui/DeleteOrganization.svelte",
-					"relativePath": "src/lib/organizations/ui/DeleteOrganization.svelte",
-					"_imports_": [
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/GeneralSettings.svelte",
-					"relativePath": "src/lib/organizations/ui/GeneralSettings.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/image-cropper",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/image-cropper/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/optimizeImage",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/optimizeImage.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/Invitations.svelte",
-					"relativePath": "src/lib/organizations/ui/Invitations.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/InviteMembers.svelte",
-					"relativePath": "src/lib/organizations/ui/InviteMembers.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/select",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/select/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/LeaveOrganization.svelte",
-					"relativePath": "src/lib/organizations/ui/LeaveOrganization.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/select",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/select/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/Members.svelte",
-					"relativePath": "src/lib/organizations/ui/Members.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/drawer",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/drawer/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/select",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/select/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/MembersAndInvitations.svelte",
-					"relativePath": "src/lib/organizations/ui/MembersAndInvitations.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/tabs",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/tabs/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/drawer",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/drawer/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/Members.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/Members.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/Invitations.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/Invitations.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/InviteMembers.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/InviteMembers.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/OrganizationProfile.svelte",
-					"relativePath": "src/lib/organizations/ui/OrganizationProfile.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/tabs",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/tabs/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/GeneralSettings.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/GeneralSettings.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/DeleteOrganization.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/DeleteOrganization.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/MembersAndInvitations.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/MembersAndInvitations.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/LeaveOrganization.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/LeaveOrganization.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/utils/mobileState.svelte",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/utils/mobileState.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/OrganizationProfileHost.svelte",
-					"relativePath": "src/lib/organizations/ui/OrganizationProfileHost.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/OrganizationProfile.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/OrganizationProfile.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/utils/organization.constants",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/utils/organization.constants.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/ui/OrganizationSwitcher.svelte",
-					"relativePath": "src/lib/organizations/ui/OrganizationSwitcher.svelte",
-					"_imports_": [
-						{
-							"import": "$lib/primitives/ui/popover",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/popover/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/dialog",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/dialog/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/primitives/ui/avatar",
-							"item": "primitives",
-							"file": {
-								"type": "lib",
-								"path": "primitives/ui/avatar/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/CreateOrganization.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/CreateOrganization.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/ui/LeaveOrganization.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/ui/LeaveOrganization.svelte"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/api/roles.svelte",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/api/roles.svelte.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/organizations/utils/organization.constants",
-							"item": "lib/organizations",
-							"file": {
-								"type": "lib",
-								"path": "organizations/utils/organization.constants.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../../../convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "lib",
-					"role": "file",
-					"path": "organizations/utils/organization.constants.ts",
-					"relativePath": "src/lib/organizations/utils/organization.constants.ts",
+					"path": "src/convex/betterAuth/schema.ts",
+					"relativePath": "src/convex/betterAuth/schema.ts",
 					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
@@ -2571,57 +364,53 @@
 			]
 		},
 		{
-			"name": "convex/deviceAuthorization",
-			"type": "convex",
+			"name": "base/ssr",
+			"type": "base",
 			"add": "when-added",
 			"registryDependencies": [
-				"base",
+				"primitives",
 				"config"
 			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
+					"name": "better-auth",
+					"version": "1.5.3"
 				},
 				{
 					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.7.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-svelte",
+					"version": "^0.18.0"
 				}
 			],
 			"devDependencies": [],
 			"files": [
 				{
-					"type": "convex",
+					"type": "base",
 					"role": "file",
-					"path": "deviceAuthorization.ts",
-					"relativePath": "src/convex/deviceAuthorization.ts",
+					"path": "src/hooks.server.ts",
+					"relativePath": "src/hooks.server.ts",
 					"_imports_": [
 						{
-							"import": "./_generated/server",
-							"item": "base",
+							"import": "$lib/primitives/utils/routeMatcher",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
+								"type": "lib",
+								"path": "primitives/utils/routeMatcher.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "./auth",
+							"import": "$convex/auth",
 							"item": "config",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "./_generated/api",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
+								"type": "convex",
+								"path": "auth.ts"
 							},
 							"meta": {}
 						}
@@ -2629,47 +418,20 @@
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
-				}
-			]
-		},
-		{
-			"name": "routes/(auth)/device-authorization",
-			"type": "routes",
-			"add": "when-added",
-			"registryDependencies": [
-				"lib/auth",
-				"base"
-			],
-			"dependencies": [],
-			"devDependencies": [],
-			"files": [
+				},
 				{
-					"type": "routes",
+					"type": "base",
 					"role": "file",
-					"path": "(auth)/device-authorization/[code]/+page.svelte",
-					"relativePath": "src/routes/(auth)/device-authorization/[code]/+page.svelte",
-					"_imports_": [
+					"path": "src/routes/+layout.server.ts",
+					"relativePath": "src/routes/+layout.server.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
 						{
-							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
-							"file": {
-								"type": "lib",
-								"path": "auth/api/auth-client.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth.constants",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "@mmailaender/convex-better-auth-svelte"
 						}
 					],
-					"registryDependencies": [],
-					"dependencies": [],
 					"devDependencies": []
 				}
 			]
@@ -2683,7 +445,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@ark-ui/svelte",
-					"version": "^5.15.0"
+					"version": "^5.19.1"
 				},
 				{
 					"ecosystem": "js",
@@ -2693,7 +455,7 @@
 				{
 					"ecosystem": "js",
 					"name": "svelte-easy-crop",
-					"version": "^5.0.0"
+					"version": "^5.0.1"
 				},
 				{
 					"ecosystem": "js",
@@ -2718,14 +480,14 @@
 				{
 					"ecosystem": "js",
 					"name": "path-to-regexp",
-					"version": "^8.3.0"
+					"version": "^8.4.0"
 				}
 			],
 			"devDependencies": [
 				{
 					"ecosystem": "js",
 					"name": "@lucide/svelte",
-					"version": "^0.563.1"
+					"version": "^0.577.0"
 				},
 				{
 					"ecosystem": "js",
@@ -2735,7 +497,7 @@
 				{
 					"ecosystem": "js",
 					"name": "svelte-sonner",
-					"version": "^1.0.7"
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
@@ -2745,7 +507,7 @@
 				{
 					"ecosystem": "js",
 					"name": "tailwind-merge",
-					"version": "^3.4.0"
+					"version": "^3.5.0"
 				}
 			],
 			"files": [
@@ -5661,128 +3423,54 @@
 			]
 		},
 		{
-			"name": "base",
-			"type": "base",
+			"name": "auth/lib",
+			"type": "lib",
 			"add": "when-added",
 			"registryDependencies": [
-				"primitives",
-				"config",
-				"lib/auth",
-				"lib/organizations",
-				"lib/users",
-				"convex/email",
-				"convex/deviceAuthorization",
-				"convex/organizations",
-				"convex/users"
+				"primitives"
 			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
-					"name": "better-auth",
-					"version": "1.4.9"
+					"name": "@mmailaender/convex-svelte",
+					"version": "^0.18.0"
 				},
 				{
 					"ecosystem": "js",
 					"name": "@mmailaender/convex-better-auth-svelte",
-					"version": "^0.5.0"
+					"version": "^0.7.1"
 				},
 				{
 					"ecosystem": "js",
-					"name": "convex",
-					"version": "^1.31.7"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@convex-dev/better-auth",
-					"version": "0.10.10"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@convex-dev/resend",
-					"version": "0.2.3"
-				},
-				{
-					"ecosystem": "js",
-					"name": "@convex-dev/migrations",
-					"version": "^0.3.1"
+					"name": "@icons-pack/svelte-simple-icons",
+					"version": "^6.5.0"
 				}
 			],
 			"devDependencies": [
 				{
 					"ecosystem": "js",
-					"name": "@sveltejs/adapter-auto",
-					"version": "^7.0.0"
+					"name": "svelte-sonner",
+					"version": "^1.1.0"
 				},
 				{
 					"ecosystem": "js",
-					"name": "@sveltejs/vite-plugin-svelte",
-					"version": "^6.2.1"
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
 				}
 			],
 			"files": [
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "convex.json",
-					"relativePath": "convex.json",
-					"_imports_": [],
-					"target": "convex.json",
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "svelte.config.js",
-					"relativePath": "svelte.config.js",
-					"_imports_": [],
-					"target": "svelte.config.js",
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/app.html",
-					"relativePath": "src/app.html",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/app.d.ts",
-					"relativePath": "src/app.d.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/hooks.server.ts",
-					"relativePath": "src/hooks.server.ts",
+					"path": "auth/context.svelte.ts",
+					"relativePath": "src/lib/auth/context.svelte.ts",
 					"_imports_": [
 						{
-							"import": "$lib/primitives/utils/routeMatcher",
-							"item": "primitives",
+							"import": "./types",
+							"item": "auth/lib",
 							"file": {
 								"type": "lib",
-								"path": "primitives/utils/routeMatcher.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "$convex/auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5792,80 +3480,582 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/routes/+layout.svelte",
-					"relativePath": "src/routes/+layout.svelte",
+					"path": "auth/types.ts",
+					"relativePath": "src/lib/auth/types.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/api/auth-client.ts",
+					"relativePath": "src/lib/auth/api/auth-client.ts",
+					"_imports_": [],
+					"registryDependencies": [
+						"config"
+					],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@better-auth/api-key"
+						},
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/AuthProvider.svelte",
+					"relativePath": "src/lib/auth/ui/AuthProvider.svelte",
 					"_imports_": [
 						{
-							"import": "./layout.css",
-							"item": "base",
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/routes/layout.css"
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/assets/favicon.svg",
-							"item": "base",
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/lib/assets/favicon.svg"
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/EmailOtpFlow.svelte",
+					"relativePath": "src/lib/auth/ui/EmailOtpFlow.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/EmailStep.svelte",
+					"relativePath": "src/lib/auth/ui/EmailStep.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/MagicLinkFlow.svelte",
+					"relativePath": "src/lib/auth/ui/MagicLinkFlow.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/PasswordFlow.svelte",
+					"relativePath": "src/lib/auth/ui/PasswordFlow.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/password",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SignIn.svelte",
+					"relativePath": "src/lib/auth/ui/SignIn.svelte",
+					"_imports_": [
+						{
+							"import": "./EmailStep.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/EmailStep.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./PasswordFlow.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/PasswordFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./EmailOtpFlow.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/EmailOtpFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./MagicLinkFlow.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/MagicLinkFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./SocialFlow.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/SocialFlow.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SignOutButton.svelte",
+					"relativePath": "src/lib/auth/ui/SignOutButton.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/utils",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SocialFlow.svelte",
+					"relativePath": "src/lib/auth/ui/SocialFlow.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "auth/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.7.1"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "svelte-sonner",
+					"version": "^1.1.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				}
+			],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "api/auth/[...all]/+server.ts",
+					"relativePath": "src/routes/api/auth/[...all]/+server.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "(auth)/signin/+page.svelte",
+					"relativePath": "src/routes/(auth)/signin/+page.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/ui/SignIn.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/SignIn.svelte"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "(auth)/reset-password/+page.svelte",
+					"relativePath": "src/routes/(auth)/reset-password/+page.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/password",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/password/index.ts"
 							},
 							"meta": {}
 						},
 						{
 							"import": "$lib/auth/api/auth-client",
-							"item": "lib/auth",
+							"item": "auth/lib",
 							"file": {
 								"type": "lib",
 								"path": "auth/api/auth-client.ts"
 							},
 							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "users/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/actions.ts",
+					"relativePath": "src/convex/users/actions.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/mutations.ts",
+					"relativePath": "src/convex/users/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
 						},
 						{
-							"import": "$lib/primitives/ui/sonner",
+							"ecosystem": "js",
+							"name": "better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/queries.ts",
+					"relativePath": "src/convex/users/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "betterAuth/user.ts",
+					"relativePath": "src/convex/betterAuth/user.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "users/lib",
+			"type": "lib",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/svelte",
+					"version": "^5.19.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@icons-pack/svelte-simple-icons",
+					"version": "^6.5.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.7.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-svelte",
+					"version": "^0.18.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex",
+					"version": "^1.34.1"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "svelte-sonner",
+					"version": "^1.1.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				}
+			],
+			"files": [
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/Accounts.svelte",
+					"relativePath": "src/lib/users/ui/Accounts.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/select",
 							"item": "primitives",
 							"file": {
 								"type": "lib",
-								"path": "primitives/ui/sonner/index.ts"
+								"path": "primitives/ui/select/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/organizations/ui/OrganizationSwitcher.svelte",
-							"item": "lib/organizations",
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
 							"file": {
 								"type": "lib",
-								"path": "organizations/ui/OrganizationSwitcher.svelte"
+								"path": "primitives/ui/dialog/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/users/ui/UserButton.svelte",
-							"item": "lib/users",
+							"import": "$lib/primitives/ui/drawer",
+							"item": "primitives",
 							"file": {
 								"type": "lib",
-								"path": "users/ui/UserButton.svelte"
+								"path": "primitives/ui/drawer/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$lib/auth/ui/AuthDialogProvider.svelte",
-							"item": "lib/auth",
+							"import": "$lib/primitives/ui/password",
+							"item": "primitives",
 							"file": {
 								"type": "lib",
-								"path": "auth/ui/AuthDialogProvider.svelte"
+								"path": "primitives/ui/password/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$convex/auth.constants",
-							"item": "base",
+							"import": "$lib/primitives/utils/mobileState.svelte",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
+								"type": "lib",
+								"path": "primitives/utils/mobileState.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/focusScroll",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/focusScroll.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5875,35 +4065,53 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/routes/+layout.server.ts",
-					"relativePath": "src/routes/+layout.server.ts",
+					"path": "users/ui/ApiKeys.svelte",
+					"relativePath": "src/lib/users/ui/ApiKeys.svelte",
 					"_imports_": [
 						{
-							"import": "$convex/_generated/api",
-							"item": "base",
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$convex/auth.constants",
-							"item": "base",
+							"import": "$lib/primitives/ui/select",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.ts"
+								"type": "lib",
+								"path": "primitives/ui/select/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "$convex/auth",
-							"item": "config",
+							"import": "$lib/primitives/ui/menu",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
+								"type": "lib",
+								"path": "primitives/ui/menu/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -5913,54 +4121,538 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/routes/layout.css",
-					"relativePath": "src/routes/layout.css",
+					"path": "users/ui/DeleteUser.svelte",
+					"relativePath": "src/lib/users/ui/DeleteUser.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/utils/userProfile",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/utils/userProfile.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/Emails.svelte",
+					"relativePath": "src/lib/users/ui/Emails.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/ProfileInfo.svelte",
+					"relativePath": "src/lib/users/ui/ProfileInfo.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/image-cropper",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/optimizeImage",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/optimizeImage.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/UserButton.svelte",
+					"relativePath": "src/lib/users/ui/UserButton.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/popover",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/ui/SignIn.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/SignIn.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/ui/SignOutButton.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/ui/SignOutButton.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/utils/user.constants",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/utils/user.constants.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/UserProfile.svelte",
+					"relativePath": "src/lib/users/ui/UserProfile.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/users/ui/ProfileInfo.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/ProfileInfo.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/ui/Emails.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/Emails.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/ui/DeleteUser.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/DeleteUser.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./Accounts.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/Accounts.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "./ApiKeys.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/ApiKeys.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/ui/UserProfileHost.svelte",
+					"relativePath": "src/lib/users/ui/UserProfileHost.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/ui/UserProfile.svelte",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/ui/UserProfile.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/focusScroll",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/focusScroll.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/users/utils/user.constants",
+							"item": "users/lib",
+							"file": {
+								"type": "lib",
+								"path": "users/utils/user.constants.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/utils/user.constants.ts",
+					"relativePath": "src/lib/users/utils/user.constants.ts",
 					"_imports_": [],
 					"registryDependencies": [],
 					"dependencies": [],
-					"devDependencies": [
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "users/utils/userProfile.ts",
+					"relativePath": "src/lib/users/utils/userProfile.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/mutations.ts",
+					"relativePath": "src/convex/organizations/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
 						{
 							"ecosystem": "js",
-							"name": "@skeletonlabs/skeleton"
+							"name": "convex"
 						},
 						{
 							"ecosystem": "js",
-							"name": "tw-animate-css"
+							"name": "better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/queries.ts",
+					"relativePath": "src/convex/organizations/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/invitations/queries.ts",
+					"relativePath": "src/convex/organizations/invitations/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/members/mutations.ts",
+					"relativePath": "src/convex/organizations/members/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
 						},
 						{
 							"ecosystem": "js",
-							"name": "@types/node"
+							"name": "better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/organizations/index.ts",
+					"relativePath": "src/convex/model/organizations/index.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
 						},
 						{
 							"ecosystem": "js",
-							"name": "svelte-sonner"
+							"name": "better-auth"
 						}
-					]
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/lib/assets/favicon.svg",
-					"relativePath": "src/lib/assets/favicon.svg",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
+					],
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
-					"path": "src/convex/auth.constants.ts",
-					"relativePath": "src/convex/auth.constants.ts",
+					"path": "betterAuth/organization.ts",
+					"relativePath": "src/convex/betterAuth/organization.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/lib",
+			"type": "lib",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-svelte",
+					"version": "^0.18.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.7.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex",
+					"version": "^1.34.1"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/svelte",
+					"version": "^5.19.1"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "svelte-sonner",
+					"version": "^1.1.0"
+				}
+			],
+			"files": [
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/api/roles.svelte.ts",
+					"relativePath": "src/lib/organizations/api/roles.svelte.ts",
 					"_imports_": [
 						{
-							"import": "./auth.constants.types",
-							"item": "config",
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.constants.types.ts"
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -5970,37 +4662,44 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/convex/tsconfig.json",
-					"relativePath": "src/convex/tsconfig.json",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/auth.config.ts",
-					"relativePath": "src/convex/auth.config.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/convex.config.ts",
-					"relativePath": "src/convex/convex.config.ts",
+					"path": "organizations/ui/CreateOrganization.svelte",
+					"relativePath": "src/lib/organizations/ui/CreateOrganization.svelte",
 					"_imports_": [
 						{
-							"import": "./betterAuth/convex.config",
-							"item": "base",
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/convex.config.ts"
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/image-cropper",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/optimizeImage",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/optimizeImage.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						}
@@ -6010,35 +4709,44 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/convex/http.ts",
-					"relativePath": "src/convex/http.ts",
+					"path": "organizations/ui/DeleteOrganization.svelte",
+					"relativePath": "src/lib/organizations/ui/DeleteOrganization.svelte",
 					"_imports_": [
 						{
-							"import": "./_generated/server",
-							"item": "base",
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
 							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/server.js"
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "./auth",
-							"item": "config",
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "./email",
-							"item": "convex/email",
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
 							"file": {
-								"type": "convex",
-								"path": "email.ts"
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -6048,37 +4756,62 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/convex/polyfills.ts",
-					"relativePath": "src/convex/polyfills.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/schema.ts",
-					"relativePath": "src/convex/schema.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/migrations.ts",
-					"relativePath": "src/convex/migrations.ts",
+					"path": "organizations/ui/GeneralSettings.svelte",
+					"relativePath": "src/lib/organizations/ui/GeneralSettings.svelte",
 					"_imports_": [
 						{
-							"import": "./_generated/api.js",
-							"item": "base",
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/_generated/api.js"
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/image-cropper",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/image-cropper/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/optimizeImage",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/optimizeImage.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
 							},
 							"meta": {}
 						}
@@ -6088,353 +4821,696 @@
 					"devDependencies": []
 				},
 				{
-					"type": "base",
+					"type": "lib",
 					"role": "file",
-					"path": "src/convex/_generated/api.d.ts",
-					"relativePath": "src/convex/_generated/api.d.ts",
+					"path": "organizations/ui/Invitations.svelte",
+					"relativePath": "src/lib/organizations/ui/Invitations.svelte",
 					"_imports_": [
 						{
-							"import": "../auth.js",
-							"item": "config",
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
 							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "../deviceAuthorization.js",
-							"item": "convex/deviceAuthorization",
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
 							"file": {
-								"type": "convex",
-								"path": "deviceAuthorization.ts"
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "../email.js",
-							"item": "convex/email",
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
 							"file": {
-								"type": "convex",
-								"path": "email.ts"
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "../http.js",
-							"item": "base",
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/convex/http.ts"
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/InviteMembers.svelte",
+					"relativePath": "src/lib/organizations/ui/InviteMembers.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/select",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/index.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "../migrations.js",
-							"item": "base",
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
 							"file": {
-								"type": "base",
-								"path": "src/convex/migrations.ts"
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
 							},
 							"meta": {}
 						},
 						{
-							"import": "../model/emails/templates/baseEmail.js",
-							"item": "convex/email",
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/LeaveOrganization.svelte",
+					"relativePath": "src/lib/organizations/ui/LeaveOrganization.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/select",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/Members.svelte",
+					"relativePath": "src/lib/organizations/ui/Members.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/drawer",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/select",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/select/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/MembersAndInvitations.svelte",
+					"relativePath": "src/lib/organizations/ui/MembersAndInvitations.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/tabs",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/drawer",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/drawer/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/Members.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/Members.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/Invitations.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/Invitations.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/InviteMembers.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/InviteMembers.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/OrganizationProfile.svelte",
+					"relativePath": "src/lib/organizations/ui/OrganizationProfile.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/tabs",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/GeneralSettings.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/GeneralSettings.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/DeleteOrganization.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/DeleteOrganization.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/MembersAndInvitations.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/MembersAndInvitations.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/LeaveOrganization.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/LeaveOrganization.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/utils/mobileState.svelte",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/utils/mobileState.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/OrganizationProfileHost.svelte",
+					"relativePath": "src/lib/organizations/ui/OrganizationProfileHost.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/OrganizationProfile.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/OrganizationProfile.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/utils/organization.constants",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/utils/organization.constants.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/ui/OrganizationSwitcher.svelte",
+					"relativePath": "src/lib/organizations/ui/OrganizationSwitcher.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/popover",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/popover/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/CreateOrganization.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/CreateOrganization.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/ui/LeaveOrganization.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/ui/LeaveOrganization.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/api/roles.svelte",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/api/roles.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/organizations/utils/organization.constants",
+							"item": "organizations/lib",
+							"file": {
+								"type": "lib",
+								"path": "organizations/utils/organization.constants.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/types",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "organizations/utils/organization.constants.ts",
+					"relativePath": "src/lib/organizations/utils/organization.constants.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib"
+			],
+			"dependencies": [],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				}
+			],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "api/organization/accept-invitation/[invitationId]/+page.svelte",
+					"relativePath": "src/routes/api/organization/accept-invitation/[invitationId]/+page.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/api/auth-client",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/api/auth-client.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "email/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "email.ts",
+					"relativePath": "src/convex/email.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/resend"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/validateEmail.ts",
+					"relativePath": "src/convex/model/emails/validateEmail.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/templates/baseEmail.ts",
+					"relativePath": "src/convex/model/emails/templates/baseEmail.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/templates/emailTemplates.ts",
+					"relativePath": "src/convex/model/emails/templates/emailTemplates.ts",
+					"_imports_": [
+						{
+							"import": "./baseEmail",
+							"item": "email/convex",
 							"file": {
 								"type": "convex",
 								"path": "model/emails/templates/baseEmail.ts"
 							},
 							"meta": {}
-						},
-						{
-							"import": "../model/emails/templates/emailTemplates.js",
-							"item": "convex/email",
-							"file": {
-								"type": "convex",
-								"path": "model/emails/templates/emailTemplates.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../model/emails/validateEmail.js",
-							"item": "convex/email",
-							"file": {
-								"type": "convex",
-								"path": "model/emails/validateEmail.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../model/organizations/index.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "model/organizations/index.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../organizations/invitations/queries.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "organizations/invitations/queries.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../organizations/members/mutations.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "organizations/members/mutations.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../organizations/mutations.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "organizations/mutations.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../organizations/queries.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "organizations/queries.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../storage.js",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/storage.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../users/actions.js",
-							"item": "convex/users",
-							"file": {
-								"type": "convex",
-								"path": "users/actions.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../users/mutations.js",
-							"item": "convex/users",
-							"file": {
-								"type": "convex",
-								"path": "users/mutations.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../users/queries.js",
-							"item": "convex/users",
-							"file": {
-								"type": "convex",
-								"path": "users/queries.ts"
-							},
-							"meta": {}
 						}
 					],
 					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
-				},
+				}
+			]
+		},
+		{
+			"name": "device-authorization/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
 				{
-					"type": "base",
+					"type": "convex",
 					"role": "file",
-					"path": "src/convex/_generated/api.js",
-					"relativePath": "src/convex/_generated/api.js",
+					"path": "deviceAuthorization.ts",
+					"relativePath": "src/convex/deviceAuthorization.ts",
 					"_imports_": [],
 					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/_generated/dataModel.d.ts",
-					"relativePath": "src/convex/_generated/dataModel.d.ts",
-					"_imports_": [
+					"dependencies": [
 						{
-							"import": "../schema.js",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/schema.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/_generated/server.d.ts",
-					"relativePath": "src/convex/_generated/server.d.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/_generated/server.js",
-					"relativePath": "src/convex/_generated/server.js",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/_generated/api.ts",
-					"relativePath": "src/convex/betterAuth/_generated/api.ts",
-					"_imports_": [
-						{
-							"import": "../adapter.js",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/adapter.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "convex"
 						},
 						{
-							"import": "../organization.js",
-							"item": "convex/organizations",
-							"file": {
-								"type": "convex",
-								"path": "betterAuth/organization.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../user.js",
-							"item": "convex/users",
-							"file": {
-								"type": "convex",
-								"path": "betterAuth/user.ts"
-							},
-							"meta": {}
+							"ecosystem": "js",
+							"name": "better-auth"
 						}
 					],
-					"registryDependencies": [],
-					"dependencies": [],
 					"devDependencies": []
-				},
+				}
+			]
+		},
+		{
+			"name": "device-authorization/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
 				{
-					"type": "base",
+					"type": "routes",
 					"role": "file",
-					"path": "src/convex/betterAuth/_generated/component.ts",
-					"relativePath": "src/convex/betterAuth/_generated/component.ts",
+					"path": "(auth)/device-authorization/[code]/+page.svelte",
+					"relativePath": "src/routes/(auth)/device-authorization/[code]/+page.svelte",
 					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/_generated/dataModel.ts",
-					"relativePath": "src/convex/betterAuth/_generated/dataModel.ts",
-					"_imports_": [
-						{
-							"import": "../schema.js",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/schema.ts"
-							},
-							"meta": {}
-						}
+					"registryDependencies": [
+						"auth/lib",
+						"config"
 					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/_generated/server.ts",
-					"relativePath": "src/convex/betterAuth/_generated/server.ts",
-					"_imports_": [
-						{
-							"import": "./dataModel.js",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/_generated/dataModel.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/adapter.ts",
-					"relativePath": "src/convex/betterAuth/adapter.ts",
-					"_imports_": [
-						{
-							"import": "./schema",
-							"item": "base",
-							"file": {
-								"type": "base",
-								"path": "src/convex/betterAuth/schema.ts"
-							},
-							"meta": {}
-						},
-						{
-							"import": "../auth",
-							"item": "config",
-							"file": {
-								"type": "base",
-								"path": "src/convex/auth.ts"
-							},
-							"meta": {}
-						}
-					],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/convex.config.ts",
-					"relativePath": "src/convex/betterAuth/convex.config.ts",
-					"_imports_": [],
-					"registryDependencies": [],
-					"dependencies": [],
-					"devDependencies": []
-				},
-				{
-					"type": "base",
-					"role": "file",
-					"path": "src/convex/betterAuth/schema.ts",
-					"relativePath": "src/convex/betterAuth/schema.ts",
-					"_imports_": [],
-					"registryDependencies": [],
 					"dependencies": [],
 					"devDependencies": []
 				}

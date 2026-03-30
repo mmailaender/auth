@@ -3,10 +3,10 @@
 	import { tick } from 'svelte';
 
 	// API
-	import { api } from '$convex/_generated/api';
-	import { useQuery, useConvexClient } from 'convex-svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
+	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient } = getAuthContext();
 	const client = useConvexClient();
 
 	// Icons
@@ -21,9 +21,8 @@
 	import { optimizeImage } from '$lib/primitives/utils/optimizeImage';
 
 	// Types
-	import type { Id } from '$convex/_generated/dataModel';
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
+	import type { GenericId } from 'convex/values';
+	import type { GetActiveUserType } from '$lib/auth/types';
 
 	// Props
 	let { initialData }: { initialData?: { activeUser?: GetActiveUserType } } = $props();
@@ -104,7 +103,7 @@
 			if (!response.ok) throw new Error('Failed to upload file');
 
 			const result = await response.json();
-			const storageId = result.storageId as Id<'_storage'>;
+			const storageId = result.storageId as GenericId<'_storage'>;
 			const imageUrl = await client.mutation(api.users.mutations.updateAvatar, { storageId });
 			await authClient.updateUser({ image: imageUrl });
 

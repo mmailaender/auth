@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/primitives/utils';
-	import { authClient } from '../api/auth-client';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { authClient } = getAuthContext();
 	import { invalidateAll } from '$app/navigation';
 
 	interface SignOutButtonProps {

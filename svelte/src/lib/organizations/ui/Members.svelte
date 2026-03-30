@@ -13,20 +13,14 @@
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 
 	// API
-	import { useQuery } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
-	import { authClient } from '$lib/auth/api/auth-client';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api, authClient } = getAuthContext();
 
-	// API Types
-	type Member = typeof authClient.$Infer.Member;
-	type Role = Member['role'];
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
+	// Types
+	import type { Member, Role, GetActiveOrganizationType, GetActiveUserType } from '$lib/auth/types';
 
 	// Props
 	let {

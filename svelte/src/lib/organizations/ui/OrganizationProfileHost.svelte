@@ -13,27 +13,20 @@
 	// Constants
 	import { DIALOG_KEY } from '$lib/organizations/utils/organization.constants';
 
-	// API
-	import { api } from '$convex/_generated/api';
-
-	// API Types
-	import type { authClient } from '$lib/auth/api/auth-client';
-	import type { FunctionReturnType } from 'convex/server';
+	// Types
 	import type { Pathname } from '$app/types';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type GetActiveUserType = FunctionReturnType<typeof api.users.queries.getActiveUser>;
-	type ListInvitationType = FunctionReturnType<
-		typeof api.organizations.invitations.queries.listInvitations
-	>;
-	type Role = typeof authClient.$Infer.Member.role;
+	import type {
+		GetActiveOrganizationType,
+		GetActiveUserType,
+		ListInvitationsType,
+		Role
+	} from '$lib/auth/types';
 
 	type OrganizationProfileHostProps = {
 		initialData?: {
 			activeUser?: GetActiveUserType;
 			activeOrganization?: GetActiveOrganizationType;
-			invitationList?: ListInvitationType;
+			invitationList?: ListInvitationsType;
 			role?: Role;
 		};
 	};

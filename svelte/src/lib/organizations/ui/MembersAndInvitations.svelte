@@ -11,21 +11,14 @@
 	import InviteMembers from '$lib/organizations/ui/InviteMembers.svelte';
 
 	// API
-	import { useQuery } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
+	import { useQuery } from '@mmailaender/convex-svelte';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+	import { getAuthContext } from '$lib/auth/context.svelte';
+	const { api } = getAuthContext();
 
-	// API Types
-	import type { authClient } from '$lib/auth/api/auth-client';
-	import type { FunctionReturnType } from 'convex/server';
-	type GetActiveOrganizationType = FunctionReturnType<
-		typeof api.organizations.queries.getActiveOrganization
-	>;
-	type ListInvitationType = FunctionReturnType<
-		typeof api.organizations.invitations.queries.listInvitations
-	>;
-	type Role = typeof authClient.$Infer.Member.role;
+	// Types
+	import type { GetActiveOrganizationType, ListInvitationsType, Role } from '$lib/auth/types';
 
 	// Props
 	let {
@@ -33,7 +26,7 @@
 	}: {
 		initialData?: {
 			activeOrganization?: GetActiveOrganizationType;
-			invitationList?: ListInvitationType;
+			invitationList?: ListInvitationsType;
 			role?: Role;
 		};
 	} = $props();
