@@ -4,19 +4,33 @@ import tailwindcss from '@tailwindcss/vite';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
-const require = createRequire(import.meta.url);
-const convexPackageDir = path.dirname(require.resolve('convex/package.json'));
+const projectRequire = createRequire(path.resolve(process.cwd(), 'package.json'));
+const sharedConvexSegment = `${path.sep}shared${path.sep}convex${path.sep}`;
+
+function isBareImport(source: string): boolean {
+	return !source.startsWith('.') && !source.startsWith('/') && !source.startsWith('\0');
+}
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit()],
-	resolve: {
-		// Shared Convex sources are symlinked from outside the app root in this
-		// monorepo. Anchor bare `convex/*` imports to the app's installed package
-		// so SSR builds on Vercel don't try to resolve them from `/shared/...`.
-		alias: {
-			convex: convexPackageDir
-		}
-	},
+	plugins: [
+		{
+			name: 'resolve-shared-convex-deps',
+			enforce: 'pre',
+			resolveId(source, importer) {
+				if (!importer || !isBareImport(source) || !importer.includes(sharedConvexSegment)) {
+					return null;
+				}
+
+				try {
+					return projectRequire.resolve(source);
+				} catch {
+					return null;
+				}
+			}
+		},
+		tailwindcss(),
+		sveltekit()
+	],
 	server: {
 		fs: {
 			// Allow serving files from one level up from the project root (includes node_modules)
