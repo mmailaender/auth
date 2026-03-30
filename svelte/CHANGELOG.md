@@ -1,5 +1,19 @@
 # auth
 
+## 0.6.0
+
+### Minor Changes
+
+- feat: Replace `AuthDialogProvider` with `AuthProvider` using Svelte context for `api`, `authClient`, and `authConstants`
+- feat: Add brand customization support with default values via `auth.constants.ts`
+- feat: Split SSR files into separate `base/ssr` jsrepo item
+- refactor: Migrate all database operations to typed component API
+- refactor: Replace `convex-svelte` with `@mmailaender/convex-svelte`
+- refactor: Improve auth UI loading, redirects, password validation, and accessibility
+- chore: Update Better Auth to 1.5
+
+→ `jsrepo update 'auth/lib' 'auth/routes' 'base' 'base/ssr' 'users/lib' 'users/convex' 'organizations/lib' 'organizations/convex' 'email/convex'`
+
 ## 0.5.7
 
 ### Patch Changes
