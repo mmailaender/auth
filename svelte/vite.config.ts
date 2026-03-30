@@ -1,11 +1,11 @@
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
-import { createRequire } from 'node:module';
 import path from 'node:path';
 
-const projectRequire = createRequire(path.resolve(process.cwd(), 'package.json'));
-const sharedConvexSegment = `${path.sep}shared${path.sep}convex${path.sep}`;
+const projectRoot = process.cwd();
+const sharedConvexRoot = path.resolve(projectRoot, '../shared/convex');
+const symlinkedConvexRoot = path.resolve(projectRoot, 'src/convex');
 
 function isBareImport(source: string): boolean {
 	return !source.startsWith('.') && !source.startsWith('/') && !source.startsWith('\0');
@@ -16,16 +16,22 @@ export default defineConfig({
 		{
 			name: 'resolve-shared-convex-deps',
 			enforce: 'pre',
-			resolveId(source, importer) {
-				if (!importer || !isBareImport(source) || !importer.includes(sharedConvexSegment)) {
+			async resolveId(source, importer) {
+				if (!importer || !isBareImport(source)) {
 					return null;
 				}
 
-				try {
-					return projectRequire.resolve(source);
-				} catch {
+				const normalizedImporter = path.normalize(importer);
+				if (!normalizedImporter.startsWith(sharedConvexRoot + path.sep)) {
 					return null;
 				}
+
+				const remappedImporter = path.join(
+					symlinkedConvexRoot,
+					path.relative(sharedConvexRoot, normalizedImporter)
+				);
+
+				return this.resolve(source, remappedImporter, { skipSelf: true });
 			}
 		},
 		tailwindcss(),
