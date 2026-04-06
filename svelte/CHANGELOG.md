@@ -1,5 +1,11 @@
 # auth
 
+## 0.6.1
+
+### Patch Changes
+
+- chore: update @mmailaender/convex-better-auth-svelte to 0.7.2
+
 ## 0.6.0
 
 ### Minor Changes
