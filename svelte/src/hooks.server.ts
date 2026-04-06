@@ -70,7 +70,7 @@ export const setTokenFromCookies: Handle = async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	const token = await getToken(createAuth, event.cookies);
+	const token = getToken(event.cookies);
 	event.locals.token = token;
 
 	return withServerConvexToken(token, () => resolve(event));

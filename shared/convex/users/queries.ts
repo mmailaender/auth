@@ -1,5 +1,5 @@
 import { query } from '../_generated/server';
-import { ConvexError, v } from 'convex/values';
+import { ConvexError } from 'convex/values';
 import { authComponent, createAuth } from '../auth';
 import { APIError } from 'better-auth/api';
 
