@@ -5,15 +5,11 @@
 	import { Progress } from '@ark-ui/svelte';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { strength = $bindable(), class: className }: PasswordStrengthProps = $props();
+	let { class: className }: PasswordStrengthProps = $props();
 
 	const state = usePasswordStrength();
 
 	const score = $derived(state.strength.score);
-
-	$effect(() => {
-		strength = state.strength;
-	});
 
 	const color = tv({
 		base: '',
