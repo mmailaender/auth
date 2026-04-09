@@ -24,7 +24,7 @@ import {
 
 // Constants
 import { AUTH_CONSTANTS } from './auth.constants';
-const siteUrl = process.env.SITE_URL;
+import { getBetterAuthBaseUrl, resolveRequestBaseUrl } from './url';
 
 // Typesafe way to pass Convex functions defined in this file
 const authFunctions: AuthFunctions = internal.auth;
@@ -89,7 +89,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 	// Configure your Better Auth instance here
 	return {
 		// All auth requests will be proxied through your sveltekit server
-		baseURL: siteUrl,
+		baseURL: getBetterAuthBaseUrl(),
 		database: authComponent.adapter(ctx),
 
 		emailVerification: {
@@ -327,10 +327,17 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 									}
 								}
 							},
-							sendInvitationEmail: async (data) => {
+							sendInvitationEmail: async (data, request) => {
+								const invitationBaseUrl = resolveRequestBaseUrl(request);
+								if (!invitationBaseUrl) {
+									throw new Error(
+										'Unable to resolve an allowed invitation base URL from the current request.'
+									);
+								}
+
 								await sendInviteMember(requireActionCtx(ctx), {
 									to: data.email,
-									url: `${siteUrl}/api/organization/accept-invitation/${data.id}`,
+									url: `${invitationBaseUrl}/api/organization/accept-invitation/${data.id}`,
 									inviter: {
 										name: data.inviter.user.name,
 										email: data.inviter.user.email,
