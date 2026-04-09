@@ -11,7 +11,7 @@
   <p align="center">
     Self-owned auth UI for Convex + Better Auth — copy the code, own the flow.
     <br />
-    <a href="https://etesie.dev/docs/auth/02-getting-started/01-sveltekit"><strong>→ Get Started</strong></a>
+    <a href="https://etesie.dev/docs/auth/getting-started/sveltekit"><strong>→ Get Started</strong></a>
     <br /><br />
     <a href="https://github.com/mmailaender/auth/issues">Issues</a>
   </p>
@@ -57,7 +57,7 @@ Auth gives you hosted-provider convenience **without losing control**:
 Start building now with pre-built Svelte or React components —  
 fully functional, fully editable, and ready for production.
 
-📘 **[Read the Getting Started Guide →](https://etesie.dev/docs/auth/02-getting-started)**
+📘 **[Read the Getting Started Guide →](https://etesie.dev/docs/auth/getting-started)**
 
 ---
 
