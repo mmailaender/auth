@@ -1,0 +1,152 @@
+import type { BetterAuthOptions } from 'better-auth';
+
+type BaseUrlProtocol = 'http' | 'https' | 'auto';
+
+const MISSING_ALLOWED_HOST_SENTINEL = 'better-auth-config.invalid';
+
+/**
+ * Parse the comma-separated Better Auth host allowlist from env.
+ */
+export const parseAllowedHosts = (value?: string) =>
+	(value ?? '')
+		.split(',')
+		.map((host) => host.trim())
+		.filter(Boolean);
+
+const getConfiguredAllowedHosts = () => parseAllowedHosts(process.env.BETTER_AUTH_ALLOWED_HOSTS);
+
+/**
+ * Whether the app has an explicit Better Auth host allowlist configured.
+ */
+export const hasConfiguredAllowedHosts = () => getConfiguredAllowedHosts().length > 0;
+
+/**
+ * Fail loudly when the app-facing Better Auth hosts are missing.
+ */
+export const assertConfiguredAllowedHosts = () => {
+	if (!hasConfiguredAllowedHosts()) {
+		throw new Error('BETTER_AUTH_ALLOWED_HOSTS must be set to at least one trusted host.');
+	}
+};
+
+const getConvexSiteHost = () => {
+	const siteUrl = process.env.CONVEX_SITE_URL;
+	if (!siteUrl) return undefined;
+
+	try {
+		return new URL(siteUrl).host;
+	} catch {
+		return undefined;
+	}
+};
+
+const withConvexSiteHost = (hosts: string[]) => {
+	const convexSiteHost = getConvexSiteHost();
+	return [...new Set([...hosts, ...(convexSiteHost ? [convexSiteHost] : [])])];
+};
+
+/**
+ * Full Better Auth allowlist used at runtime.
+ *
+ * This always includes the Convex site host so Convex-specific OIDC/JWKS
+ * endpoints keep working on `CONVEX_SITE_URL`. When the app-facing host
+ * allowlist is missing, we return a sentinel value instead of throwing so
+ * Convex static analysis can still initialize modules. Real request-sensitive
+ * flows call `assertConfiguredAllowedHosts()` and fail clearly.
+ */
+export const getAllowedHosts = () => {
+	const configuredHosts = getConfiguredAllowedHosts();
+	const baseHosts = configuredHosts.length > 0 ? configuredHosts : [MISSING_ALLOWED_HOST_SENTINEL];
+
+	return withConvexSiteHost(baseHosts);
+};
+
+/**
+ * Parse Better Auth's optional protocol override.
+ */
+export const parseBaseUrlProtocol = (value?: string): BaseUrlProtocol | undefined => {
+	switch (value) {
+		case 'http':
+		case 'https':
+		case 'auto':
+			return value;
+		default:
+			return undefined;
+	}
+};
+
+export const getBaseUrlProtocol = () =>
+	parseBaseUrlProtocol(process.env.BETTER_AUTH_BASE_URL_PROTOCOL);
+
+/**
+ * Better Auth baseURL config for dynamic host resolution.
+ */
+export const getBetterAuthBaseUrl = (): BetterAuthOptions['baseURL'] => {
+	const allowedHosts = getAllowedHosts();
+	const protocol = getBaseUrlProtocol();
+
+	return protocol ? { allowedHosts, protocol } : { allowedHosts };
+};
+
+const matchesHostPattern = (host: string, pattern: string) => {
+	const matcher = new RegExp(
+		`^${pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`,
+		'i'
+	);
+
+	return matcher.test(host);
+};
+
+/**
+ * Whether a concrete host is trusted by the Better Auth allowlist.
+ */
+export const isAllowedHost = (host: string) =>
+	getAllowedHosts().some((pattern) => matchesHostPattern(host, pattern));
+
+const getRequestHost = (request: Request) => {
+	const forwardedHost = request.headers.get('x-forwarded-host');
+	return forwardedHost ?? new URL(request.url).host;
+};
+
+const resolveRequestProtocol = (request: Request) => {
+	const configuredProtocol = getBaseUrlProtocol();
+	if (configuredProtocol && configuredProtocol !== 'auto') {
+		return configuredProtocol;
+	}
+
+	return (
+		request.headers.get('x-forwarded-proto') ?? new URL(request.url).protocol.replace(/:$/, '')
+	);
+};
+
+/**
+ * Resolve the externally trusted origin for a request, if available.
+ */
+export const resolveRequestBaseUrl = (request?: Request) => {
+	assertConfiguredAllowedHosts();
+	if (!request) return undefined;
+
+	const host = getRequestHost(request);
+	if (!host || !isAllowedHost(host)) return undefined;
+
+	return `${resolveRequestProtocol(request)}://${host}`;
+};
+
+/**
+ * Validate an app-provided origin before using it in redirects.
+ */
+export const assertAllowedOrigin = (origin: string) => {
+	assertConfiguredAllowedHosts();
+
+	const url = new URL(origin);
+
+	if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+		throw new Error(`Unsupported success origin protocol: ${url.protocol}`);
+	}
+
+	if (!isAllowedHost(url.host)) {
+		throw new Error(`Untrusted success origin host: ${url.host}`);
+	}
+
+	return url.origin;
+};

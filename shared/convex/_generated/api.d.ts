@@ -22,6 +22,7 @@ import type * as organizations_members_mutations from "../organizations/members/
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
 import type * as storage from "../storage.js";
+import type * as url from "../url.js";
 import type * as users_actions from "../users/actions.js";
 import type * as users_mutations from "../users/mutations.js";
 import type * as users_queries from "../users/queries.js";
@@ -47,6 +48,7 @@ declare const fullApi: ApiFromModules<{
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;
   storage: typeof storage;
+  url: typeof url;
   "users/actions": typeof users_actions;
   "users/mutations": typeof users_mutations;
   "users/queries": typeof users_queries;

@@ -34,6 +34,11 @@ export default defineConfig({
 						dependencies: ['@convex-dev/better-auth', 'better-auth']
 					},
 					{
+						path: 'src/convex/url.ts',
+						dependencyResolution: 'manual',
+						dependencies: ['better-auth']
+					},
+					{
 						path: 'src/convex/storage.ts',
 						dependencyResolution: 'manual'
 					},
