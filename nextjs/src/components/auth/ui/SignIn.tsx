@@ -54,6 +54,7 @@ export default function SignIn({
 	const [submitting, setSubmitting] = useState(false);
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const [magicLinkSent, setMagicLinkSent] = useState(false);
+	const [emailExists, setEmailExists] = useState(false);
 
 	const getAvailableMethods = (): AuthMethod[] => {
 		const methods: AuthMethod[] = [];
@@ -107,10 +108,12 @@ export default function SignIn({
 
 	const handleMethodSelect = async (
 		method: AuthMethod,
-		emailExists: boolean
+		exists: boolean
 	): Promise<void> => {
+		setEmailExists(exists);
+
 		// Existing user + magic link: send directly, skip MagicLinkFlow UI
-		if (method === 'magicLink' && emailExists) {
+		if (method === 'magicLink' && exists) {
 			await authClient.signIn.magicLink(
 				{
 					email,
@@ -134,12 +137,34 @@ export default function SignIn({
 			return;
 		}
 
+		// Email OTP: send OTP directly while EmailStep button shows "Sending..."
+		if (method === 'emailOTP') {
+			let otpSendSuccess = false;
+			await authClient.emailOtp.sendVerificationOtp(
+				{ email, type: 'sign-in' },
+				{
+					onSuccess: () => {
+						otpSendSuccess = true;
+						toast.success('Verification code sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('OTP send error:', ctx.error);
+						toast.error(
+							ctx.error.message || 'Failed to send verification code. Please try again.'
+						);
+					}
+				}
+			);
+			if (otpSendSuccess) {
+				setCurrentStep('email-otp-flow');
+			}
+			return;
+		}
+
+		// Navigate to the appropriate step based on method
 		switch (method) {
 			case 'password':
 				setCurrentStep('password-flow');
-				break;
-			case 'emailOTP':
-				setCurrentStep('email-otp-flow');
 				break;
 			case 'magicLink':
 				setCurrentStep('magic-link-flow');
@@ -165,6 +190,7 @@ export default function SignIn({
 		setEmail('');
 		setSubmitting(false);
 		setMagicLinkSent(false);
+		setEmailExists(false);
 	};
 
 	const renderCurrentStep = () => {
@@ -183,6 +209,7 @@ export default function SignIn({
 				return (
 					<PasswordFlow
 						email={email}
+						emailExists={emailExists}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						submitting={submitting}
@@ -193,6 +220,7 @@ export default function SignIn({
 				return (
 					<EmailOtpFlow
 						email={email}
+						emailExists={emailExists}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						submitting={submitting}
@@ -207,6 +235,10 @@ export default function SignIn({
 						submitting={submitting}
 						onSubmittingChange={setSubmitting}
 						callbackURL={getRedirectURL() || '/'}
+						onLinkSent={() => {
+							setMagicLinkSent(true);
+							setIsSigningIn(true);
+						}}
 					/>
 				);
 			default:

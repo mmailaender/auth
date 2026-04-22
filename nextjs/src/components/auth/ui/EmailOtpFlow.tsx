@@ -1,18 +1,17 @@
 'use client';
 
 // React
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 // Primitives
 import { toast } from 'sonner';
 
 // API
-import { useAction } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { authClient } from '../../../lib/auth/api/auth-client';
 
 interface EmailOtpFlowProps {
 	email: string;
+	emailExists: boolean;
 	onSuccess: () => void;
 	onBack: () => void;
 	submitting: boolean;
@@ -22,6 +21,7 @@ interface EmailOtpFlowProps {
 // Email OTP Flow Component
 export const EmailOtpFlow = ({
 	email,
+	emailExists,
 	onSuccess,
 	onBack,
 	submitting,
@@ -29,69 +29,7 @@ export const EmailOtpFlow = ({
 }: EmailOtpFlowProps) => {
 	const [otp, setOtp] = useState('');
 	const [name, setName] = useState('');
-	const [otpSent, setOtpSent] = useState(false);
-	const [mode, setMode] = useState<'login' | 'register'>('login');
-	const [emailChecked, setEmailChecked] = useState(false);
-	const otpSentRef = useRef(false);
-	const onSubmittingChangeRef = useRef(onSubmittingChange);
-
-	const checkEmailAvailabilityAndValidity = useAction(
-		api.users.actions.checkEmailAvailabilityAndValidity
-	);
-
-	// Keep the ref updated with the latest function
-	useEffect(() => {
-		onSubmittingChangeRef.current = onSubmittingChange;
-	});
-
-	// Check email availability and send OTP when component mounts
-	useEffect(() => {
-		// Prevent multiple checks and OTP sends
-		if (otpSentRef.current || emailChecked) return;
-		otpSentRef.current = true;
-
-		const checkEmailAndSendOtp = async () => {
-			onSubmittingChangeRef.current(true);
-
-			try {
-				// First, check if email exists
-				const emailData = await checkEmailAvailabilityAndValidity({ email });
-				setMode(emailData.exists ? 'login' : 'register');
-				setEmailChecked(true);
-
-				// Then send OTP
-				await authClient.emailOtp.sendVerificationOtp(
-					{ email, type: 'sign-in' },
-					{
-						onSuccess: () => {
-							setOtpSent(true);
-							onSubmittingChangeRef.current(false);
-							toast.success('Verification code sent to your email!');
-						},
-						onError: (ctx) => {
-							console.error('OTP send error:', ctx.error);
-							toast.error(
-								ctx.error.message || 'Failed to send verification code. Please try again.'
-							);
-							onSubmittingChangeRef.current(false);
-							// Reset the refs on error so user can retry
-							otpSentRef.current = false;
-							setEmailChecked(false);
-						}
-					}
-				);
-			} catch (error) {
-				console.error('Email validation error:', error);
-				toast.error('Failed to validate email. Please try again.');
-				onSubmittingChangeRef.current(false);
-				// Reset the refs on error so user can retry
-				otpSentRef.current = false;
-				setEmailChecked(false);
-			}
-		};
-
-		checkEmailAndSendOtp();
-	}, [email, emailChecked, checkEmailAvailabilityAndValidity]); // Dependencies for email check and OTP send
+	const mode: 'login' | 'register' = emailExists ? 'login' : 'register';
 
 	const handleVerifyOtp = async () => {
 		onSubmittingChange(true);
@@ -171,7 +109,7 @@ export const EmailOtpFlow = ({
 				/>
 			</div>
 
-			{mode === 'register' && emailChecked && (
+			{mode === 'register' && (
 				<div className="flex flex-col gap-2">
 					<label className="text-surface-950-50 text-sm font-medium">Full Name</label>
 					<input
@@ -181,7 +119,7 @@ export const EmailOtpFlow = ({
 						className="input preset-filled-surface-200"
 						placeholder="Enter your full name"
 						required
-						disabled={submitting || !otpSent}
+						disabled={submitting}
 					/>
 				</div>
 			)}
@@ -198,25 +136,19 @@ export const EmailOtpFlow = ({
 					inputMode="numeric"
 					maxLength={6}
 					required
-					disabled={!otpSent}
+					disabled={submitting}
 				/>
 			</div>
 
 			<button
 				type="submit"
 				className="btn preset-filled w-full"
-				disabled={submitting || !otp.trim() || !otpSent || (mode === 'register' && !name.trim())}
+				disabled={submitting || !otp.trim() || (mode === 'register' && !name.trim())}
 			>
 				{submitting ? (
 					<div className="flex items-center gap-2">
 						<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-						{!emailChecked
-							? 'Checking email...'
-							: !otpSent
-								? 'Sending...'
-								: mode === 'register'
-									? 'Creating account...'
-									: 'Verifying...'}
+						{mode === 'register' ? 'Creating account...' : 'Verifying...'}
 					</div>
 				) : mode === 'register' ? (
 					'Create Account'

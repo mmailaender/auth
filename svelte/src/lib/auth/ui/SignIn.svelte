@@ -57,6 +57,7 @@
 	let otpMode = $state<'login' | 'register'>('login');
 	let verifyContext = $state<'emailVerification' | 'magicLink'>('emailVerification');
 	let magicLinkSent = $state(false);
+	let emailExistsRef = $state(false);
 
 	// Auth state
 	const auth = useAuth();
@@ -184,12 +185,15 @@
 		otpMode = 'login';
 		verifyContext = 'emailVerification';
 		magicLinkSent = false;
+		emailExistsRef = false;
 	}
 
 	/**
 	 * Handles method selection from email step
 	 */
 	async function handleMethodSelect(method: EmailAuthMethod, emailExists: boolean): Promise<void> {
+		emailExistsRef = emailExists;
+
 		// Existing user + magic link: send directly, skip MagicLinkFlow UI
 		if (method === 'magicLink' && emailExists) {
 			await authClient.signIn.magicLink(
@@ -214,13 +218,34 @@
 			return;
 		}
 
+		// Email OTP: send OTP directly while EmailStep button shows "Sending..."
+		if (method === 'emailOTP') {
+			let otpSendSuccess = false;
+			await authClient.emailOtp.sendVerificationOtp(
+				{ email, type: 'sign-in' },
+				{
+					onSuccess: () => {
+						otpSendSuccess = true;
+						toast.success('Verification code sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('OTP send error:', ctx.error);
+						toast.error(ctx.error.message || 'Failed to send verification code. Please try again.');
+					}
+				}
+			);
+			if (otpSendSuccess) {
+				otpMode = emailExists ? 'login' : 'register';
+				currentStep = 'email-otp-flow';
+			}
+			return;
+		}
+
 		// Navigate to the appropriate step based on method
 		switch (method) {
 			case 'password':
+				passwordMode = emailExists ? 'login' : 'register';
 				currentStep = 'password-flow';
-				break;
-			case 'emailOTP':
-				currentStep = 'email-otp-flow';
 				break;
 			case 'magicLink':
 				currentStep = 'magic-link-flow';
@@ -355,11 +380,11 @@
 				{:else if currentStep === 'password-flow'}
 					<PasswordFlow
 						{email}
+						emailExists={emailExistsRef}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						onModeChange={(m) => (passwordMode = m)}
 						callbackURL={getRedirectURL() || '/'}
 						onVerifyEmail={() => {
 							currentStep = 'verify-email';
@@ -370,11 +395,11 @@
 				{:else if currentStep === 'email-otp-flow'}
 					<EmailOtpFlow
 						{email}
+						emailExists={emailExistsRef}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						onModeChange={(m) => (otpMode = m)}
 					/>
 				{:else if currentStep === 'magic-link-flow'}
 					<MagicLinkFlow

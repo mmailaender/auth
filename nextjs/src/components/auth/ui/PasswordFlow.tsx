@@ -7,12 +7,11 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 // API
-import { useAction } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { authClient } from '../../../lib/auth/api/auth-client';
 
 interface PasswordFlowProps {
 	email: string;
+	emailExists: boolean;
 	onSuccess: () => void;
 	onBack: () => void;
 	submitting: boolean;
@@ -22,30 +21,15 @@ interface PasswordFlowProps {
 // Password Flow Component
 export const PasswordFlow = ({
 	email,
+	emailExists,
 	onSuccess,
 	onBack,
 	submitting,
 	onSubmittingChange
 }: PasswordFlowProps) => {
-	const [mode, setMode] = useState<'login' | 'register'>('login');
+	const mode: 'login' | 'register' = emailExists ? 'login' : 'register';
 	const [showForgotPasswordDialog, setShowForgotPasswordDialog] = useState(false);
 	const [isRequestingReset, setIsRequestingReset] = useState(false);
-	const checkEmailAvailabilityAndValidity = useAction(
-		api.users.actions.checkEmailAvailabilityAndValidity
-	);
-
-	useState(() => {
-		// Determine if this is login or register based on email
-		const validateEmail = async () => {
-			try {
-				const data = await checkEmailAvailabilityAndValidity({ email });
-				setMode(data.exists ? 'login' : 'register');
-			} catch (error) {
-				console.error('Email validation error:', error);
-			}
-		};
-		validateEmail();
-	});
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

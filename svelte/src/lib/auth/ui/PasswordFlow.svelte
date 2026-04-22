@@ -6,12 +6,12 @@
 	import * as Password from '$lib/primitives/ui/password';
 
 	// API
-	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { getAuthContext } from '$lib/auth/context.svelte';
-	const { api, authClient, authConstants } = getAuthContext();
+	const { authClient, authConstants } = getAuthContext();
 
 	interface PasswordFlowProps {
 		email: string;
+		emailExists: boolean;
 		onSuccess: () => void;
 		onBack: () => void;
 		submitting: boolean;
@@ -23,45 +23,20 @@
 
 	let {
 		email,
+		emailExists,
 		onSuccess,
 		onBack,
 		submitting,
 		onSubmittingChange,
-		onModeChange,
 		onVerifyEmail,
 		callbackURL = '/'
 	}: PasswordFlowProps = $props();
 
-	const client = useConvexClient();
-	let mode = $state<'login' | 'register'>('login');
+	const mode: 'login' | 'register' = $derived(emailExists ? 'login' : 'register');
 	let isRequestingReset = $state(false);
 	let fullName = $state('');
 	let nameInputRef = $state<HTMLInputElement | null>(null);
 	let didAttemptSubmit = $state(false);
-
-	function setMode(nextMode: 'login' | 'register'): void {
-		mode = nextMode;
-		onModeChange?.(nextMode);
-	}
-
-	$effect(() => {
-		const validateEmail = async () => {
-			try {
-				const data = await client.action(api.users.actions.checkEmailAvailabilityAndValidity, {
-					email
-				});
-				if (!data.valid) {
-					toast.error(data.reason || 'Please enter a valid email address.');
-					onBack();
-					return;
-				}
-				setMode(data.exists ? 'login' : 'register');
-			} catch (error) {
-				console.error('Email validation error:', error);
-			}
-		};
-		validateEmail();
-	});
 
 	const nameErrorMessage = $derived.by(() => {
 		const hasNameValue = fullName.trim().length > 0;

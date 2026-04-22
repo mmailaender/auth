@@ -104,7 +104,7 @@
 					<div
 						class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 					></div>
-					{validatingEmailMethod === 'magicLink' ? 'Sending...' : 'Verifying...'}
+					{validatingEmailMethod === 'password' ? 'Verifying...' : 'Sending...'}
 				</div>
 			{:else}
 				{getSingleMethodButtonText()}
@@ -145,7 +145,7 @@
 							<div
 								class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 							></div>
-							Verifying...
+							Sending...
 						</div>
 					{:else}
 						Continue with Email OTP

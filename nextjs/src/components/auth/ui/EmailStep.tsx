@@ -103,9 +103,9 @@ export const EmailStep = ({
 					disabled={submitting || validatingEmail || !email}
 				>
 					{validatingEmail
-						? validatingEmailMethod === 'magicLink'
-							? 'Sending...'
-							: 'Verifying...'
+						? validatingEmailMethod === 'password'
+							? 'Verifying...'
+							: 'Sending...'
 						: getSingleMethodButtonText()}
 				</button>
 			) : (
@@ -132,7 +132,7 @@ export const EmailStep = ({
 							disabled={submitting || validatingEmail || !email}
 						>
 							{validatingEmail && validatingEmailMethod === 'emailOTP'
-								? 'Verifying...'
+								? 'Sending...'
 								: 'Continue with Email OTP'}
 						</button>
 					)}
