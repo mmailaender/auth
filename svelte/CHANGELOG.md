@@ -1,5 +1,24 @@
 # auth
 
+## 0.7.0
+
+### Minor Changes
+
+- **BREAKING:** Replace `SITE_URL` env variable with `BETTER_AUTH_ALLOWED_HOSTS` (comma-separated host allowlist)
+- feat: Support dynamic base URL resolution introduced in Better Auth 1.5
+- feat: Add `url.ts` utility for host allowlist parsing, request-based origin resolution, and origin validation
+- feat: Resolve invitation email URLs dynamically from the incoming request instead of a static `SITE_URL`
+- feat: Optionally configure protocol via `BETTER_AUTH_BASE_URL_PROTOCOL` env variable (`http`, `https`, or `auto`)
+- feat: Streamline auth sign-in flows — email validation is centralized in `EmailStep`, OTP and magic links are sent from `SignIn`, and sub-flows (`PasswordFlow`, `EmailOtpFlow`, `MagicLinkFlow`) immediately render their forms without intermediate "Checking email..." screens
+
+#### Migration
+
+1. Remove the `SITE_URL` environment variable.
+2. Set `BETTER_AUTH_ALLOWED_HOSTS` to a comma-separated list of trusted hosts, e.g. `example.com,staging.example.com`.
+3. Optionally set `BETTER_AUTH_BASE_URL_PROTOCOL` if you need to override the protocol (`http`, `https`, or `auto`).
+
+> `jsrepo update 'config' 'auth/lib'`
+
 ## 0.6.1
 
 ### Patch Changes

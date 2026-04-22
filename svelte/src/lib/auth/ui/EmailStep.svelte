@@ -12,7 +12,7 @@
 	interface EmailStepProps {
 		email: string;
 		onEmailChange: (email: string) => void;
-		onMethodSelect: (method: AuthMethod) => void;
+		onMethodSelect: (method: AuthMethod, emailExists: boolean) => void | Promise<void>;
 		submitting: boolean;
 		availableMethods: AuthMethod[];
 	}
@@ -63,7 +63,7 @@
 				toast.error(data.reason || 'Please enter a valid email address.');
 				return;
 			}
-			onMethodSelect(method);
+			await onMethodSelect(method, data.exists);
 		} catch (error) {
 			toast.error('Failed to validate email. Please try again.');
 			console.error('Email validation error:', error);
@@ -104,7 +104,7 @@
 					<div
 						class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 					></div>
-					Verifying...
+					{validatingEmailMethod === 'password' ? 'Verifying...' : 'Sending...'}
 				</div>
 			{:else}
 				{getSingleMethodButtonText()}
@@ -145,7 +145,7 @@
 							<div
 								class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 							></div>
-							Verifying...
+							Sending...
 						</div>
 					{:else}
 						Continue with Email OTP
@@ -165,7 +165,7 @@
 							<div
 								class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 							></div>
-							Verifying...
+							Sending...
 						</div>
 					{:else}
 						Continue with Magic Link

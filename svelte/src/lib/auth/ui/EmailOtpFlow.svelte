@@ -3,95 +3,24 @@
 	import { toast } from 'svelte-sonner';
 
 	// API
-	import { useConvexClient } from '@mmailaender/convex-svelte';
 	import { getAuthContext } from '$lib/auth/context.svelte';
-	const { api, authClient } = getAuthContext();
+	const { authClient } = getAuthContext();
 
 	interface EmailOtpFlowProps {
 		email: string;
+		emailExists: boolean;
 		onSuccess: () => void;
 		onBack: () => void;
 		submitting: boolean;
 		onSubmittingChange: (submitting: boolean) => void;
-		onModeChange?: (mode: 'login' | 'register') => void;
-		onOtpSent?: () => void;
 	}
 
-	let {
-		email,
-		onSuccess,
-		onBack,
-		submitting,
-		onSubmittingChange,
-		onModeChange,
-		onOtpSent
-	}: EmailOtpFlowProps = $props();
+	let { email, emailExists, onSuccess, onBack, submitting, onSubmittingChange }: EmailOtpFlowProps =
+		$props();
 
-	const client = useConvexClient();
 	let otp = $state('');
 	let name = $state('');
-	let otpSent = $state(false);
-	let mode = $state<'login' | 'register'>('login');
-	let emailChecked = $state(false);
-	let otpSentRef = { current: false };
-
-	function setMode(nextMode: 'login' | 'register'): void {
-		mode = nextMode;
-		onModeChange?.(nextMode);
-	}
-
-	$effect(() => {
-		if (otpSentRef.current || emailChecked) return;
-		otpSentRef.current = true;
-
-		const checkEmailAndSendOtp = async () => {
-			onSubmittingChange(true);
-
-			try {
-				const emailData = await client.action(api.users.actions.checkEmailAvailabilityAndValidity, {
-					email
-				});
-				if (!emailData.valid) {
-					toast.error(emailData.reason || 'Please enter a valid email address.');
-					onSubmittingChange(false);
-					otpSentRef.current = false;
-					emailChecked = false;
-					return;
-				}
-				setMode(emailData.exists ? 'login' : 'register');
-				emailChecked = true;
-
-				await authClient.emailOtp.sendVerificationOtp(
-					{ email, type: 'sign-in' },
-					{
-						onSuccess: () => {
-							otpSent = true;
-							onSubmittingChange(false);
-							toast.success('Verification code sent to your email!');
-							onOtpSent?.();
-						},
-						onError: (ctx) => {
-							console.error('OTP send error:', ctx.error);
-							toast.error(
-								ctx.error.message || 'Failed to send verification code. Please try again.'
-							);
-							onSubmittingChange(false);
-							otpSentRef.current = false;
-							emailChecked = false;
-						}
-					}
-				);
-			} catch (error) {
-				console.error('Email validation error:', error);
-				toast.error('Failed to validate email. Please try again.');
-				onSubmittingChange(false);
-				otpSentRef.current = false;
-				emailChecked = false;
-			}
-		};
-
-		checkEmailAndSendOtp();
-	});
+	const mode: 'login' | 'register' = $derived(emailExists ? 'login' : 'register');
 
 	/**
 	 * Handles OTP verification
@@ -178,7 +107,7 @@
 			/>
 		</div>
 
-		{#if mode === 'register' && emailChecked}
+		{#if mode === 'register'}
 			<div class="flex flex-col">
 				<label class="label" for="name">Full Name</label>
 				<input
@@ -205,7 +134,7 @@
 				maxlength="6"
 				autocomplete="one-time-code"
 				required
-				disabled={!otpSent}
+				disabled={submitting}
 			/>
 		</div>
 	</div>
@@ -215,20 +144,14 @@
 		<button
 			type="submit"
 			class="btn preset-filled w-full"
-			disabled={submitting || !otp.trim() || !otpSent || (mode === 'register' && !name.trim())}
+			disabled={submitting || !otp.trim() || (mode === 'register' && !name.trim())}
 		>
 			{#if submitting}
 				<div class="flex items-center gap-2">
 					<div
 						class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 					></div>
-					{!emailChecked
-						? 'Checking email...'
-						: !otpSent
-							? 'Sending...'
-							: mode === 'register'
-								? 'Creating account...'
-								: 'Verifying...'}
+					{mode === 'register' ? 'Creating account...' : 'Verifying...'}
 				</div>
 			{:else}
 				{mode === 'register' ? 'Create Account' : 'Verify Code'}

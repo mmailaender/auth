@@ -3,6 +3,9 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	// Svelte
+	import { toast } from 'svelte-sonner';
+
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 
@@ -20,7 +23,7 @@
 
 	// Context
 	import { getAuthContext } from '$lib/auth/context.svelte';
-	const { authConstants } = getAuthContext();
+	const { authConstants, authClient } = getAuthContext();
 
 	// SvelteKit types
 	import type { Pathname } from '$app/types';
@@ -53,8 +56,8 @@
 	let passwordMode = $state<'login' | 'register'>('login');
 	let otpMode = $state<'login' | 'register'>('login');
 	let verifyContext = $state<'emailVerification' | 'magicLink'>('emailVerification');
-	let magicAutoSendPending = $state(false);
 	let magicLinkSent = $state(false);
+	let emailExistsRef = $state(false);
 
 	// Auth state
 	const auth = useAuth();
@@ -181,21 +184,68 @@
 		passwordMode = 'login';
 		otpMode = 'login';
 		verifyContext = 'emailVerification';
-		magicAutoSendPending = false;
 		magicLinkSent = false;
+		emailExistsRef = false;
 	}
 
 	/**
 	 * Handles method selection from email step
 	 */
-	function handleMethodSelect(method: EmailAuthMethod): void {
+	async function handleMethodSelect(method: EmailAuthMethod, emailExists: boolean): Promise<void> {
+		emailExistsRef = emailExists;
+
+		// Existing user + magic link: send directly, skip MagicLinkFlow UI
+		if (method === 'magicLink' && emailExists) {
+			await authClient.signIn.magicLink(
+				{
+					email,
+					callbackURL: getRedirectURL() || '/',
+					errorCallbackURL: '/signin?error=magic-link-failed'
+				},
+				{
+					onSuccess: () => {
+						verifyContext = 'magicLink';
+						magicLinkSent = true;
+						isSigningIn = true;
+						toast.success('Magic link sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('Magic link send error:', ctx.error);
+						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
+					}
+				}
+			);
+			return;
+		}
+
+		// Email OTP: send OTP directly while EmailStep button shows "Sending..."
+		if (method === 'emailOTP') {
+			let otpSendSuccess = false;
+			await authClient.emailOtp.sendVerificationOtp(
+				{ email, type: 'sign-in' },
+				{
+					onSuccess: () => {
+						otpSendSuccess = true;
+						toast.success('Verification code sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('OTP send error:', ctx.error);
+						toast.error(ctx.error.message || 'Failed to send verification code. Please try again.');
+					}
+				}
+			);
+			if (otpSendSuccess) {
+				otpMode = emailExists ? 'login' : 'register';
+				currentStep = 'email-otp-flow';
+			}
+			return;
+		}
+
 		// Navigate to the appropriate step based on method
 		switch (method) {
 			case 'password':
+				passwordMode = emailExists ? 'login' : 'register';
 				currentStep = 'password-flow';
-				break;
-			case 'emailOTP':
-				currentStep = 'email-otp-flow';
 				break;
 			case 'magicLink':
 				currentStep = 'magic-link-flow';
@@ -270,7 +320,7 @@
 </script>
 
 <div class={cn('mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8', className)}>
-	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
+	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent))}
 		<div class="flex flex-col">
 			<!-- Circle -->
 			<div class="mb-4 flex">
@@ -330,11 +380,11 @@
 				{:else if currentStep === 'password-flow'}
 					<PasswordFlow
 						{email}
+						emailExists={emailExistsRef}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						onModeChange={(m) => (passwordMode = m)}
 						callbackURL={getRedirectURL() || '/'}
 						onVerifyEmail={() => {
 							currentStep = 'verify-email';
@@ -345,11 +395,11 @@
 				{:else if currentStep === 'email-otp-flow'}
 					<EmailOtpFlow
 						{email}
+						emailExists={emailExistsRef}
 						onSuccess={handleAuthSuccess}
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						onModeChange={(m) => (otpMode = m)}
 					/>
 				{:else if currentStep === 'magic-link-flow'}
 					<MagicLinkFlow
@@ -362,14 +412,6 @@
 							verifyContext = 'magicLink';
 							magicLinkSent = true;
 							isSigningIn = true;
-						}}
-						onAutoSendChange={(pending) => {
-							if (pending) {
-								verifyContext = 'magicLink';
-								magicAutoSendPending = true;
-							} else {
-								magicAutoSendPending = false;
-							}
 						}}
 					/>
 				{/if}
