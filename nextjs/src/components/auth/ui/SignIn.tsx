@@ -9,6 +9,7 @@ import { redirect, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 // Icons
 import { SiGithub } from '@icons-pack/react-simple-icons';
+import { Mail } from 'lucide-react';
 
 // Utils
 import { cn } from '../../../lib/utils';
@@ -52,6 +53,7 @@ export default function SignIn({
 	const [email, setEmail] = useState('');
 	const [submitting, setSubmitting] = useState(false);
 	const [isSigningIn, setIsSigningIn] = useState(false);
+	const [magicLinkSent, setMagicLinkSent] = useState(false);
 
 	const getAvailableMethods = (): AuthMethod[] => {
 		const methods: AuthMethod[] = [];
@@ -103,7 +105,35 @@ export default function SignIn({
 		}
 	}, [isSigningIn, isAuthenticated, isLoading, onSignIn, handleRedirect]);
 
-	const handleMethodSelect = (method: AuthMethod) => {
+	const handleMethodSelect = async (
+		method: AuthMethod,
+		emailExists: boolean
+	): Promise<void> => {
+		// Existing user + magic link: send directly, skip MagicLinkFlow UI
+		if (method === 'magicLink' && emailExists) {
+			await authClient.signIn.magicLink(
+				{
+					email,
+					callbackURL: getRedirectURL() || '/',
+					errorCallbackURL: '/signin?error=magic-link-failed'
+				},
+				{
+					onSuccess: () => {
+						setMagicLinkSent(true);
+						setIsSigningIn(true);
+						toast.success('Magic link sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('Magic link send error:', ctx.error);
+						toast.error(
+							ctx.error.message || 'Failed to send magic link. Please try again.'
+						);
+					}
+				}
+			);
+			return;
+		}
+
 		switch (method) {
 			case 'password':
 				setCurrentStep('password-flow');
@@ -134,6 +164,7 @@ export default function SignIn({
 		setCurrentStep('email');
 		setEmail('');
 		setSubmitting(false);
+		setMagicLinkSent(false);
 	};
 
 	const renderCurrentStep = () => {
@@ -208,6 +239,39 @@ export default function SignIn({
 				return 'Plug & Play Auth Widgets for your application.';
 		}
 	};
+
+	if (magicLinkSent) {
+		return (
+			<div
+				className={cn(
+					'flex h-full w-full flex-col items-center justify-center p-8',
+					className
+				)}
+			>
+				<div className="flex h-full w-full max-w-md flex-col">
+					<div className="mb-4 flex">
+						<div className="bg-surface-200-800 flex h-16 w-16 items-center justify-center rounded-full">
+							<Mail className="text-surface-600-400 size-8" />
+						</div>
+					</div>
+					<h3 className="h5 w-full text-left leading-8">Check your email</h3>
+					<p className="text-surface-600-400 mt-2 text-sm">
+						We&apos;ve sent a magic link to <strong>{email}</strong>.
+					</p>
+					<p className="text-surface-600-400 pb-8 text-sm">
+						Click the link in your email to sign in instantly.
+					</p>
+					<button
+						type="button"
+						className="btn preset-filled-surface-300-700"
+						onClick={resetToEmailStep}
+					>
+						Use a different email
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className={cn('flex h-full w-full flex-col items-center justify-center p-8', className)}>

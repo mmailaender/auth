@@ -3,6 +3,9 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	// Svelte
+	import { toast } from 'svelte-sonner';
+
 	// API
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 
@@ -20,7 +23,7 @@
 
 	// Context
 	import { getAuthContext } from '$lib/auth/context.svelte';
-	const { authConstants } = getAuthContext();
+	const { authConstants, authClient } = getAuthContext();
 
 	// SvelteKit types
 	import type { Pathname } from '$app/types';
@@ -186,7 +189,31 @@
 	/**
 	 * Handles method selection from email step
 	 */
-	function handleMethodSelect(method: EmailAuthMethod): void {
+	async function handleMethodSelect(method: EmailAuthMethod, emailExists: boolean): Promise<void> {
+		// Existing user + magic link: send directly, skip MagicLinkFlow UI
+		if (method === 'magicLink' && emailExists) {
+			await authClient.signIn.magicLink(
+				{
+					email,
+					callbackURL: getRedirectURL() || '/',
+					errorCallbackURL: '/signin?error=magic-link-failed'
+				},
+				{
+					onSuccess: () => {
+						verifyContext = 'magicLink';
+						magicLinkSent = true;
+						isSigningIn = true;
+						toast.success('Magic link sent to your email!');
+					},
+					onError: (ctx) => {
+						console.error('Magic link send error:', ctx.error);
+						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
+					}
+				}
+			);
+			return;
+		}
+
 		// Navigate to the appropriate step based on method
 		switch (method) {
 			case 'password':

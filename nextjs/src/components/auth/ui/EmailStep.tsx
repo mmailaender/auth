@@ -15,7 +15,7 @@ type AuthMethod = 'password' | 'emailOTP' | 'magicLink';
 interface EmailStepProps {
 	email: string;
 	onEmailChange: (email: string) => void;
-	onMethodSelect: (method: AuthMethod) => void;
+	onMethodSelect: (method: AuthMethod, emailExists: boolean) => void | Promise<void>;
 	submitting: boolean;
 	availableMethods: AuthMethod[];
 }
@@ -29,6 +29,7 @@ export const EmailStep = ({
 	availableMethods
 }: EmailStepProps) => {
 	const [validatingEmail, setValidatingEmail] = useState(false);
+	const [validatingEmailMethod, setValidatingEmailMethod] = useState<AuthMethod | null>(null);
 	const checkEmailAvailabilityAndValidity = useAction(
 		api.users.actions.checkEmailAvailabilityAndValidity
 	);
@@ -55,29 +56,22 @@ export const EmailStep = ({
 			return;
 		}
 
-		// If only one method is available, go directly to that flow
-		if (availableMethods.length === 1) {
-			onMethodSelect(availableMethods[0]);
-			return;
-		}
-
-		// For password flow, we need to validate email first
-		if (method === 'password') {
-			setValidatingEmail(true);
-			try {
-				await checkEmailAvailabilityAndValidity({ email });
-				// This would typically determine login vs register, but for simplicity
-				// we'll just go to password flow
-				onMethodSelect('password');
-			} catch (error) {
-				toast.error('Failed to validate email. Please try again.');
-				console.error('Email validation error:', error);
-			} finally {
-				setValidatingEmail(false);
+		// Always validate the email before proceeding to any flow
+		setValidatingEmail(true);
+		setValidatingEmailMethod(method);
+		try {
+			const data = await checkEmailAvailabilityAndValidity({ email });
+			if (!data.valid) {
+				toast.error(data.reason || 'Please enter a valid email address.');
+				return;
 			}
-		} else {
-			// For other methods, go directly to the flow
-			onMethodSelect(method);
+			await onMethodSelect(method, data.exists);
+		} catch (error) {
+			toast.error('Failed to validate email. Please try again.');
+			console.error('Email validation error:', error);
+		} finally {
+			setValidatingEmail(false);
+			setValidatingEmailMethod(null);
 		}
 	};
 
@@ -108,7 +102,11 @@ export const EmailStep = ({
 					className="btn preset-filled w-full"
 					disabled={submitting || validatingEmail || !email}
 				>
-					{validatingEmail ? 'Verifying...' : getSingleMethodButtonText()}
+					{validatingEmail
+						? validatingEmailMethod === 'magicLink'
+							? 'Sending...'
+							: 'Verifying...'
+						: getSingleMethodButtonText()}
 				</button>
 			) : (
 				// Multiple methods available
@@ -120,7 +118,9 @@ export const EmailStep = ({
 							className="btn preset-filled w-full"
 							disabled={submitting || validatingEmail || !email}
 						>
-							{validatingEmail ? 'Verifying...' : 'Continue with Password'}
+							{validatingEmail && validatingEmailMethod === 'password'
+								? 'Verifying...'
+								: 'Continue with Password'}
 						</button>
 					)}
 
@@ -129,9 +129,11 @@ export const EmailStep = ({
 							type="button"
 							onClick={() => handleMethodClick('emailOTP')}
 							className="btn preset-tonal w-full"
-							disabled={submitting || !email}
+							disabled={submitting || validatingEmail || !email}
 						>
-							Continue with Email OTP
+							{validatingEmail && validatingEmailMethod === 'emailOTP'
+								? 'Verifying...'
+								: 'Continue with Email OTP'}
 						</button>
 					)}
 
@@ -140,9 +142,11 @@ export const EmailStep = ({
 							type="button"
 							onClick={() => handleMethodClick('magicLink')}
 							className="btn preset-tonal w-full"
-							disabled={submitting || !email}
+							disabled={submitting || validatingEmail || !email}
 						>
-							Continue with Magic Link
+							{validatingEmail && validatingEmailMethod === 'magicLink'
+								? 'Sending...'
+								: 'Continue with Magic Link'}
 						</button>
 					)}
 				</div>
