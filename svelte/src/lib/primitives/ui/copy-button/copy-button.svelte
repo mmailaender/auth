@@ -31,6 +31,7 @@
 </script>
 
 <button
+	bind:this={ref}
 	{...rest}
 	{tabindex}
 	class={cn(children ? 'btn hover:preset-tonal' : 'btn-icon hover:preset-tonal', className)}
