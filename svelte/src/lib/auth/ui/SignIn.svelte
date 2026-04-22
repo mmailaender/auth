@@ -53,7 +53,6 @@
 	let passwordMode = $state<'login' | 'register'>('login');
 	let otpMode = $state<'login' | 'register'>('login');
 	let verifyContext = $state<'emailVerification' | 'magicLink'>('emailVerification');
-	let magicAutoSendPending = $state(false);
 	let magicLinkSent = $state(false);
 
 	// Auth state
@@ -181,7 +180,6 @@
 		passwordMode = 'login';
 		otpMode = 'login';
 		verifyContext = 'emailVerification';
-		magicAutoSendPending = false;
 		magicLinkSent = false;
 	}
 
@@ -270,7 +268,7 @@
 </script>
 
 <div class={cn('mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8', className)}>
-	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && (magicAutoSendPending || magicLinkSent)))}
+	{#if authConstants.sendEmails && (currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent))}
 		<div class="flex flex-col">
 			<!-- Circle -->
 			<div class="mb-4 flex">
@@ -362,14 +360,6 @@
 							verifyContext = 'magicLink';
 							magicLinkSent = true;
 							isSigningIn = true;
-						}}
-						onAutoSendChange={(pending) => {
-							if (pending) {
-								verifyContext = 'magicLink';
-								magicAutoSendPending = true;
-							} else {
-								magicAutoSendPending = false;
-							}
 						}}
 					/>
 				{/if}

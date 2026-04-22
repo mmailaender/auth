@@ -14,7 +14,6 @@
 		onSubmittingChange: (submitting: boolean) => void;
 		callbackURL?: string;
 		onLinkSent?: () => void;
-		onAutoSendChange?: (pending: boolean) => void;
 	}
 
 	let {
@@ -23,8 +22,7 @@
 		submitting,
 		onSubmittingChange,
 		callbackURL = '/',
-		onLinkSent,
-		onAutoSendChange
+		onLinkSent
 	}: MagicLinkFlowProps = $props();
 
 	const client = useConvexClient();
@@ -39,12 +37,11 @@
 	}
 
 	$effect(() => {
-		if (linkSentRef.current || emailChecked) return;
+		if (linkSentRef.current) return;
 		linkSentRef.current = true;
 
 		const checkEmailAndSendMagicLink = async () => {
 			onSubmittingChange(true);
-			onAutoSendChange?.(true);
 
 			try {
 				const emailData = await client.action(api.users.actions.checkEmailAvailabilityAndValidity, {
@@ -53,9 +50,6 @@
 				if (!emailData.valid) {
 					toast.error(emailData.reason || 'Please enter a valid email address.');
 					onSubmittingChange(false);
-					onAutoSendChange?.(false);
-					linkSentRef.current = false;
-					emailChecked = false;
 					return;
 				}
 				setMode(emailData.exists ? 'login' : 'register');
@@ -73,30 +67,22 @@
 								linkSent = true;
 								onSubmittingChange(false);
 								toast.success('Magic link sent to your email!');
-								onAutoSendChange?.(false);
 								onLinkSent?.();
 							},
 							onError: (ctx) => {
 								console.error('Magic link send error:', ctx.error);
 								toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 								onSubmittingChange(false);
-								linkSentRef.current = false;
-								emailChecked = false;
-								onAutoSendChange?.(false);
 							}
 						}
 					);
 				} else {
 					onSubmittingChange(false);
-					onAutoSendChange?.(false);
 				}
 			} catch (error) {
 				console.error('Email validation error:', error);
 				toast.error('Failed to validate email. Please try again.');
 				onSubmittingChange(false);
-				linkSentRef.current = false;
-				emailChecked = false;
-				onAutoSendChange?.(false);
 			}
 		};
 
@@ -105,7 +91,6 @@
 
 	async function handleSendMagicLink(): Promise<void> {
 		onSubmittingChange(true);
-		onAutoSendChange?.(true);
 
 		try {
 			await authClient.signIn.magicLink(
@@ -121,14 +106,12 @@
 						linkSent = true;
 						onSubmittingChange(false);
 						toast.success('Magic link sent to your email!');
-						onAutoSendChange?.(false);
 						onLinkSent?.();
 					},
 					onError: (ctx) => {
 						console.error('Magic link send error:', ctx.error);
 						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 						onSubmittingChange(false);
-						onAutoSendChange?.(false);
 					}
 				}
 			);
@@ -136,7 +119,6 @@
 			console.error('Magic link error:', error);
 			toast.error('Failed to send magic link. Please try again.');
 			onSubmittingChange(false);
-			onAutoSendChange?.(false);
 		}
 	}
 
@@ -192,13 +174,22 @@
 		</button>
 	{/if}
 
-	{#if !emailChecked}
+	{#if !emailChecked && submitting}
 		<div class="flex items-center justify-center py-4">
 			<div class="flex items-center gap-2">
 				<div
 					class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
 				></div>
 				<span class="text-surface-600-400 text-sm">Checking email...</span>
+			</div>
+		</div>
+	{:else if mode === 'login' && emailChecked && submitting}
+		<div class="flex items-center justify-center py-4">
+			<div class="flex items-center gap-2">
+				<div
+					class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+				></div>
+				<span class="text-surface-600-400 text-sm">Sending magic link...</span>
 			</div>
 		</div>
 	{/if}

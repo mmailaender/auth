@@ -48,8 +48,7 @@ export const MagicLinkFlow = ({
 
 	// Check email availability and send magic link when component mounts
 	useEffect(() => {
-		// Prevent multiple checks and magic link sends
-		if (linkSentRef.current || emailChecked) return;
+		if (linkSentRef.current) return;
 		linkSentRef.current = true;
 
 		const checkEmailAndSendMagicLink = async () => {
@@ -79,9 +78,6 @@ export const MagicLinkFlow = ({
 								console.error('Magic link send error:', ctx.error);
 								toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 								onSubmittingChangeRef.current(false);
-								// Reset the refs on error so user can retry
-								linkSentRef.current = false;
-								setEmailChecked(false);
 							}
 						}
 					);
@@ -93,14 +89,11 @@ export const MagicLinkFlow = ({
 				console.error('Email validation error:', error);
 				toast.error('Failed to validate email. Please try again.');
 				onSubmittingChangeRef.current(false);
-				// Reset the refs on error so user can retry
-				linkSentRef.current = false;
-				setEmailChecked(false);
 			}
 		};
 
 		checkEmailAndSendMagicLink();
-	}, [email, emailChecked, checkEmailAvailabilityAndValidity, callbackURL]);
+	}, [email, checkEmailAvailabilityAndValidity, callbackURL]);
 
 	const handleSendMagicLink = async () => {
 		onSubmittingChange(true);
@@ -207,11 +200,20 @@ export const MagicLinkFlow = ({
 				</button>
 			)}
 
-			{!emailChecked && (
+			{!emailChecked && submitting && (
 				<div className="flex items-center justify-center py-4">
 					<div className="flex items-center gap-2">
 						<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
 						<span className="text-surface-600-400 text-sm">Checking email...</span>
+					</div>
+				</div>
+			)}
+
+			{mode === 'login' && emailChecked && submitting && (
+				<div className="flex items-center justify-center py-4">
+					<div className="flex items-center gap-2">
+						<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+						<span className="text-surface-600-400 text-sm">Sending magic link...</span>
 					</div>
 				</div>
 			)}
