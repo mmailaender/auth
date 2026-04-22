@@ -1,7 +1,7 @@
 'use client';
 
 // React
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 // Next.js
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ import { AlertTriangle } from 'lucide-react';
 
 type ResetState = 'loading' | 'valid-token' | 'invalid-token' | 'error';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const [state, setState] = useState<ResetState>('loading');
@@ -221,5 +221,13 @@ export default function ResetPasswordPage() {
 				<div className="flex flex-col justify-center">{renderContent()}</div>
 			</div>
 		</div>
+	);
+}
+
+export default function ResetPasswordPage() {
+	return (
+		<Suspense fallback={null}>
+			<ResetPasswordContent />
+		</Suspense>
 	);
 }

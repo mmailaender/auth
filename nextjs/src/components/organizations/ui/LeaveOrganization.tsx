@@ -39,7 +39,7 @@ export default function LeaveOrganization(): React.ReactNode {
 		members?.filter(
 			(member) =>
 				// Don't include the current user
-				member.id !== activeUser?.id
+				member.userId !== activeUser?._id
 		) || [];
 
 	/**

@@ -117,12 +117,12 @@ export default function Members(): React.ReactNode {
 	 */
 	const canEditMember = (member: Member): boolean => {
 		if (!isOwnerOrAdmin) return false;
-		if (member.id === activeUser?.id) return false;
+		if (member.userId === activeUser?._id) return false;
 		if (member.role === 'owner') return false;
 
 		// If current user is admin, they can't edit other admins
 		if (activeUser && members) {
-			const currentUserMember = members.find((m) => m.id === activeUser.id);
+			const currentUserMember = members.find((m) => m.userId === activeUser._id);
 			if (currentUserMember?.role === 'admin' && member.role === 'admin') {
 				return false;
 			}
@@ -261,7 +261,7 @@ export default function Members(): React.ReactNode {
 										<td className="!w-32">
 											<div className="flex items-center">
 												{isOwnerOrAdmin &&
-												member.id !== activeUser.id &&
+												member.userId !== activeUser._id &&
 												member.role !== 'owner' ? (
 													<select
 														value={member.role}
@@ -294,7 +294,7 @@ export default function Members(): React.ReactNode {
 										<td className="!w-16">
 											<div className="flex justify-end space-x-2">
 												{isOwnerOrAdmin &&
-													member.id !== activeUser?.id &&
+													member.userId !== activeUser?._id &&
 													member.role !== 'owner' && (
 														<Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 															<Dialog.Trigger
