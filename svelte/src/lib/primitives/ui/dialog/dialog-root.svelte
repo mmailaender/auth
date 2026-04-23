@@ -30,35 +30,10 @@
 				: `${fallbackId}-content`
 	});
 
-	function hasOpenDialogAboveCurrent() {
-		if (typeof document === 'undefined') return false;
-
-		const openPositioners = Array.from(
-			document.querySelectorAll<HTMLElement>(
-				'[data-scope="dialog"][data-part="positioner"][data-state="open"]'
-			)
-		).filter((element) => !element.hidden);
-
-		const currentIndex = openPositioners.findIndex(
-			(element) => element.id === resolvedIds.positioner
-		);
-
-		return currentIndex !== -1 && currentIndex < openPositioners.length - 1;
-	}
-
 	function handleInteractOutside(event: Parameters<NonNullable<ArkDialog.RootProps['onInteractOutside']>>[0]) {
-		// Only the top-most dialog should react to outside interactions.
-		// Without this, clicking a nested dialog backdrop can also dismiss the parent dialog.
-		if (hasOpenDialogAboveCurrent()) {
-			event.preventDefault();
-			return;
-		}
-
-		// Access the original DOM event from Ark UI's synthetic event
 		const originalEvent = event.detail?.originalEvent || event.detail;
 
-		if (originalEvent && originalEvent.target instanceof Element) {
-			// Prevent dialog dismissal when interacting with Sonner toasts.
+		if (originalEvent instanceof Event && originalEvent.target instanceof Element) {
 			const sonnerElement = originalEvent.target.closest('[data-sonner-toast]');
 			if (sonnerElement) {
 				event.preventDefault();
