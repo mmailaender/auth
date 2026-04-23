@@ -6,9 +6,8 @@ import { useState, FormEvent } from 'react';
 import { toast } from 'sonner';
 
 // API
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { authClient } from '../../../lib/auth/api/auth-client';
+import { useActiveOrganizationData } from '@/lib/auth/hooks';
 // API Types
 type Role = typeof authClient.$Infer.Member.role;
 
@@ -17,7 +16,7 @@ export default function InviteMembers({ onSuccess }: { onSuccess?: () => void })
 	const [selectedRole, setSelectedRole] = useState<Role>('member');
 	const [isProcessing, setIsProcessing] = useState(false);
 
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeOrganization = useActiveOrganizationData();
 
 	const handleInvite = async (event: FormEvent) => {
 		event.preventDefault();

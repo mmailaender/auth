@@ -39,7 +39,6 @@ type NextTypedRoute<T = Parameters<typeof Link>['0']['href']> = T extends string
 type Autocomplete<U extends T, T = string> = U | (T & Record<never, never>);
 
 type RouteMatcherWithNextTypedRoutes = Autocomplete<
-	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	WithPathPatternWildcard<NextTypedRoute> | NextTypedRoute
 >;
 

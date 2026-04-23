@@ -11,8 +11,6 @@ import { toast } from 'sonner';
 import { Search, Trash, Pencil } from 'lucide-react';
 
 // API Convex
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 // API Types
 type Member = typeof authClient.$Infer.Member;
 type Role = Member['role'];
@@ -20,6 +18,7 @@ type Role = Member['role'];
 // Hooks
 import { useRoles } from '@/components/organizations/api/hooks';
 import { authClient } from '../../../lib/auth/api/auth-client';
+import { useActiveOrganizationData, useActiveUserData } from '@/lib/auth/hooks';
 
 /**
  * Component that displays a list of organization members with role management functionality
@@ -33,8 +32,8 @@ export default function Members(): React.ReactNode {
 	const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
 	// Get current organization data
-	const activeUser = useQuery(api.users.queries.getActiveUser);
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeUser = useActiveUserData();
+	const activeOrganization = useActiveOrganizationData();
 	const isOwnerOrAdmin = useRoles().hasOwnerOrAdminRole;
 
 	// Get members data and mutations

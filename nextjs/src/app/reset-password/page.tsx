@@ -8,6 +8,7 @@ import Link from 'next/link';
 
 // Primitives
 import { toast } from 'sonner';
+import * as Password from '@/components/primitives/ui/password';
 
 // API
 import { authClient } from '../../lib/auth/api/auth-client';
@@ -123,32 +124,38 @@ function ResetPasswordContent() {
 					<form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
 						<div className="flex flex-col gap-2">
 							<label className="text-surface-950-50 text-sm font-medium">New Password</label>
-							<input
-								type="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="input preset-filled-surface-200"
-								placeholder="Enter your new password"
-								required
-								minLength={8}
-								disabled={isSubmitting}
-							/>
+							<Password.Root>
+								<Password.Input
+									value={password}
+									onChange={(event) => setPassword(event.currentTarget.value)}
+									className="preset-filled-surface-200"
+									placeholder="Enter your new password"
+									required
+									disabled={isSubmitting}
+								>
+									<Password.ToggleVisibility />
+								</Password.Input>
+								<Password.Error />
+								<Password.Strength />
+							</Password.Root>
 						</div>
 
 						<div className="flex flex-col gap-2">
 							<label className="text-surface-950-50 text-sm font-medium">
 								Confirm New Password
 							</label>
-							<input
-								type="password"
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
-								className="input preset-filled-surface-200"
-								placeholder="Confirm your new password"
-								required
-								minLength={8}
-								disabled={isSubmitting}
-							/>
+							<Password.Root minScore={0}>
+								<Password.Input
+									value={confirmPassword}
+									onChange={(event) => setConfirmPassword(event.currentTarget.value)}
+									className="preset-filled-surface-200"
+									placeholder="Confirm your new password"
+									required
+									disabled={isSubmitting}
+								>
+									<Password.ToggleVisibility />
+								</Password.Input>
+							</Password.Root>
 						</div>
 
 						<button type="submit" className="btn preset-filled w-full" disabled={isSubmitting}>

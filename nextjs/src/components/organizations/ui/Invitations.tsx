@@ -1,10 +1,9 @@
 import { useState, useMemo } from 'react';
 
 // API
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { useRoles } from '@/components/organizations/api/hooks';
 import { authClient } from '../../../lib/auth/api/auth-client';
+import { useInvitationListData } from '@/lib/auth/hooks';
 
 // Primitives
 import * as Dialog from '@/components/primitives/ui/dialog';
@@ -28,7 +27,7 @@ export default function Invitations(): React.ReactNode {
 	const isOwnerOrAdmin = useRoles().hasOwnerOrAdminRole;
 
 	// Get invitations data
-	const invitationList = useQuery(api.organizations.invitations.queries.listInvitations);
+	const invitationList = useInvitationListData();
 
 	/**
 	 * Filter invitations based on search query and only show pending invitations

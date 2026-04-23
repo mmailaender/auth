@@ -3,12 +3,11 @@
 // React
 import { useState, useCallback, useEffect } from 'react';
 // Nextjs
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Primitives
 import { toast } from 'sonner';
 // Icons
-import { SiGithub } from '@icons-pack/react-simple-icons';
 import { Mail } from 'lucide-react';
 
 // Utils
@@ -25,6 +24,7 @@ import { EmailStep } from './EmailStep';
 import { PasswordFlow } from './PasswordFlow';
 import { EmailOtpFlow } from './EmailOtpFlow';
 import { MagicLinkFlow } from './MagicLinkFlow';
+import { SocialFlow } from './SocialFlow';
 
 type AuthStep =
 	| 'email'
@@ -47,6 +47,7 @@ export default function SignIn({
 	onSignIn,
 	className
 }: SignInProps = {}) {
+	const router = useRouter();
 	const searchParams = useSearchParams();
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	const [currentStep, setCurrentStep] = useState<AuthStep>('email');
@@ -59,8 +60,8 @@ export default function SignIn({
 	const getAvailableMethods = (): AuthMethod[] => {
 		const methods: AuthMethod[] = [];
 		if (AUTH_CONSTANTS.providers.password) methods.push('password');
-		if (AUTH_CONSTANTS.providers.emailOTP) methods.push('emailOTP');
-		if (AUTH_CONSTANTS.providers.magicLink) methods.push('magicLink');
+		if (AUTH_CONSTANTS.providers.emailOTP && AUTH_CONSTANTS.sendEmails) methods.push('emailOTP');
+		if (AUTH_CONSTANTS.providers.magicLink && AUTH_CONSTANTS.sendEmails) methods.push('magicLink');
 		return methods;
 	};
 
@@ -77,15 +78,32 @@ export default function SignIn({
 		}
 
 		if (window.location.pathname.includes('/signin')) {
-			redirect('/');
+			return '/';
 		}
 	}, [redirectParam, searchParams]);
 
-	const handleRedirect = useCallback((): void => {
-		const url = getRedirectURL();
-		if (!url) return;
-		redirect(url);
-	}, [getRedirectURL]);
+	const handleRedirect = useCallback((): 'internal' | 'external' | 'none' => {
+		const redirectURL = getRedirectURL();
+		if (!redirectURL || typeof window === 'undefined') return 'none';
+
+		try {
+			const target = new URL(redirectURL, window.location.origin);
+			if (target.origin === window.location.origin) {
+				router.push(`${target.pathname}${target.search}${target.hash}`);
+				return 'internal';
+			}
+
+			window.location.assign(target.toString());
+			return 'external';
+		} catch {
+			if (redirectURL.startsWith('/')) {
+				router.push(redirectURL);
+				return 'internal';
+			}
+		}
+
+		return 'none';
+	}, [getRedirectURL, router]);
 
 	const handleAuthSuccess = () => {
 		console.log('Sign in successful, waiting for Convex auth sync...');
@@ -97,12 +115,13 @@ export default function SignIn({
 	// Monitor authentication state and redirect once Convex auth is synchronized
 	useEffect(() => {
 		if (isSigningIn && isAuthenticated && !isLoading) {
-			// User has been signed in and Convex auth state has synchronized
 			console.log('Convex auth synchronized, redirecting...');
 			onSignIn?.();
-			handleRedirect();
-			setSubmitting(false);
-			setIsSigningIn(false);
+			const redirectMode = handleRedirect();
+			if (redirectMode !== 'external') {
+				setSubmitting(false);
+				setIsSigningIn(false);
+			}
 		}
 	}, [isSigningIn, isAuthenticated, isLoading, onSignIn, handleRedirect]);
 
@@ -172,19 +191,6 @@ export default function SignIn({
 		}
 	};
 
-	const handleSocialSignIn = async (provider: string): Promise<void> => {
-		await authClient.signIn.social(
-			{ provider },
-			{
-				onSuccess: handleAuthSuccess,
-				onError: (ctx) => {
-					console.error('Social sign in error:', ctx.error);
-					toast.error('Failed to sign in with GitHub. Please try again.');
-				}
-			}
-		);
-	};
-
 	const resetToEmailStep = () => {
 		setCurrentStep('email');
 		setEmail('');
@@ -245,6 +251,12 @@ export default function SignIn({
 				return null;
 		}
 	};
+
+	const termsUrl = (AUTH_CONSTANTS.terms ?? '').trim();
+	const privacyUrl = (AUTH_CONSTANTS.privacy ?? '').trim();
+	const showTerms = Boolean(termsUrl);
+	const showPrivacy = Boolean(privacyUrl);
+	const showLegal = showTerms || showPrivacy;
 
 	const getStepTitle = () => {
 		switch (currentStep) {
@@ -314,43 +326,36 @@ export default function SignIn({
 				</p>
 
 				<div className="flex h-full w-full flex-col gap-8">
-					{/* Social Sign In */}
-					{AUTH_CONSTANTS.providers.github && currentStep === 'email' && (
-						<>
-							<button
-								className="btn preset-filled hover:border-surface-600-400 w-full shadow-sm"
-								onClick={() => handleSocialSignIn('github')}
-							>
-								<SiGithub className="size-5" />
-								Sign in with GitHub
-							</button>
-
-							{availableMethods.length > 0 && (
-								<div className="relative flex items-center">
-									<div className="border-surface-600-400 flex-1 border-t"></div>
-									<span className="text-surface-600-400 px-4">OR</span>
-									<div className="border-surface-600-400 flex-1 border-t"></div>
-								</div>
-							)}
-						</>
-					)}
+					<SocialFlow
+						show={currentStep === 'email'}
+						dividerAfter={availableMethods.length > 0}
+						callbackURL={getRedirectURL() || '/'}
+						onSuccess={handleAuthSuccess}
+						onSubmittingChange={setSubmitting}
+					/>
 
 					{/* Email-based Auth Methods */}
 					{availableMethods.length > 0 && renderCurrentStep()}
 				</div>
 
-				<div>
-					<p className="text-surface-600-400 mt-10 text-xs">
-						By continuing, you agree to our{' '}
-						<a href={AUTH_CONSTANTS.terms} className="anchor text-surface-950-50">
-							Terms
-						</a>{' '}
-						and{' '}
-						<a href={AUTH_CONSTANTS.privacy} className="anchor text-surface-950-50">
-							Privacy Policies
-						</a>
-					</p>
-				</div>
+				{showLegal ? (
+					<div>
+						<p className="text-surface-600-400 mt-10 text-xs">
+							By continuing, you agree to our{' '}
+							{showTerms ? (
+								<a href={termsUrl} className="anchor text-surface-950-50">
+									Terms
+								</a>
+							) : null}
+							{showTerms && showPrivacy ? ' and ' : null}
+							{showPrivacy ? (
+								<a href={privacyUrl} className="anchor text-surface-950-50">
+									Privacy Policies
+								</a>
+							) : null}
+						</p>
+					</div>
+				) : null}
 			</div>
 		</div>
 	);

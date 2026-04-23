@@ -10,10 +10,11 @@ import * as Dialog from '@/components/primitives/ui/dialog';
 
 // API
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery } from 'convex/react';
+import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useRoles } from '@/components/organizations/api/hooks';
 import { ConvexError } from 'convex/values';
+import { useActiveOrganizationData } from '@/lib/auth/hooks';
 
 /**
  * Component for deleting an organization
@@ -34,7 +35,7 @@ export default function DeleteOrganization({
 }) {
 	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeOrganization = useActiveOrganizationData();
 	const deleteOrganization = useMutation(api.organizations.mutations.deleteOrganization);
 	const isOwner = useRoles().hasOwnerRole;
 

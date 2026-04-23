@@ -1,8 +1,11 @@
-import type { NextConfig } from 'next';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
 	images: convexUrl
 		? {
 				remotePatterns: [
@@ -14,7 +17,7 @@ const nextConfig: NextConfig = {
 			}
 		: {},
 	turbopack: {
-		root: '../'
+		root: join(__dirname, '..')
 	}
 };
 

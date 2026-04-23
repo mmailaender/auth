@@ -1,14 +1,11 @@
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
+import { useOrganizationRoleData } from '@/lib/auth/hooks';
 
 export const useRoles = ({
 	orgId
 }: {
 	orgId?: string;
 } = {}) => {
-	const role = useQuery(api.organizations.queries.getOrganizationRole, {
-		organizationId: orgId
-	});
+	const role = useOrganizationRoleData(orgId);
 
 	return {
 		get hasOwnerRole() {

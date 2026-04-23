@@ -5,10 +5,11 @@ import * as Dialog from '@/components/primitives/ui/dialog';
 import { toast } from 'sonner';
 
 // API
-import { useMutation, useQuery } from 'convex/react';
+import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/convex/_generated/api';
 import { useRoles } from '@/components/organizations/api/hooks';
+import { useActiveOrganizationData, useActiveUserData } from '@/lib/auth/hooks';
 
 // API Types
 import { ConvexError } from 'convex/values';
@@ -23,8 +24,8 @@ export default function LeaveOrganization(): React.ReactNode {
 	const [selectedSuccessor, setSelectedSuccessor] = useState<string | null>(null);
 
 	// Convex queries and mutations
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
-	const activeUser = useQuery(api.users.queries.getActiveUser);
+	const activeOrganization = useActiveOrganizationData();
+	const activeUser = useActiveUserData();
 	const members = activeOrganization?.members;
 	const leaveOrganization = useMutation(api.organizations.members.mutations.leaveOrganization);
 

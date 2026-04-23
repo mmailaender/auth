@@ -16,7 +16,7 @@ const requireOneEnv = (...names: string[]) => {
 	throw new Error(`${names.join(' or ')} must be set.`);
 };
 
-export const { fetchAuthQuery, handler } = convexBetterAuthNextJs({
+export const { fetchAuthQuery, getToken, handler } = convexBetterAuthNextJs({
 	convexUrl: requireEnv('NEXT_PUBLIC_CONVEX_URL'),
 	convexSiteUrl: requireOneEnv('NEXT_PUBLIC_CONVEX_SITE_URL', 'CONVEX_SITE_URL')
 });

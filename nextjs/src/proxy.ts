@@ -33,7 +33,7 @@ const withRedirect = (to: string, request: NextRequest) => {
 /* ---------------------- main handler --------------------- */
 /* --------------------------------------------------------- */
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 	const sessionCookie = getSessionCookie(request);
 	// /* ---------- 1. Handle public routes first ---------- */
 	if (isPublic(request)) {
@@ -56,7 +56,6 @@ export async function middleware(request: NextRequest) {
 /* --------------------------------------------------------- */
 
 export const config = {
-	// The following matcher runs middleware on all routes
-	// except static assets.
+	// The following matcher runs proxy on all routes except static assets.
 	matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
 };

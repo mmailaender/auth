@@ -1,101 +1,98 @@
 'use client';
 
-// React
 import { ComponentProps, useState } from 'react';
-
-// Primitives
-import * as Popover from '@/components/primitives/ui/popover';
-import * as Dialog from '@/components/primitives/ui/dialog';
-import * as Avatar from '@/components/primitives/ui/avatar';
-// Icons
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react';
 import { ChevronRight } from 'lucide-react';
-// Components
-import UserProfile from '@/components/users/ui/UserProfile';
+
+import * as Avatar from '@/components/primitives/ui/avatar';
+import * as Dialog from '@/components/primitives/ui/dialog';
+import * as Popover from '@/components/primitives/ui/popover';
 import SignIn from '@/components/auth/ui/SignIn';
-
-// API
-import { Authenticated, Unauthenticated, useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import SignOutButton from '@/components/auth/ui/SignOutButton';
+import { DIALOG_KEY } from '@/components/users/utils/user.constants';
+import { useActiveUserData } from '@/lib/auth/hooks';
 
-// Types
-type PopoverProps = ComponentProps<typeof Popover.Content>;
+type PopoverRootProps = ComponentProps<typeof Popover.Root>;
 
 export default function UserButton({
-	popoverSide = 'bottom',
-	popoverAlign = 'end'
+	popoverPlacement = 'bottom-end'
 }: {
-	/** Side the popover appears on relative to the trigger */
-	popoverSide?: PopoverProps['side'];
-	/** Alignment of the popover relative to the trigger */
-	popoverAlign?: PopoverProps['align'];
+	popoverPlacement?: NonNullable<PopoverRootProps['positioning']>['placement'];
 }) {
-	// Queries
-	const user = useQuery(api.users.queries.getActiveUser);
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const { isAuthenticated } = useConvexAuth();
+	const user = useActiveUserData();
 
-	// State
 	const [userPopoverOpen, setUserPopoverOpen] = useState(false);
-	const [profileDialogOpen, setProfileDialogOpen] = useState(false);
 	const [signInDialogOpen, setSignInDialogOpen] = useState(false);
+	const [signInKey, setSignInKey] = useState(0);
+	const [avatarStatus, setAvatarStatus] = useState('');
 
-	/**
-	 * Open profile modal and close popover
-	 */
-	function openProfileModal(): void {
+	function openProfileModal() {
 		setUserPopoverOpen(false);
-		setProfileDialogOpen(true);
+		const params = new URLSearchParams(searchParams.toString());
+		if (params.get('dialog') !== DIALOG_KEY) {
+			params.set('dialog', DIALOG_KEY);
+			router.push(`${pathname}?${params.toString()}`, { scroll: false });
+		}
 	}
 
 	return (
 		<>
 			<Authenticated>
 				{user ? (
-					<>
-						<Popover.Root open={userPopoverOpen} onOpenChange={setUserPopoverOpen}>
-							<Popover.Trigger>
-								<Avatar.Root className="ring-surface-100-900 size-10 ring-0 duration-200 ease-out hover:ring-4">
-									<Avatar.Image src={user.image as string | undefined} alt={user.name} />
-									<Avatar.Fallback>
+					<Popover.Root
+						open={userPopoverOpen}
+						onOpenChange={setUserPopoverOpen}
+						positioning={{
+							placement: popoverPlacement,
+							strategy: 'absolute',
+							offset: { mainAxis: 8, crossAxis: 0 }
+						}}
+					>
+						<Popover.Trigger>
+							<Avatar.Root
+								className="ring-surface-100-900 size-9 ring-0 duration-200 ease-out hover:ring-4"
+								onStatusChange={(details) => setAvatarStatus(details.status)}
+							>
+								<Avatar.Image src={user.image ?? undefined} alt={user.name} />
+								<Avatar.Fallback>
+									{avatarStatus === 'loading' ? (
+										<div className="placeholder-circle size-10 animate-pulse" />
+									) : (
 										<Avatar.Marble name={user.name} />
-									</Avatar.Fallback>
-								</Avatar.Root>
-							</Popover.Trigger>
-							<Popover.Content side={popoverSide} align={popoverAlign}>
-								<div className="flex flex-col gap-1 p-0">
-									<button
-										className="bg-surface-50-950 hover:bg-surface-100-900 rounded-container flex flex-row items-center gap-3 p-3 pr-6 duration-200 ease-in-out"
-										onClick={openProfileModal}
-									>
-										<Avatar.Root className="size-12">
-											<Avatar.Image src={user.image as string | undefined} alt={user.name} />
-											<Avatar.Fallback>
-												<Avatar.Marble name={user.name} />
-											</Avatar.Fallback>
-										</Avatar.Root>
-										<div className="flex flex-1 flex-col gap-0 overflow-hidden">
-											<p className="truncate text-left text-base font-medium">{user.name}</p>
-											<p className="text-surface-700-300 truncate text-left text-xs">
-												{user.email}
-											</p>
-										</div>
-										<ChevronRight className="size-4" />
-									</button>
-									<SignOutButton onSuccess={() => setUserPopoverOpen(false)} />
-								</div>
-							</Popover.Content>
-						</Popover.Root>
-
-						{/* ProfileInfo Popup */}
-						<Dialog.Root open={profileDialogOpen} onOpenChange={setProfileDialogOpen}>
-							<Dialog.Content className="md:rounded-container top-0 left-0 h-full max-h-full w-full max-w-full translate-x-0 translate-y-0 rounded-none md:top-[50%] md:left-[50%] md:h-auto md:max-h-[80vh] md:w-auto md:max-w-xl md:translate-x-[-50%] md:translate-y-[-50%]">
-								<Dialog.Header>
-									<Dialog.Title>Profile</Dialog.Title>
-								</Dialog.Header>
-								<UserProfile />
-								<Dialog.CloseX />
-							</Dialog.Content>
-						</Dialog.Root>
-					</>
+									)}
+								</Avatar.Fallback>
+							</Avatar.Root>
+						</Popover.Trigger>
+						<Popover.Content>
+							<div className="flex flex-col gap-1 p-0">
+								<button
+									className="bg-surface-50-950 hover:bg-surface-100-900 rounded-container flex flex-row items-center gap-4 p-3 pr-6 duration-200 ease-in-out"
+									onClick={openProfileModal}
+								>
+									<Avatar.Root className="size-12">
+										<Avatar.Image src={user.image ?? undefined} alt={user.name} />
+										<Avatar.Fallback>
+											<Avatar.Marble name={user.name} />
+										</Avatar.Fallback>
+									</Avatar.Root>
+									<div className="flex flex-1 flex-col gap-0 overflow-hidden">
+										<p className="truncate text-left text-sm font-medium">{user.name}</p>
+										<p className="truncate text-left text-xs opacity-75">{user.email}</p>
+									</div>
+									<ChevronRight className="size-4" />
+								</button>
+								<SignOutButton
+									onSuccess={() => setUserPopoverOpen(false)}
+									className="btn preset-faded-surface-50-950 hover:bg-surface-200-800 h-10 justify-between gap-1 text-sm"
+								/>
+							</div>
+						</Popover.Content>
+					</Popover.Root>
 				) : (
 					<div className="placeholder-circle size-10 animate-pulse" />
 				)}
@@ -105,14 +102,17 @@ export default function UserButton({
 					Sign in
 				</button>
 			</Unauthenticated>
+			{!isAuthenticated && user === undefined ? <div className="placeholder-circle size-10 animate-pulse" /> : null}
 
-			{/* SignIn Dialog - Outside of auth wrappers to prevent disappearing during registration */}
-			<Dialog.Root open={signInDialogOpen} onOpenChange={setSignInDialogOpen}>
-				<Dialog.Content className="sm:rounded-container h-full w-full rounded-none sm:h-auto sm:w-4xl sm:max-w-md">
-					<Dialog.Header>
-						<Dialog.Title>Sign in</Dialog.Title>
-					</Dialog.Header>
-					<SignIn onSignIn={() => setSignInDialogOpen(false)} className="p-2 sm:p-8" />
+			<Dialog.Root
+				open={signInDialogOpen}
+				onOpenChange={(nextOpen) => {
+					setSignInDialogOpen(nextOpen);
+					if (!nextOpen) setSignInKey((key) => key + 1);
+				}}
+			>
+				<Dialog.Content className="sm:rounded-container h-full max-h-[100dvh] w-full rounded-none sm:h-auto sm:max-h-[90vh] sm:w-4xl sm:max-w-md">
+					<SignIn key={signInKey} onSignIn={() => setSignInDialogOpen(false)} className="p-2 sm:p-8" />
 					<Dialog.CloseX />
 				</Dialog.Content>
 			</Dialog.Root>
