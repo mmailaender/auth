@@ -18,7 +18,7 @@
 			return;
 		}
 
-		userCode = page.params.code ?? '';
+		userCode = page.url.searchParams.get('user_code') ?? '';
 		if (!userCode) {
 			verifyError = 'Missing code';
 			return;

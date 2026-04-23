@@ -83,7 +83,7 @@ export default function DeviceAuthorization({ code }: { code: string }) {
 			{!AUTH_CONSTANTS.deviceAuthorization ? (
 				<p className="opacity-80">Device authorization is not enabled.</p>
 			) : verifyLoading ? (
-				<p className="opacity-80">Verifying your code...</p>
+				<p className="opacity-80">Verifying your code…</p>
 			) : verifyError ? (
 				<>
 					<div className="rounded-container bg-error-50-950 text-error-contrast-50-950 mb-4 p-3">
@@ -123,14 +123,14 @@ export default function DeviceAuthorization({ code }: { code: string }) {
 							onClick={handleDeny}
 							disabled={!!actionLoading}
 						>
-							{actionLoading === 'deny' ? 'Denying...' : 'Deny'}
+							{actionLoading === 'deny' ? 'Denying…' : 'Deny'}
 						</button>
 						<button
 							className="btn preset-filled-primary-500"
 							onClick={handleApprove}
 							disabled={!!actionLoading}
 						>
-							{actionLoading === 'approve' ? 'Approving...' : 'Approve'}
+							{actionLoading === 'approve' ? 'Approving…' : 'Approve'}
 						</button>
 					</div>
 				</>

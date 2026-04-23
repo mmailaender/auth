@@ -71,10 +71,13 @@ export const MagicLinkFlow = ({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+		<form onSubmit={handleSubmit} autoComplete="off" className="flex flex-col gap-4">
 			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Email</label>
+				<label className="label" htmlFor="email">
+					Email
+				</label>
 				<input
+					id="email"
 					type="email"
 					value={email}
 					disabled
@@ -82,14 +85,18 @@ export const MagicLinkFlow = ({
 				/>
 			</div>
 
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Full Name</label>
+			<div className="flex flex-col">
+				<label className="label" htmlFor="name">
+					Full Name
+				</label>
 				<input
+					id="name"
 					type="text"
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					className="input preset-filled-surface-200"
 					placeholder="Enter your full name"
+					autoComplete="name"
 					required
 					disabled={submitting || linkSent}
 				/>
@@ -110,12 +117,7 @@ export const MagicLinkFlow = ({
 				)}
 			</button>
 
-			<button
-				type="button"
-				className="anchor text-center text-sm"
-				onClick={onBack}
-				disabled={submitting}
-			>
+			<button type="button" className="btn" onClick={onBack} disabled={submitting}>
 				Use a different email
 			</button>
 		</form>

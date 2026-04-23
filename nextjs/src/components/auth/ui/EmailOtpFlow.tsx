@@ -98,35 +98,46 @@ export const EmailOtpFlow = ({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Email</label>
+		<form onSubmit={handleSubmit} autoComplete="off" className="flex flex-col gap-8">
+			<div className="flex flex-col gap-5">
+				<div className="flex flex-col">
+					<label className="label" htmlFor="email">
+						Email
+					</label>
 				<input
+					id="email"
 					type="email"
 					value={email}
 					disabled
 					className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
 				/>
-			</div>
+				</div>
 
-			{mode === 'register' && (
-				<div className="flex flex-col gap-2">
-					<label className="text-surface-950-50 text-sm font-medium">Full Name</label>
+				{mode === 'register' && (
+					<div className="flex flex-col">
+						<label className="label" htmlFor="name">
+							Full Name
+						</label>
 					<input
+						id="name"
 						type="text"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						className="input preset-filled-surface-200"
 						placeholder="Enter your full name"
+						autoComplete="name"
 						required
 						disabled={submitting}
 					/>
-				</div>
-			)}
+					</div>
+				)}
 
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Verification Code</label>
+				<div className="flex flex-col">
+					<label className="label" htmlFor="otp">
+						Verification Code
+					</label>
 				<input
+					id="otp"
 					type="text"
 					value={otp}
 					onChange={(e) => setOtp(e.target.value)}
@@ -134,37 +145,36 @@ export const EmailOtpFlow = ({
 					placeholder="Enter verification code"
 					pattern="[0-9]*"
 					inputMode="numeric"
+					autoComplete="one-time-code"
 					maxLength={6}
 					required
 					disabled={submitting}
 				/>
 			</div>
+			</div>
 
-			<button
-				type="submit"
-				className="btn preset-filled w-full"
-				disabled={submitting || !otp.trim() || (mode === 'register' && !name.trim())}
-			>
-				{submitting ? (
-					<div className="flex items-center gap-2">
-						<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-						{mode === 'register' ? 'Creating account...' : 'Verifying...'}
-					</div>
-				) : mode === 'register' ? (
-					'Create Account'
-				) : (
-					'Verify Code'
-				)}
-			</button>
+			<div className="flex flex-col gap-2">
+				<button
+					type="submit"
+					className="btn preset-filled w-full"
+					disabled={submitting || !otp.trim() || (mode === 'register' && !name.trim())}
+				>
+					{submitting ? (
+						<div className="flex items-center gap-2">
+							<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+							{mode === 'register' ? 'Creating account...' : 'Verifying...'}
+						</div>
+					) : mode === 'register' ? (
+						'Create Account'
+					) : (
+						'Verify Code'
+					)}
+				</button>
 
-			<button
-				type="button"
-				className="anchor text-center text-sm"
-				onClick={onBack}
-				disabled={submitting}
-			>
-				Use a different email
-			</button>
+				<button type="button" className="btn" onClick={onBack} disabled={submitting}>
+					Use a different email
+				</button>
+			</div>
 		</form>
 	);
 };

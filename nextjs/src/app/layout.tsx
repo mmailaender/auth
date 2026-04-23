@@ -71,18 +71,20 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en" data-theme="auth">
-			<body className={`grid h-screen grid-rows-[auto_1fr] antialiased`}>
+			<body className="antialiased">
 				<ConvexClientProvider initialToken={initialToken ?? null} initialData={initialData}>
-					<div className="flex items-center justify-between gap-5 p-4">
-						<Link href="/" className="mr-auto text-2xl font-bold text-white">
-							Next.js
-						</Link>
-						{AUTH_CONSTANTS.organizations ? <OrganizationSwitcher /> : null}
-						<UserButton />
+					<div className="flex min-h-[100dvh] flex-col">
+						<header className="flex items-center justify-between gap-5 p-4">
+							<Link href="/" className="mr-auto text-2xl font-bold text-white">
+								Next.js
+							</Link>
+							{AUTH_CONSTANTS.organizations ? <OrganizationSwitcher /> : null}
+							<UserButton />
+						</header>
+						<main>{children}</main>
 					</div>
 					{AUTH_CONSTANTS.organizations ? <OrganizationProfileHost /> : null}
 					<UserProfileHost />
-					{children}
 				</ConvexClientProvider>
 				<Toaster position="top-center" />
 			</body>

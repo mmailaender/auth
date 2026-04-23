@@ -317,23 +317,25 @@ export default function SignIn({
 		}
 	};
 
-	if (
+	const showEmailSentState =
 		AUTH_CONSTANTS.sendEmails &&
-		(currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent))
-	) {
-		return (
-			<div
-				className={cn(
-					'flex h-full w-full flex-col items-center justify-center p-8',
-					className
-				)}
-			>
-				<div className="flex h-full w-full max-w-md flex-col">
+		(currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent));
+
+	return (
+		<div
+			className={cn(
+				'mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8',
+				className
+			)}
+		>
+			{showEmailSentState ? (
+				<div className="flex flex-col">
 					<div className="mb-4 flex">
 						<div className="bg-surface-200-800 flex h-16 w-16 items-center justify-center rounded-full">
 							<Mail className="text-surface-600-400 size-8" />
 						</div>
 					</div>
+
 					<h3 className="h5 w-full text-left leading-8">Check your email</h3>
 					<p className="text-surface-600-400 mt-2 text-sm">
 						{verifyContext === 'magicLink' ? (
@@ -351,6 +353,7 @@ export default function SignIn({
 							? 'Click the link in your email to sign in instantly.'
 							: "Click the link to verify your email. You'll be signed in automatically after verification."}
 					</p>
+
 					<button
 						type="button"
 						className="btn preset-filled-surface-300-700"
@@ -359,53 +362,46 @@ export default function SignIn({
 						Use a different email
 					</button>
 				</div>
-			</div>
-		);
-	}
-
-	return (
-		<div
-			className={cn(
-				'mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8',
-				className
-			)}
-		>
-			<h5 className="h5 w-full text-left leading-8">{getStepTitle()}</h5>
-			<p className="text-surface-600-400 mt-2 max-w-96 pb-16 text-left text-sm sm:pb-12">
+			) : (
+				<>
+					<h5 className="h5 w-full text-left leading-8">{getStepTitle()}</h5>
+					<p className="text-surface-600-400 mt-2 max-w-96 pb-16 text-left text-sm sm:pb-12">
 					{getStepDescription()}
-			</p>
-
-			<div className="flex h-full w-full flex-col gap-6">
-				<SocialFlow
-					show={currentStep === 'email'}
-					dividerAfter={availableMethods.length > 0}
-					callbackURL={getRedirectURL() || '/'}
-					onSuccess={handleAuthSuccess}
-					onSubmittingChange={setSubmitting}
-				/>
-
-				{/* Email-based Auth Methods */}
-				{availableMethods.length > 0 && renderCurrentStep()}
-			</div>
-
-			{showLegal ? (
-				<div>
-					<p className="text-surface-600-400 mt-10 text-xs">
-						By continuing, you agree to our{' '}
-						{showTerms ? (
-							<a href={termsUrl} className="anchor text-surface-950-50">
-								Terms
-							</a>
-						) : null}
-						{showTerms && showPrivacy ? ' and ' : null}
-						{showPrivacy ? (
-							<a href={privacyUrl} className="anchor text-surface-950-50">
-								Privacy Policies
-							</a>
-						) : null}
 					</p>
-				</div>
-			) : null}
+
+					<div className="flex h-full w-full flex-col gap-6">
+						<SocialFlow
+							show={currentStep === 'email'}
+							dividerAfter={availableMethods.length > 0}
+							callbackURL={getRedirectURL() || '/'}
+							onSuccess={handleAuthSuccess}
+							onSubmittingChange={setSubmitting}
+						/>
+
+						{/* Email-based Auth Methods */}
+						{availableMethods.length > 0 && renderCurrentStep()}
+					</div>
+
+					{showLegal ? (
+						<div>
+							<p className="text-surface-600-400 mt-10 text-xs">
+						By continuing, you agree to our{' '}
+								{showTerms ? (
+									<a href={termsUrl} className="anchor text-surface-950-50">
+										Terms
+									</a>
+								) : null}
+								{showTerms && showPrivacy ? ' and ' : null}
+								{showPrivacy ? (
+									<a href={privacyUrl} className="anchor text-surface-950-50">
+										Privacy Policies
+									</a>
+								) : null}
+							</p>
+						</div>
+					) : null}
+				</>
+			)}
 		</div>
 	);
 }
