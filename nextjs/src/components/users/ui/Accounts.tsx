@@ -30,7 +30,7 @@ import {
 	SiX,
 	SiZoom
 } from '@icons-pack/react-simple-icons';
-import { useConvexAuth, useMutation } from 'convex/react';
+import { useMutation } from 'convex/react';
 import { ConvexError } from 'convex/values';
 import { KeyRound, Lock, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -117,7 +117,6 @@ function mapLinkErrorMessage(code: string) {
 }
 
 export default function Accounts() {
-	const { isAuthenticated } = useConvexAuth();
 	const searchParams = useSearchParams();
 	const mobileState = useMobileState();
 	const clientSetPassword = useMutation(api.users.mutations.setPassword);

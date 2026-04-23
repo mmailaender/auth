@@ -56,6 +56,9 @@ export default function SignIn({
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const [magicLinkSent, setMagicLinkSent] = useState(false);
 	const [emailExists, setEmailExists] = useState(false);
+	const [verifyContext, setVerifyContext] = useState<'emailVerification' | 'magicLink'>(
+		'emailVerification'
+	);
 
 	const getAvailableMethods = (): AuthMethod[] => {
 		const methods: AuthMethod[] = [];
@@ -125,6 +128,23 @@ export default function SignIn({
 		}
 	}, [isSigningIn, isAuthenticated, isLoading, onSignIn, handleRedirect]);
 
+	useEffect(() => {
+		const availableMethodSet = new Set(availableMethods);
+		const isPasswordFlow = currentStep === 'password-flow';
+		const isOtpFlow = currentStep === 'email-otp-flow';
+		const isMagicLinkFlow = currentStep === 'magic-link-flow';
+		const isVerifyEmail = currentStep === 'verify-email';
+
+		if (!AUTH_CONSTANTS.sendEmails && (isVerifyEmail || isMagicLinkFlow || isOtpFlow)) {
+			resetToEmailStep();
+			return;
+		}
+
+		if (isPasswordFlow && !availableMethodSet.has('password')) resetToEmailStep();
+		if (isOtpFlow && !availableMethodSet.has('emailOTP')) resetToEmailStep();
+		if (isMagicLinkFlow && !availableMethodSet.has('magicLink')) resetToEmailStep();
+	}, [availableMethods, currentStep]);
+
 	const handleMethodSelect = async (
 		method: AuthMethod,
 		exists: boolean
@@ -141,6 +161,7 @@ export default function SignIn({
 				},
 				{
 					onSuccess: () => {
+						setVerifyContext('magicLink');
 						setMagicLinkSent(true);
 						setIsSigningIn(true);
 						toast.success('Magic link sent to your email!');
@@ -191,13 +212,14 @@ export default function SignIn({
 		}
 	};
 
-	const resetToEmailStep = () => {
+	function resetToEmailStep() {
 		setCurrentStep('email');
 		setEmail('');
 		setSubmitting(false);
 		setMagicLinkSent(false);
 		setEmailExists(false);
-	};
+		setVerifyContext('emailVerification');
+	}
 
 	const renderCurrentStep = () => {
 		switch (currentStep) {
@@ -217,9 +239,14 @@ export default function SignIn({
 						email={email}
 						emailExists={emailExists}
 						onSuccess={handleAuthSuccess}
+						onVerifyEmail={() => {
+							setVerifyContext('emailVerification');
+							setCurrentStep('verify-email');
+						}}
 						onBack={resetToEmailStep}
 						submitting={submitting}
 						onSubmittingChange={setSubmitting}
+						callbackURL={getRedirectURL() || '/'}
 					/>
 				);
 			case 'email-otp-flow':
@@ -261,30 +288,39 @@ export default function SignIn({
 	const getStepTitle = () => {
 		switch (currentStep) {
 			case 'password-flow':
-				return 'Sign in with password';
+				return emailExists ? 'Sign in with password' : 'Create account with password';
 			case 'email-otp-flow':
-				return 'Sign in with verification code';
+				return emailExists
+					? 'Sign in with verification code'
+					: 'Create account with verification code';
 			case 'magic-link-flow':
 				return 'Sign in with magic link';
 			default:
-				return 'Self hosted Auth in Minutes';
+				return `Sign in into ${(AUTH_CONSTANTS.brandName ?? 'self hosted Auth').trim()}`;
 		}
 	};
 
 	const getStepDescription = () => {
 		switch (currentStep) {
 			case 'password-flow':
-				return 'Enter your password to continue.';
+				return emailExists ? 'Enter your password to continue.' : 'Create a password to continue.';
 			case 'email-otp-flow':
-				return "We'll send a verification code to your email address.";
+				return emailExists
+					? 'Enter the verification code we sent to your email address.'
+					: 'Enter the verification code we sent to your email address.';
 			case 'magic-link-flow':
 				return "We'll send a magic link to your email address.";
 			default:
-				return 'Plug & Play Auth Widgets for your application.';
+				return (
+					AUTH_CONSTANTS.brandTagline ?? 'Plug & Play Auth Widgets for your application.'
+				).trim();
 		}
 	};
 
-	if (magicLinkSent) {
+	if (
+		AUTH_CONSTANTS.sendEmails &&
+		(currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent))
+	) {
 		return (
 			<div
 				className={cn(
@@ -300,10 +336,20 @@ export default function SignIn({
 					</div>
 					<h3 className="h5 w-full text-left leading-8">Check your email</h3>
 					<p className="text-surface-600-400 mt-2 text-sm">
-						We&apos;ve sent a magic link to <strong>{email}</strong>.
+						{verifyContext === 'magicLink' ? (
+							<>
+								We&apos;ve sent a magic link to <strong>{email}</strong>.
+							</>
+						) : (
+							<>
+								We&apos;ve sent a verification link to <strong>{email}</strong>.
+							</>
+						)}
 					</p>
 					<p className="text-surface-600-400 pb-8 text-sm">
-						Click the link in your email to sign in instantly.
+						{verifyContext === 'magicLink'
+							? 'Click the link in your email to sign in instantly.'
+							: "Click the link to verify your email. You'll be signed in automatically after verification."}
 					</p>
 					<button
 						type="button"

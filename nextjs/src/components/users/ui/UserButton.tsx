@@ -2,7 +2,7 @@
 
 import { ComponentProps, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react';
+import { Authenticated, Unauthenticated, useConvexAuth } from 'convex/react';
 import { ChevronRight } from 'lucide-react';
 
 import * as Avatar from '@/components/primitives/ui/avatar';

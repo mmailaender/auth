@@ -7,12 +7,13 @@ import {
 	useId,
 	useMemo,
 	useRef,
+	useCallback,
 	useState,
 	type ReactNode
 } from 'react';
-import EasyCropper, { type Area, type CropArea, type Point } from 'react-easy-crop';
+import EasyCropper, { type Area, type Point } from 'react-easy-crop';
 
-import * as Dialog from '@/components/primitives/ui/dialog';
+import * as DialogPrimitive from '@/components/primitives/ui/dialog';
 import { cn } from '@/lib/utils';
 
 export const VALID_IMAGE_TYPES = [
@@ -49,7 +50,7 @@ const getRadianAngle = (degreeValue: number) => (degreeValue * Math.PI) / 180;
 
 export const getCroppedImg = async (
 	imageSrc: string,
-	pixelCrop: CropArea,
+	pixelCrop: Area,
 	rotation = 0
 ): Promise<string> => {
 	const image = await createImage(imageSrc);
@@ -135,22 +136,24 @@ export function Root({
 	const [open, setOpen] = useState(false);
 	const [tempUrl, setTempUrl] = useState<string>();
 	const [pixelCrop, setPixelCrop] = useState<Area>();
+	void src;
 
 	useEffect(() => {
+		const createdUrls = createdUrlsRef.current;
 		return () => {
-			for (const url of createdUrlsRef.current) {
+			for (const url of createdUrls) {
 				URL.revokeObjectURL(url);
 			}
 		};
 	}, []);
 
-	const handleCancel = () => {
+	const handleCancel = useCallback(() => {
 		setTempUrl(undefined);
 		setPixelCrop(undefined);
 		setOpen(false);
-	};
+	}, []);
 
-	const handleUpload = (file: File) => {
+	const handleUpload = useCallback((file: File) => {
 		if (!VALID_IMAGE_TYPES.includes(file.type as (typeof VALID_IMAGE_TYPES)[number])) {
 			onUnsupportedFile?.(file);
 			return;
@@ -160,9 +163,9 @@ export function Root({
 		createdUrlsRef.current.push(nextTempUrl);
 		setTempUrl(nextTempUrl);
 		setOpen(true);
-	};
+	}, [onUnsupportedFile]);
 
-	const handleCrop = async () => {
+	const handleCrop = useCallback(async () => {
 		if (!pixelCrop || !tempUrl) return;
 
 		const croppedUrl = await getCroppedImg(tempUrl, pixelCrop);
@@ -170,7 +173,7 @@ export function Root({
 		onSrcChange(croppedUrl);
 		setOpen(false);
 		await onCropped(croppedUrl);
-	};
+	}, [onCropped, onSrcChange, pixelCrop, tempUrl]);
 
 	const contextValue = useMemo<ImageCropperContextValue>(
 		() => ({
@@ -184,7 +187,7 @@ export function Root({
 			handleCrop,
 			setPixelCrop
 		}),
-		[accept, inputId, open, tempUrl]
+		[accept, handleCancel, handleCrop, handleUpload, inputId, open, tempUrl]
 	);
 
 	return <ImageCropperContext.Provider value={contextValue}>{children}</ImageCropperContext.Provider>;
@@ -225,15 +228,17 @@ export function DialogContent({
 	const { open, setOpen, handleCancel } = useImageCropperContext();
 
 	return (
-		<Dialog.Root
+		<DialogPrimitive.Root
 			open={open}
-			onOpenChange={(nextOpen) => {
+			onOpenChange={(nextOpen: boolean) => {
 				setOpen(nextOpen);
 				if (!nextOpen) handleCancel();
 			}}
 		>
-			<Dialog.Content className={cn('max-w-xl', className)}>{children}</Dialog.Content>
-		</Dialog.Root>
+			<DialogPrimitive.Content className={cn('max-w-xl', className)}>
+				{children}
+			</DialogPrimitive.Content>
+		</DialogPrimitive.Root>
 	);
 }
 
