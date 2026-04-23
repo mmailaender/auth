@@ -5,11 +5,51 @@ import { ConvexError, v } from 'convex/values';
 import { APIError } from 'better-auth/api';
 
 /**
+ * Update the authenticated user's profile fields.
+ */
+export const updateProfile = mutation({
+	args: {
+		name: v.optional(v.string())
+	},
+	handler: async (ctx, args) => {
+		const user = await authComponent.safeGetAuthUser(ctx);
+		if (!user) {
+			throw new ConvexError('Not authenticated');
+		}
+
+		const updateData: { name?: string } = {};
+		if (args.name !== undefined) {
+			const name = args.name.trim();
+			if (!name) {
+				throw new ConvexError('Name cannot be empty');
+			}
+			updateData.name = name;
+		}
+
+		if (Object.keys(updateData).length === 0) return;
+
+		const auth = createAuth(ctx);
+		try {
+			await auth.api.updateUser({
+				body: updateData,
+				headers: await authComponent.getHeaders(ctx)
+			});
+		} catch (error) {
+			if (error instanceof APIError) {
+				throw new ConvexError(`${error.statusCode} ${error.status} ${error.message}`);
+			}
+			throw error;
+		}
+	}
+});
+
+/**
  * Update the authenticated user's avatar storage reference.
  */
 export const updateAvatar = mutation({
 	args: {
-		storageId: v.id('_storage')
+		storageId: v.id('_storage'),
+		optimisticImage: v.optional(v.string())
 	},
 	handler: async (ctx, args) => {
 		const user = await authComponent.safeGetAuthUser(ctx);

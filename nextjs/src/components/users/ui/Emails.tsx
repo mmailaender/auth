@@ -64,7 +64,9 @@ export default function Emails() {
 			<div
 				className={[
 					'border-surface-300-700 rounded-container relative w-full border px-3.5 py-2 transition-all duration-200 ease-in-out',
-					!isEditingEmail ? 'cursor-pointer hover:bg-surface-200-800 hover:border-surface-200-800' : ''
+					!isEditingEmail
+						? 'hover:bg-surface-200-800 hover:border-surface-200-800 cursor-pointer'
+						: ''
 				].join(' ')}
 			>
 				<div className="flex items-center justify-between gap-3 transition-all duration-200 ease-in-out">
@@ -85,7 +87,9 @@ export default function Emails() {
 									{activeUser.emailVerified ? (
 										<span className="badge preset-filled-success-100-900 text-xs">Verified</span>
 									) : (
-										<span className="badge preset-filled-warning-100-900 text-xs">Not verified</span>
+										<span className="badge preset-filled-warning-100-900 text-xs">
+											Not verified
+										</span>
 									)}
 								</div>
 							</div>
@@ -94,7 +98,7 @@ export default function Emails() {
 						<div
 							className={[
 								'grid transition-[grid-template-rows] duration-200 ease-in-out',
-								isEditingEmail ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr]'
+								isEditingEmail ? 'mt-1 grid-rows-[1fr]' : 'grid-rows-[0fr]'
 							].join(' ')}
 							aria-hidden={!isEditingEmail}
 							inert={!isEditingEmail}
@@ -133,7 +137,7 @@ export default function Emails() {
 												newEmail === activeUser.email
 											}
 										>
-											{isSubmitting ? 'Sending...' : 'Verify Email'}
+											{isSubmitting ? 'Verifying...' : 'Verify Email'}
 										</button>
 									</div>
 								</form>

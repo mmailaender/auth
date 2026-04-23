@@ -3,11 +3,13 @@
 	import { tick } from 'svelte';
 
 	// API
-	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
+	import { useQuery, useConvexClient, useMutation } from '@mmailaender/convex-svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { getAuthContext } from '$lib/auth/context.svelte';
-	const { api, authClient } = getAuthContext();
+	const { api } = getAuthContext();
 	const client = useConvexClient();
+	const updateProfile = useMutation(api.users.mutations.updateProfile);
+	const updateAvatar = useMutation(api.users.mutations.updateAvatar);
 
 	// Icons
 	import PencilIcon from '@lucide/svelte/icons/pencil';
@@ -68,10 +70,35 @@
 	// Handle form submission to update profile
 	async function handleSubmit(event: SubmitEvent): Promise<void> {
 		event.preventDefault();
+		if (!activeUser) return;
+
+		const trimmed = name.trim();
 
 		try {
-			await authClient.updateUser({ name });
+			if (!trimmed || trimmed === activeUser.name.trim()) {
+				isEditingName = false;
+				return;
+			}
+			name = trimmed;
 			isEditingName = false;
+			await updateProfile(
+				{ name: trimmed },
+				{
+					optimisticUpdate: (store) => {
+						const activeUser = store.getQuery(api.users.queries.getActiveUser, {});
+						if (!activeUser) return;
+
+						store.setQuery(
+							api.users.queries.getActiveUser,
+							{},
+							{
+								...activeUser,
+								name: trimmed
+							}
+						);
+					}
+				}
+			);
 			toast.success('Profile name updated successfully');
 		} catch (err: unknown) {
 			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -104,8 +131,26 @@
 
 			const result = await response.json();
 			const storageId = result.storageId as GenericId<'_storage'>;
-			const imageUrl = await client.mutation(api.users.mutations.updateAvatar, { storageId });
-			await authClient.updateUser({ image: imageUrl });
+			const imageUrl = await updateAvatar(
+				{ storageId, optimisticImage: url },
+				{
+					optimisticUpdate: (store, args) => {
+						if (!args.optimisticImage) return;
+
+						const activeUser = store.getQuery(api.users.queries.getActiveUser, {});
+						if (!activeUser) return;
+
+						store.setQuery(
+							api.users.queries.getActiveUser,
+							{},
+							{
+								...activeUser,
+								image: args.optimisticImage
+							}
+						);
+					}
+				}
+			);
 
 			loadingStatus = 'loading';
 			avatarKey += 1;

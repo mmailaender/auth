@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
-import { GenericId } from 'convex/values';
+import { ConvexError, GenericId } from 'convex/values';
 import { Building2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -20,10 +20,43 @@ export default function GeneralSettings() {
 	const user = useActiveUserData();
 	const activeOrganization = useActiveOrganizationData();
 	const generateUploadUrl = useMutation(api.storage.generateUploadUrl);
-	const updateOrganization = useMutation(api.organizations.mutations.updateOrganizationProfile);
+	const updateOrganization = useMutation(
+		api.organizations.mutations.updateOrganizationProfile
+	).withOptimisticUpdate((localStore, args) => {
+		if (args.name === undefined) return;
+
+		const name = args.name.trim();
+		const activeOrganization = localStore.getQuery(
+			api.organizations.queries.getActiveOrganization,
+			{}
+		);
+		if (!activeOrganization) return;
+
+		localStore.setQuery(
+			api.organizations.queries.getActiveOrganization,
+			{},
+			{
+				...activeOrganization,
+				name
+			}
+		);
+
+		const organizations = localStore.getQuery(api.organizations.queries.listOrganizations, {});
+		if (organizations !== undefined) {
+			localStore.setQuery(
+				api.organizations.queries.listOrganizations,
+				{},
+				organizations.map((organization) =>
+					organization.id === activeOrganization.id ? { ...organization, name } : organization
+				)
+			);
+		}
+	});
 	const isOwnerOrAdmin = useRoles().hasOwnerOrAdminRole;
 
-	const [imageLoadingStatus, setImageLoadingStatus] = useState<'loading' | 'loaded' | 'error'>('loaded');
+	const [imageLoadingStatus, setImageLoadingStatus] = useState<'loading' | 'loaded' | 'error'>(
+		'loaded'
+	);
 	const [isUploading, setIsUploading] = useState(false);
 	const [logoKey, setLogoKey] = useState(0);
 	const [cropSrc, setCropSrc] = useState('');
@@ -31,6 +64,7 @@ export default function GeneralSettings() {
 	const [name, setName] = useState('');
 	const [isEditingSlug, setIsEditingSlug] = useState(false);
 	const [slug, setSlug] = useState('');
+	const [isSavingSlug, setIsSavingSlug] = useState(false);
 	const nameInputRef = useRef<HTMLInputElement | null>(null);
 	const slugInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -86,24 +120,31 @@ export default function GeneralSettings() {
 		event.preventDefault();
 		if (!activeOrganization) return;
 
+		const trimmed = name.trim();
+
 		try {
-			const trimmed = name.trim();
 			if (!trimmed || trimmed === activeOrganization.name.trim()) {
 				setIsEditingName(false);
 				return;
 			}
-			await updateOrganization({ name: trimmed });
+			setName(trimmed);
 			setIsEditingName(false);
+			await updateOrganization({ name: trimmed });
 			toast.success('Organization name updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
+			const message =
+				err instanceof ConvexError
+					? err.data
+					: err instanceof Error
+						? err.message
+						: 'An unknown error occurred';
 			toast.error(`Failed to update organization: ${message}`);
 		}
 	}
 
 	async function handleSlugSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		if (!activeOrganization) return;
+		if (!activeOrganization || isSavingSlug) return;
 
 		try {
 			const trimmed = slug.trim();
@@ -112,6 +153,7 @@ export default function GeneralSettings() {
 				setIsEditingSlug(false);
 				return;
 			}
+			setIsSavingSlug(true);
 			await updateOrganization({ slug: trimmed });
 			if (
 				currentSlug &&
@@ -122,8 +164,15 @@ export default function GeneralSettings() {
 			setIsEditingSlug(false);
 			toast.success('Organization slug updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
+			const message =
+				err instanceof ConvexError
+					? err.data
+					: err instanceof Error
+						? err.message
+						: 'An unknown error occurred';
 			toast.error(`Failed to update organization: ${message}`);
+		} finally {
+			setIsSavingSlug(false);
 		}
 	}
 
@@ -143,7 +192,10 @@ export default function GeneralSettings() {
 						className="rounded-container size-20"
 						onStatusChange={(details) => setImageLoadingStatus(details.status)}
 					>
-						<Avatar.Image src={activeOrganization.logo ?? undefined} alt={activeOrganization.name || 'Organization'} />
+						<Avatar.Image
+							src={activeOrganization.logo ?? undefined}
+							alt={activeOrganization.name || 'Organization'}
+						/>
 						<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
 							<Building2 className="text-surface-700-300 size-10" />
 						</Avatar.Fallback>
@@ -190,6 +242,7 @@ export default function GeneralSettings() {
 					inputRef={slugInputRef}
 					onSubmit={handleSlugSubmit}
 					ariaLabel="Edit organization slug"
+					isSubmitting={isSavingSlug}
 				/>
 			</div>
 		</div>
@@ -206,7 +259,8 @@ function InlineEditableField({
 	canEdit,
 	inputRef,
 	onSubmit,
-	ariaLabel
+	ariaLabel,
+	isSubmitting = false
 }: {
 	label: string;
 	value: string;
@@ -218,12 +272,15 @@ function InlineEditableField({
 	inputRef: React.RefObject<HTMLInputElement | null>;
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	ariaLabel: string;
+	isSubmitting?: boolean;
 }) {
 	return (
 		<div
 			className={[
 				'border-surface-300-700 rounded-container relative w-full border px-3.5 py-2 transition-all duration-200 ease-in-out',
-				canEdit && !isEditing ? 'cursor-pointer hover:bg-surface-200-800 hover:border-surface-200-800' : ''
+				canEdit && !isEditing
+					? 'hover:bg-surface-200-800 hover:border-surface-200-800 cursor-pointer'
+					: ''
 			].join(' ')}
 		>
 			<div className="flex items-center justify-between gap-3 transition-all duration-200 ease-in-out">
@@ -245,7 +302,7 @@ function InlineEditableField({
 					<div
 						className={[
 							'grid transition-[grid-template-rows] duration-200 ease-in-out',
-							isEditing ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr]'
+							isEditing ? 'mt-1 grid-rows-[1fr]' : 'grid-rows-[0fr]'
 						].join(' ')}
 						aria-hidden={!isEditing}
 						inert={!isEditing}
@@ -258,11 +315,13 @@ function InlineEditableField({
 									className="input w-full"
 									value={editValue}
 									onChange={(event) => setEditValue(event.currentTarget.value)}
+									disabled={isSubmitting}
 								/>
 								<div className="mb-1 flex gap-1.5">
 									<button
 										type="button"
 										className="btn btn-sm preset-tonal w-full"
+										disabled={isSubmitting}
 										onClick={() => {
 											setEditValue(value);
 											setIsEditing(false);
@@ -273,9 +332,14 @@ function InlineEditableField({
 									<button
 										type="submit"
 										className="btn btn-sm preset-filled-primary-500 w-full"
-										disabled={!editValue || editValue.trim() === '' || editValue.trim() === value.trim()}
+										disabled={
+											isSubmitting ||
+											!editValue ||
+											editValue.trim() === '' ||
+											editValue.trim() === value.trim()
+										}
 									>
-										Save
+										{isSubmitting ? 'Saving...' : 'Save'}
 									</button>
 								</div>
 							</form>

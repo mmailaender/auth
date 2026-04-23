@@ -9,14 +9,44 @@ import { toast } from 'sonner';
 import * as Avatar from '@/components/primitives/ui/avatar';
 import * as ImageCropper from '@/components/primitives/ui/image-cropper';
 import { optimizeImage } from '@/components/primitives/utils/optimizeImage';
-import { authClient } from '@/lib/auth/api/auth-client';
 import { api } from '@/convex/_generated/api';
 import { useActiveUserData } from '@/lib/auth/hooks';
 
 export default function ProfileInfo() {
 	const activeUser = useActiveUserData();
 	const generateUploadUrl = useMutation(api.storage.generateUploadUrl);
-	const updateAvatar = useMutation(api.users.mutations.updateAvatar);
+	const updateProfile = useMutation(api.users.mutations.updateProfile).withOptimisticUpdate(
+		(localStore, args) => {
+			const activeUser = localStore.getQuery(api.users.queries.getActiveUser, {});
+			if (!activeUser) return;
+
+			localStore.setQuery(
+				api.users.queries.getActiveUser,
+				{},
+				{
+					...activeUser,
+					...(args.name !== undefined ? { name: args.name.trim() } : {})
+				}
+			);
+		}
+	);
+	const updateAvatar = useMutation(api.users.mutations.updateAvatar).withOptimisticUpdate(
+		(localStore, args) => {
+			if (!args.optimisticImage) return;
+
+			const activeUser = localStore.getQuery(api.users.queries.getActiveUser, {});
+			if (!activeUser) return;
+
+			localStore.setQuery(
+				api.users.queries.getActiveUser,
+				{},
+				{
+					...activeUser,
+					image: args.optimisticImage
+				}
+			);
+		}
+	);
 
 	const [isEditingName, setIsEditingName] = useState(false);
 	const [name, setName] = useState('');
@@ -43,8 +73,14 @@ export default function ProfileInfo() {
 		if (!activeUser) return;
 
 		try {
-			await authClient.updateUser({ name: name.trim() });
+			const trimmed = name.trim();
+			if (!trimmed || trimmed === activeUser.name.trim()) {
+				setIsEditingName(false);
+				return;
+			}
+			setName(trimmed);
 			setIsEditingName(false);
+			await updateProfile({ name: trimmed });
 			toast.success('Profile name updated successfully');
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -74,8 +110,7 @@ export default function ProfileInfo() {
 			if (!response.ok) throw new Error('Failed to upload file');
 
 			const result = (await response.json()) as { storageId: GenericId<'_storage'> };
-			const imageUrl = await updateAvatar({ storageId: result.storageId });
-			await authClient.updateUser({ image: imageUrl });
+			const imageUrl = await updateAvatar({ storageId: result.storageId, optimisticImage: url });
 
 			setLoadingStatus('loading');
 			setAvatarKey((key) => key + 1);
@@ -94,7 +129,7 @@ export default function ProfileInfo() {
 		return <div className="placeholder h-16 w-full animate-pulse" />;
 	}
 
-		return (
+	return (
 		<div className="flex flex-col gap-6">
 			<div className="rounded-base flex items-center justify-start pt-6 pl-0.5">
 				<ImageCropper.Root
@@ -138,7 +173,9 @@ export default function ProfileInfo() {
 			<div
 				className={[
 					'border-surface-300-700 rounded-container relative w-full border px-3.5 py-2 transition-all duration-200 ease-in-out',
-					!isEditingName ? 'cursor-pointer hover:bg-surface-200-800 hover:border-surface-200-800' : ''
+					!isEditingName
+						? 'hover:bg-surface-200-800 hover:border-surface-200-800 cursor-pointer'
+						: ''
 				].join(' ')}
 			>
 				<div className="flex items-center justify-between gap-3 transition-all duration-200 ease-in-out">
@@ -161,7 +198,7 @@ export default function ProfileInfo() {
 						<div
 							className={[
 								'grid transition-[grid-template-rows] duration-200 ease-in-out',
-								isEditingName ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr]'
+								isEditingName ? 'mt-1 grid-rows-[1fr]' : 'grid-rows-[0fr]'
 							].join(' ')}
 							aria-hidden={!isEditingName}
 							inert={!isEditingName}
@@ -189,7 +226,9 @@ export default function ProfileInfo() {
 										<button
 											type="submit"
 											className="btn btn-sm preset-filled-primary-500 w-full"
-											disabled={!name || name.trim() === '' || name.trim() === activeUser.name.trim()}
+											disabled={
+												!name || name.trim() === '' || name.trim() === activeUser.name.trim()
+											}
 										>
 											Save
 										</button>

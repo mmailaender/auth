@@ -20,7 +20,8 @@
 	import { optimizeImage } from '$lib/primitives/utils/optimizeImage';
 
 	// API
-	import { useQuery, useConvexClient } from '@mmailaender/convex-svelte';
+	import { useQuery, useConvexClient, useMutation } from '@mmailaender/convex-svelte';
+	import { ConvexError } from 'convex/values';
 	import { useRoles } from '$lib/organizations/api/roles.svelte';
 	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { getAuthContext } from '$lib/auth/context.svelte';
@@ -45,6 +46,7 @@
 	const auth = useAuth();
 
 	const client = useConvexClient();
+	const updateOrganization = useMutation(api.organizations.mutations.updateOrganizationProfile);
 	const roles = useRoles({}, () => ({
 		initialData: initialData?.role
 	}));
@@ -82,6 +84,7 @@
 	// Inline slug editing state
 	let isEditingSlug: boolean = $state(false);
 	let slug: string = $state('');
+	let isSavingSlug: boolean = $state(false);
 	let slugInputEl: HTMLInputElement | null = $state(null);
 
 	// Initialize state when organization data is available
@@ -128,9 +131,7 @@
 			if (!response.ok) throw new Error('Failed to upload file');
 
 			const { storageId } = await response.json();
-			await client.mutation(api.organizations.mutations.updateOrganizationProfile, {
-				logoId: storageId
-			});
+			await updateOrganization({ logoId: storageId });
 
 			imageLoadingStatus = 'loading';
 			logoKey += 1;
@@ -148,26 +149,64 @@
 		e.preventDefault();
 		if (!activeOrganization) return;
 
+		const trimmed = name.trim();
+
 		try {
-			const trimmed = name.trim();
 			if (!trimmed || trimmed === activeOrganization.name.trim()) {
 				isEditingName = false;
 				return;
 			}
-			await client.mutation(api.organizations.mutations.updateOrganizationProfile, {
-				name: trimmed
-			});
+			name = trimmed;
 			isEditingName = false;
+			await updateOrganization(
+				{ name: trimmed },
+				{
+					optimisticUpdate: (store) => {
+						const activeOrganization = store.getQuery(
+							api.organizations.queries.getActiveOrganization,
+							{}
+						);
+						if (!activeOrganization) return;
+
+						store.setQuery(
+							api.organizations.queries.getActiveOrganization,
+							{},
+							{
+								...activeOrganization,
+								name: trimmed
+							}
+						);
+
+						const organizations = store.getQuery(api.organizations.queries.listOrganizations, {});
+						if (organizations !== undefined) {
+							store.setQuery(
+								api.organizations.queries.listOrganizations,
+								{},
+								organizations.map((organization) =>
+									organization.id === activeOrganization.id
+										? { ...organization, name: trimmed }
+										: organization
+								)
+							);
+						}
+					}
+				}
+			);
 			toast.success('Organization name updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
+			const message =
+				err instanceof ConvexError
+					? err.data
+					: err instanceof Error
+						? err.message
+						: 'An unknown error occurred';
 			toast.error(`Failed to update organization: ${message}`);
 		}
 	}
 
 	async function handleSlugSubmit(e: SubmitEvent): Promise<void> {
 		e.preventDefault();
-		if (!activeOrganization) return;
+		if (!activeOrganization || isSavingSlug) return;
 
 		try {
 			const trimmed = slug.trim();
@@ -176,11 +215,10 @@
 				isEditingSlug = false;
 				return;
 			}
+			isSavingSlug = true;
 
 			// Update slug
-			await client.mutation(api.organizations.mutations.updateOrganizationProfile, {
-				slug: trimmed
-			});
+			await updateOrganization({ slug: trimmed });
 
 			// If current URL contains the old slug, replace it with the new slug
 			const currentPathname = page.url.pathname;
@@ -200,8 +238,15 @@
 			isEditingSlug = false;
 			toast.success('Organization slug updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
+			const message =
+				err instanceof ConvexError
+					? err.data
+					: err instanceof Error
+						? err.message
+						: 'An unknown error occurred';
 			toast.error(`Failed to update organization: ${message}`);
+		} finally {
+			isSavingSlug = false;
 		}
 	}
 </script>
@@ -400,11 +445,13 @@
 										type="text"
 										class="input w-full"
 										bind:value={slug}
+										disabled={isSavingSlug}
 									/>
 									<div class="mb-1 flex gap-1.5">
 										<button
 											type="button"
 											class="btn btn-sm preset-tonal w-full"
+											disabled={isSavingSlug}
 											onclick={() => {
 												slug = activeOrganization.slug || '';
 												isEditingSlug = false;
@@ -415,11 +462,12 @@
 										<button
 											type="submit"
 											class="btn btn-sm preset-filled-primary-500 w-full"
-											disabled={!slug ||
+											disabled={isSavingSlug ||
+												!slug ||
 												slug.trim() === '' ||
 												slug.trim() === (activeOrganization.slug || '').trim()}
 										>
-											Save
+											{isSavingSlug ? 'Saving...' : 'Save'}
 										</button>
 									</div>
 								</form>
