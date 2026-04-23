@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Suspense } from 'react';
 import { ConvexClientProvider } from './ConvexClientProvider';
 
 import type { Metadata } from 'next';
@@ -78,19 +77,11 @@ export default async function RootLayout({
 						<Link href="/" className="mr-auto text-2xl font-bold text-white">
 							Next.js
 						</Link>
-						{AUTH_CONSTANTS.organizations ? (
-							<Suspense fallback={<div className="placeholder h-8 w-40 animate-pulse" />}>
-								<OrganizationSwitcher />
-							</Suspense>
-						) : null}
-						<Suspense fallback={<div className="placeholder-circle size-10 animate-pulse" />}>
-							<UserButton />
-						</Suspense>
+						{AUTH_CONSTANTS.organizations ? <OrganizationSwitcher /> : null}
+						<UserButton />
 					</div>
-					<Suspense fallback={null}>
-						{AUTH_CONSTANTS.organizations ? <OrganizationProfileHost /> : null}
-						<UserProfileHost />
-					</Suspense>
+					{AUTH_CONSTANTS.organizations ? <OrganizationProfileHost /> : null}
+					<UserProfileHost />
 					{children}
 				</ConvexClientProvider>
 				<Toaster position="top-center" />

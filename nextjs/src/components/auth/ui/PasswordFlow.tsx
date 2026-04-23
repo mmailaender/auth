@@ -128,81 +128,90 @@ export const PasswordFlow = ({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Email</label>
+		<form onSubmit={handleSubmit} noValidate autoComplete="off" className="flex flex-col gap-8">
+			<div className="flex flex-col gap-5">
+				<div className="flex flex-col">
+					<label htmlFor="email" className="label">
+						Email
+					</label>
 				<input
+					id="email"
 					type="email"
 					value={email}
 					disabled
 					className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
 				/>
-			</div>
+				</div>
 
-			{mode === 'register' && (
-				<div className="flex flex-col gap-2">
-					<label className="text-surface-950-50 text-sm font-medium">Full Name</label>
+				{mode === 'register' ? (
+					<div className="flex flex-col">
+						<label htmlFor="name" className="label">
+							Full Name
+						</label>
 					<input
+						id="name"
 						name="name"
 						type="text"
 						className="input preset-filled-surface-200"
 						placeholder="Enter your full name"
+						autoComplete="name"
 						required
 						disabled={submitting}
 					/>
-				</div>
-			)}
+					</div>
+				) : null}
 
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium">Password</label>
-				<Password.Root minScore={mode === 'register' ? 3 : 0}>
-					<Password.Input
-						name="password"
-						className="preset-filled-surface-200"
-						placeholder={mode === 'register' ? 'Create a password' : 'Enter your password'}
-						autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
-						required
-						disabled={submitting}
-					>
-						<Password.ToggleVisibility />
-					</Password.Input>
-					{mode === 'register' ? <Password.Strength /> : null}
-					<Password.Error />
-				</Password.Root>
+				<div className="flex flex-col">
+					<label htmlFor="password" className="label">
+						Password
+					</label>
+					<Password.Root minScore={mode === 'register' ? 3 : 0}>
+						<Password.Input
+							id="password"
+							name="password"
+							placeholder={mode === 'register' ? 'Create a password' : 'Enter your password'}
+							autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+							required
+							disabled={submitting}
+						>
+							<Password.ToggleVisibility />
+						</Password.Input>
+						{mode === 'register' ? <Password.Strength /> : null}
+						<Password.Error />
+					</Password.Root>
+					{mode === 'login' && AUTH_CONSTANTS.sendEmails ? (
+						<div className="flex flex-row items-center justify-end pt-1">
+							<button
+								type="button"
+								className="anchor mb-1 shrink-0 text-xs"
+								onClick={handleForgotPassword}
+								disabled={submitting || isRequestingReset}
+							>
+								{isRequestingReset ? 'Sending...' : 'Forgot password?'}
+							</button>
+						</div>
+					) : null}
+				</div>
 			</div>
 
-			<button type="submit" className="btn preset-filled w-full" disabled={submitting}>
-				{submitting ? (
-					<div className="flex items-center gap-2">
-						<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-						{mode === 'register' ? 'Creating account...' : 'Signing in...'}
-					</div>
-				) : mode === 'register' ? (
-					'Create Account'
-				) : (
-					'Sign In'
-				)}
-			</button>
-
-			{mode === 'login' && AUTH_CONSTANTS.sendEmails && (
-				<button
-					type="button"
-					className="anchor text-center text-sm"
-					onClick={handleForgotPassword}
-					disabled={submitting || isRequestingReset}
-				>
-					{isRequestingReset ? 'Sending...' : 'Forgot password?'}
+			<div className="flex flex-col gap-2">
+				<button type="submit" className="btn preset-filled w-full" disabled={submitting}>
+					{submitting ? (
+						<div className="flex items-center gap-2">
+							<div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+							{mode === 'register' ? 'Creating account...' : 'Signing in...'}
+						</div>
+					) : mode === 'register' ? (
+						'Create Account'
+					) : (
+						'Sign In'
+					)}
 				</button>
-			)}
 
-			<button
-				type="button"
-				className="anchor text-center text-sm"
-				onClick={onBack}
-				disabled={submitting}
-			>
-				Use a different email
-			</button>
+				<button type="button" className="btn" onClick={onBack} disabled={submitting}>
+					Use a different email
+				</button>
+			</div>
 		</form>
 	);
 };

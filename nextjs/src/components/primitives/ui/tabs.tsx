@@ -34,7 +34,7 @@ function List({ className, ...props }: React.ComponentProps<typeof ArkTabs.List>
 				'text-surface-700-300 rounded-base bg-transparent',
 				'inline-flex items-center justify-center',
 				'data-[orientation=horizontal]:w-fit',
-				'h-full gap-1 data-[orientation=vertical]:w-full data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:justify-start',
+				'gap-1 data-[orientation=vertical]:w-full data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:justify-start',
 				className
 			)}
 			{...props}
@@ -47,9 +47,9 @@ function Trigger({ className, ...props }: React.ComponentProps<typeof ArkTabs.Tr
 		<ArkTabs.Trigger
 			data-slot="tabs-trigger"
 			className={cn(
-				'data-[selected]:bg-surface-400-600/50 data-[selected]:text-surface-950-50 aria-selected:bg-surface-400-600/50 aria-selected:text-surface-950-50 text-surface-700-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring rounded-base inline-flex items-center px-3 py-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
+				"aria-selected:bg-surface-400/50 dark:aria-selected:bg-surface-700/50 aria-selected:text-surface-950-50 text-surface-700 dark:text-surface-400 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring rounded-base inline-flex items-center px-3 py-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4",
 				'data-[orientation=horizontal]:h-[calc(100%-1px)] data-[orientation=horizontal]:flex-1 data-[orientation=horizontal]:justify-center',
-				'hover:bg-surface-400-600/30 hover:text-surface-950-50 data-[orientation=vertical]:w-full data-[orientation=vertical]:justify-start data-[orientation=vertical]:text-left',
+				'hover:bg-surface-500/20 hover:text-surface-950-50 data-[orientation=vertical]:w-full data-[orientation=vertical]:justify-start data-[orientation=vertical]:text-left',
 				className
 			)}
 			{...props}
@@ -64,7 +64,7 @@ function Content({ className, ...props }: React.ComponentProps<typeof ArkTabs.Co
 			className={cn(
 				'outline-none',
 				'data-[orientation=horizontal]:flex-1',
-				'w-full data-[orientation=vertical]:p-6',
+				'w-full data-[orientation=vertical]:p-8 data-[orientation=vertical]:pt-6',
 				className
 			)}
 			{...props}

@@ -130,40 +130,37 @@
 		});
 	});
 
-	// Build a map of provider IDs to icons for enabled providers
-	// NOTE: We reference authConstants directly so bundlers can tree-shake
-	// branches and drop unused icon imports at build time.
 	type ProviderIconComponent = typeof KeyRoundIcon | typeof SiGithub;
 	const providerIconMap: Record<string, ProviderIconComponent> = {
-		credential: KeyRoundIcon
+		credential: KeyRoundIcon,
+		github: SiGithub,
+		google: SiGoogle,
+		facebook: SiFacebook,
+		apple: SiApple,
+		atlassian: SiAtlassian,
+		discord: SiDiscord,
+		figma: SiFigma,
+		line: SiLine,
+		huggingface: SiHuggingface,
+		kakao: SiKakao,
+		kick: SiKick,
+		paypal: SiPaypal,
+		salesforce: SiSalesforce,
+		slack: SiSlack,
+		notion: SiNotion,
+		naver: SiNaver,
+		tiktok: SiTiktok,
+		twitch: SiTwitch,
+		x: SiX,
+		dropbox: SiDropbox,
+		linear: SiLinear,
+		gitlab: SiGitlab,
+		reddit: SiReddit,
+		roblox: SiRoblox,
+		spotify: SiSpotify,
+		vk: SiVk,
+		zoom: SiZoom
 	};
-	if (authConstants.providers.github) providerIconMap.github = SiGithub;
-	if (authConstants.providers.google) providerIconMap.google = SiGoogle;
-	if (authConstants.providers.facebook) providerIconMap.facebook = SiFacebook;
-	if (authConstants.providers.apple) providerIconMap.apple = SiApple;
-	if (authConstants.providers.atlassian) providerIconMap.atlassian = SiAtlassian;
-	if (authConstants.providers.discord) providerIconMap.discord = SiDiscord;
-	if (authConstants.providers.figma) providerIconMap.figma = SiFigma;
-	if (authConstants.providers.line) providerIconMap.line = SiLine;
-	if (authConstants.providers.huggingface) providerIconMap.huggingface = SiHuggingface;
-	if (authConstants.providers.kakao) providerIconMap.kakao = SiKakao;
-	if (authConstants.providers.kick) providerIconMap.kick = SiKick;
-	if (authConstants.providers.paypal) providerIconMap.paypal = SiPaypal;
-	if (authConstants.providers.salesforce) providerIconMap.salesforce = SiSalesforce;
-	if (authConstants.providers.slack) providerIconMap.slack = SiSlack;
-	if (authConstants.providers.notion) providerIconMap.notion = SiNotion;
-	if (authConstants.providers.naver) providerIconMap.naver = SiNaver;
-	if (authConstants.providers.tiktok) providerIconMap.tiktok = SiTiktok;
-	if (authConstants.providers.twitch) providerIconMap.twitch = SiTwitch;
-	if (authConstants.providers.x) providerIconMap.x = SiX;
-	if (authConstants.providers.dropbox) providerIconMap.dropbox = SiDropbox;
-	if (authConstants.providers.linear) providerIconMap.linear = SiLinear;
-	if (authConstants.providers.gitlab) providerIconMap.gitlab = SiGitlab;
-	if (authConstants.providers.reddit) providerIconMap.reddit = SiReddit;
-	if (authConstants.providers.roblox) providerIconMap.roblox = SiRoblox;
-	if (authConstants.providers.spotify) providerIconMap.spotify = SiSpotify;
-	if (authConstants.providers.vk) providerIconMap.vk = SiVk;
-	if (authConstants.providers.zoom) providerIconMap.zoom = SiZoom;
 
 	const getProviderIcon = (provider: string) => {
 		return providerIconMap[provider] ?? LockIcon;

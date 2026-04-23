@@ -81,7 +81,7 @@ function Content({
 				<ArkDialog.Content
 					data-slot="dialog-content"
 					className={cn(
-						'bg-surface-200-800 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container fixed top-[50%] left-[50%] grid w-[90%] translate-x-[-50%] translate-y-[-50%] overflow-hidden p-6 duration-200 sm:w-4xl',
+						'bg-surface-50-950 dark:bg-surface-100-900 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container fixed top-1/2 left-1/2 z-50 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col items-start gap-5 overflow-x-hidden overflow-y-auto p-5 duration-200',
 						className
 					)}
 					{...props}
@@ -117,7 +117,7 @@ function Title({ className, ...props }: React.ComponentProps<typeof ArkDialog.Ti
 	return (
 		<ArkDialog.Title
 			data-slot="dialog-title"
-			className={cn('pb-6 text-left text-xl leading-none tracking-tight', className)}
+			className={cn('h5 text-left leading-none tracking-tight', className)}
 			{...props}
 		/>
 	);

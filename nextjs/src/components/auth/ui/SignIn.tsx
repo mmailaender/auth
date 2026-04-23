@@ -80,7 +80,7 @@ export default function SignIn({
 			return redirectTo;
 		}
 
-		if (window.location.pathname.includes('/signin')) {
+		if (typeof window !== 'undefined' && window.location.pathname.includes('/signin')) {
 			return '/';
 		}
 	}, [redirectParam, searchParams]);
@@ -364,45 +364,48 @@ export default function SignIn({
 	}
 
 	return (
-		<div className={cn('flex h-full w-full flex-col items-center justify-center p-8', className)}>
-			<div className="flex h-full w-full max-w-md flex-col">
-				<h5 className="h4 max-w-96 text-left leading-9 tracking-tighter">{getStepTitle()}</h5>
-				<p className="text-surface-600-400 mt-3 mb-10 max-w-96 text-left text-sm">
+		<div
+			className={cn(
+				'mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8',
+				className
+			)}
+		>
+			<h5 className="h5 w-full text-left leading-8">{getStepTitle()}</h5>
+			<p className="text-surface-600-400 mt-2 max-w-96 pb-16 text-left text-sm sm:pb-12">
 					{getStepDescription()}
-				</p>
+			</p>
 
-				<div className="flex h-full w-full flex-col gap-8">
-					<SocialFlow
-						show={currentStep === 'email'}
-						dividerAfter={availableMethods.length > 0}
-						callbackURL={getRedirectURL() || '/'}
-						onSuccess={handleAuthSuccess}
-						onSubmittingChange={setSubmitting}
-					/>
+			<div className="flex h-full w-full flex-col gap-6">
+				<SocialFlow
+					show={currentStep === 'email'}
+					dividerAfter={availableMethods.length > 0}
+					callbackURL={getRedirectURL() || '/'}
+					onSuccess={handleAuthSuccess}
+					onSubmittingChange={setSubmitting}
+				/>
 
-					{/* Email-based Auth Methods */}
-					{availableMethods.length > 0 && renderCurrentStep()}
-				</div>
-
-				{showLegal ? (
-					<div>
-						<p className="text-surface-600-400 mt-10 text-xs">
-							By continuing, you agree to our{' '}
-							{showTerms ? (
-								<a href={termsUrl} className="anchor text-surface-950-50">
-									Terms
-								</a>
-							) : null}
-							{showTerms && showPrivacy ? ' and ' : null}
-							{showPrivacy ? (
-								<a href={privacyUrl} className="anchor text-surface-950-50">
-									Privacy Policies
-								</a>
-							) : null}
-						</p>
-					</div>
-				) : null}
+				{/* Email-based Auth Methods */}
+				{availableMethods.length > 0 && renderCurrentStep()}
 			</div>
+
+			{showLegal ? (
+				<div>
+					<p className="text-surface-600-400 mt-10 text-xs">
+						By continuing, you agree to our{' '}
+						{showTerms ? (
+							<a href={termsUrl} className="anchor text-surface-950-50">
+								Terms
+							</a>
+						) : null}
+						{showTerms && showPrivacy ? ' and ' : null}
+						{showPrivacy ? (
+							<a href={privacyUrl} className="anchor text-surface-950-50">
+								Privacy Policies
+							</a>
+						) : null}
+					</p>
+				</div>
+			) : null}
 		</div>
 	);
 }

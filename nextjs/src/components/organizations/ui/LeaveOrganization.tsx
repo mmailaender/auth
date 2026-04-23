@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 // Primitives
 import * as Dialog from '@/components/primitives/ui/dialog';
+import * as Select from '@/components/primitives/ui/select';
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 // API
 import { useMutation } from 'convex/react';
@@ -21,7 +23,8 @@ import { ConvexError } from 'convex/values';
 export default function LeaveOrganization(): React.ReactNode {
 	// State hooks
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [selectedSuccessor, setSelectedSuccessor] = useState<string | null>(null);
+	const [selectedSuccessor, setSelectedSuccessor] = useState<string[]>([]);
+	const [isLeaving, setIsLeaving] = useState<boolean>(false);
 
 	// Convex queries and mutations
 	const activeOrganization = useActiveOrganizationData();
@@ -42,12 +45,18 @@ export default function LeaveOrganization(): React.ReactNode {
 				// Don't include the current user
 				member.userId !== activeUser?._id
 		) || [];
+	const successorCollection = Select.createListCollection({
+		items: organizationMembers.map((member) => ({
+			label: `${member.user.name} (${member.user.email})`,
+			value: member.id
+		}))
+	});
 
 	/**
 	 * Validates form input before submission
 	 */
 	const validateForm = (): boolean => {
-		if (isOrgOwner && !selectedSuccessor) {
+		if (isOrgOwner && selectedSuccessor.length === 0) {
 			toast.error('As the organization owner, you must select a successor before leaving.');
 			return false;
 		}
@@ -66,21 +75,26 @@ export default function LeaveOrganization(): React.ReactNode {
 		}
 
 		try {
+			setIsLeaving(true);
 			await leaveOrganization({
 				// Only send successorId if the user is an owner and a successor is selected
-				...(isOrgOwner && selectedSuccessor ? { successorMemberId: selectedSuccessor } : {})
+				...(isOrgOwner && selectedSuccessor.length > 0
+					? { successorMemberId: selectedSuccessor[0] }
+					: {})
 			});
 
 			setIsOpen(false);
+			toast.success('Successfully left the organization.');
 
 			// Navigate to home page after leaving
 			router.push('/');
-			router.refresh();
 		} catch (err) {
 			toast.error(
 				err instanceof ConvexError ? err.data : 'Failed to leave organization. Please try again.'
 			);
 			console.error(err);
+		} finally {
+			setIsLeaving(false);
 		}
 	};
 
@@ -109,44 +123,51 @@ export default function LeaveOrganization(): React.ReactNode {
 				</Dialog.Description>
 				{isOrgOwner && (
 					<>
-						<div className="space-y-2">
+						<div className="w-full space-y-2">
 							<label htmlFor="successor" className="label">
 								New owner:
 							</label>
-							<select
-								id="successor"
-								value={selectedSuccessor?.toString() || ''}
-								onChange={(e) => setSelectedSuccessor(e.target.value ? e.target.value : null)}
-								className="select w-full cursor-pointer"
-								required={isOrgOwner}
+							<Select.Root
+								collection={successorCollection}
+								value={selectedSuccessor}
+								onValueChange={(details) => setSelectedSuccessor(details.value)}
 							>
-								<option value="" disabled>
-									Choose a successor
-								</option>
-								{/* TODO: Filter out the current user by email as the id is inconsistent between Convex and Better Auth. Replace with id once fixed */}
-								{organizationMembers
-									.filter((member) => member.user.email !== activeUser?.email)
-									.map((member) => (
-										<option key={member.id} value={member.id}>
-											{member.user.name} ({member.user.email})
-										</option>
+								<Select.Trigger
+									id="successor"
+									className="w-full"
+									placeholder="Choose a successor"
+								/>
+								<Select.Content>
+									{successorCollection.items.map((item) => (
+										<Select.Item key={item.value} item={item}>
+											<Select.ItemText>{item.label}</Select.ItemText>
+										</Select.Item>
 									))}
-							</select>
+								</Select.Content>
+							</Select.Root>
 						</div>
 					</>
 				)}
 
 				<Dialog.Footer>
-					<button className="btn preset-tonal" onClick={() => setIsOpen(false)}>
+					<button className="btn preset-tonal" onClick={() => setIsOpen(false)} disabled={isLeaving}>
 						Cancel
 					</button>
 					<button
 						type="button"
 						className="btn bg-error-500 hover:bg-error-600 text-white"
 						onClick={handleLeaveOrganization}
-						disabled={isOrgOwner && !selectedSuccessor}
+						disabled={isLeaving || (isOrgOwner && selectedSuccessor.length === 0)}
+						aria-busy={isLeaving}
 					>
-						Confirm
+						{isLeaving ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+								Leaving...
+							</>
+						) : (
+							'Confirm'
+						)}
 					</button>
 				</Dialog.Footer>
 			</Dialog.Content>

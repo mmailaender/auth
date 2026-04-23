@@ -54,7 +54,7 @@ export default function MembersAndInvitations() {
 								<Plus className="size-5" />
 								<span>Invite members</span>
 							</Dialog.Trigger>
-							<Dialog.Content className="max-w-108">
+							<Dialog.Content className="max-w-100">
 								<Dialog.Header>
 									<Dialog.Title>Invite new members</Dialog.Title>
 								</Dialog.Header>

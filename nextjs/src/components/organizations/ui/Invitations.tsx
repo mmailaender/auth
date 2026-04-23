@@ -93,20 +93,20 @@ export default function Invitations(): React.ReactNode {
 	}
 
 	return (
-		<div className="flex h-full flex-col">
-			{/* Search Section - Fixed at top */}
-			<div className="flex flex-shrink-0 items-center gap-3 py-4">
-				<div className="relative flex-1">
-					<div className="pointer-events-none absolute inset-y-0 flex items-center pl-2">
-						<Search className="text-surface-400-600 size-4" />
-					</div>
-					<input
-						type="text"
-						className="input w-hug w-full !border-0 !border-transparent pl-8 text-sm"
-						placeholder="Search invitations..."
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-					/>
+			<div className="flex h-full flex-col">
+				{/* Search Section - Fixed at top */}
+				<div className="flex flex-shrink-0 items-center gap-3 py-4">
+					<div className="relative flex-1">
+						<div className="pointer-events-none absolute inset-y-0 flex items-center">
+							<Search className="text-surface-400-600 size-4" />
+						</div>
+						<input
+							type="text"
+							className="input w-hug w-full !border-0 !border-transparent pl-6 text-sm"
+							placeholder="Search invitations..."
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+						/>
 				</div>
 			</div>
 
@@ -121,7 +121,7 @@ export default function Invitations(): React.ReactNode {
 						{/* Table container with controlled height and scroll */}
 						<div className="max-h-[calc(90vh-12rem)] overflow-y-auto pb-12 sm:max-h-[calc(80vh-12rem)] md:max-h-[calc(70vh-12rem)]">
 							<table className="table w-full !table-fixed">
-								<thead className="sm:bg-surface-200-800 bg-surface-100-900 border-surface-300-700 sticky top-0 z-20 border-b">
+								<thead className="border-surface-300-700 sticky top-0 z-20 border-b">
 									<tr>
 										<th className="text-surface-700-300 w-64 truncate p-2 !pl-0 text-left text-xs">
 											User

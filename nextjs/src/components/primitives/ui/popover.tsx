@@ -15,7 +15,7 @@ function Root({ onOpenChange, positioning, ...props }: RootProps) {
 		<ArkPopover.Root
 			data-slot="popover"
 			positioning={{
-				placement: 'bottom-end',
+				placement: 'bottom',
 				offset: { mainAxis: 8, crossAxis: 0 },
 				...positioning
 			}}

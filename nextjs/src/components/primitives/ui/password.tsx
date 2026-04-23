@@ -168,14 +168,20 @@ function Input({
 	}, [setSubmitted]);
 
 	return (
-		<div className="input-group grid-cols-[1fr_auto]">
+		<div className="relative">
 			<input
 				ref={(node) => {
 					inputRef.current = node;
 					setInputEl(node);
 					assignRef(ref, node);
 				}}
-				className={cn('ig-input', className)}
+				className={cn(
+					'input transition-all',
+					{
+						'pr-9': Boolean(children)
+					},
+					className
+				)}
 				type={visible ? 'text' : 'password'}
 				minLength={8}
 				value={value}
@@ -203,8 +209,12 @@ function ToggleVisibility({ className, ...props }: React.ComponentProps<'button'
 	return (
 		<button
 			type="button"
-			className={cn('ig-btn preset-filled-surface-200-800', className)}
+			className={cn(
+				'data-[state=off]:text-muted-foreground data-[state=on]:text-muted-foreground hover:data-[state=off]:text-accent-foreground hover:data-[state=on]:text-accent-foreground absolute top-1/2 right-0 inline-flex size-9 min-w-0 -translate-y-1/2 items-center justify-center rounded-md bg-transparent p-0 outline-none hover:!bg-transparent data-[state=on]:bg-transparent [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
+				className
+			)}
 			onClick={() => setVisible((value) => !value)}
+			data-state={visible ? 'on' : 'off'}
 			aria-label={visible ? 'Hide password' : 'Show password'}
 			{...props}
 		>
@@ -217,7 +227,12 @@ function Error() {
 	const { errorId, errorMessage } = React.useContext(PasswordContext);
 	if (!errorMessage) return null;
 	return (
-		<span id={errorId} className="text-error-600-400 pb-1 text-xs" aria-live="polite" role="status">
+		<span
+			id={errorId}
+			className="text-error-600-400 pt-1 pb-1 text-xs"
+			aria-live="polite"
+			role="status"
+		>
 			{errorMessage}
 		</span>
 	);

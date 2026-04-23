@@ -40,22 +40,30 @@ function Root({ children, onValueChange, onSelect, ...props }: RootProps) {
 
 type TriggerProps = React.ComponentProps<typeof ArkSelect.Trigger> & {
 	placeholder?: string;
+	size?: 'sm' | 'default';
 };
 
-function Trigger({ className, placeholder, children, ...props }: TriggerProps) {
+function Trigger({
+	className,
+	placeholder,
+	size = 'default',
+	children,
+	...props
+}: TriggerProps) {
 	return (
 		<ArkSelect.Control className="w-full">
 			<ArkSelect.Trigger
 				data-slot="select-trigger"
+				data-size={size}
 				className={cn(
-					'select flex h-9 w-full items-center justify-between gap-2 rounded-container bg-surface-50-950 px-2.5 text-left text-sm',
+					"data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 border-surface-400-600 rounded-base hover:border-surface-500 flex w-fit items-center justify-between gap-2 border bg-transparent px-3 py-2 text-sm whitespace-nowrap transition-[color,box-shadow] outline-none select-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 					className
 				)}
 				{...props}
 			>
 				{children ?? <ArkSelect.ValueText placeholder={placeholder} />}
 				<ArkSelect.Indicator>
-					<ChevronDownIcon className="size-4 opacity-60" />
+					<ChevronDownIcon className="size-4" />
 				</ArkSelect.Indicator>
 			</ArkSelect.Trigger>
 		</ArkSelect.Control>
@@ -68,7 +76,7 @@ function Content({ className, ...props }: React.ComponentProps<typeof ArkSelect.
 			<ArkSelect.Content
 				data-slot="select-content"
 				className={cn(
-					'bg-surface-50-950 rounded-container z-50 max-h-72 min-w-44 overflow-auto border border-surface-300-700 p-1 shadow-lg outline-hidden',
+					'bg-surface-100-900 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 border-surface-300-700 rounded-container relative z-50 max-h-(--available-height) w-(--reference-width) min-w-[8rem] overflow-x-hidden overflow-y-auto border p-1 shadow-md data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
 					className
 				)}
 				{...props}
