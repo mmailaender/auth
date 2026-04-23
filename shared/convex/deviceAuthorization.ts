@@ -3,6 +3,15 @@ import { ConvexError, v } from 'convex/values';
 import { createAuth } from './auth';
 import { APIError } from 'better-auth/api';
 import { components } from './_generated/api';
+import { getBetterAuthFallbackUrl } from './url';
+
+const assertDeviceAuthorizationFallbackUrl = () => {
+	if (!getBetterAuthFallbackUrl()) {
+		throw new ConvexError(
+			'BETTER_AUTH_FALLBACK_URL must be set when device authorization is enabled.'
+		);
+	}
+};
 
 export const requestDeviceCode = mutation({
 	args: { clientId: v.string() },
@@ -10,6 +19,7 @@ export const requestDeviceCode = mutation({
 		if (clientId != process.env.DEVICE_AUTHORIZATION_CLIENT_ID) {
 			throw new ConvexError('Invalid client_id');
 		}
+    assertDeviceAuthorizationFallbackUrl();
 		const auth = createAuth(ctx);
 		const data = await auth.api.deviceCode({
 			body: {

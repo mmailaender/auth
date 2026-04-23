@@ -80,13 +80,28 @@ export const getBaseUrlProtocol = () =>
 
 /**
  * Better Auth baseURL config for dynamic host resolution.
+ *
+ * The `fallback` URL is used when no incoming request is available to derive
+ * a host (e.g. Convex mutations, cron jobs, CLI tools). Without it,
+ * server-side `auth.api.*` calls that lack request context would fail with
+ * "Invalid URL: ''".
  */
 export const getBetterAuthBaseUrl = (): BetterAuthOptions['baseURL'] => {
 	const allowedHosts = getAllowedHosts();
 	const protocol = getBaseUrlProtocol();
+	const fallback = process.env.BETTER_AUTH_FALLBACK_URL;
 
-	return protocol ? { allowedHosts, protocol } : { allowedHosts };
+	return {
+		allowedHosts,
+		...(protocol && { protocol }),
+		...(fallback && { fallback })
+	};
 };
+
+/**
+ * Canonical app URL for Better Auth flows that run without request context.
+ */
+export const getBetterAuthFallbackUrl = () => process.env.BETTER_AUTH_FALLBACK_URL;
 
 const matchesHostPattern = (host: string, pattern: string) => {
 	const matcher = new RegExp(
