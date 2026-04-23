@@ -5509,8 +5509,8 @@
 				{
 					"type": "routes",
 					"role": "file",
-					"path": "(auth)/device-authorization/[code]/+page.svelte",
-					"relativePath": "src/routes/(auth)/device-authorization/[code]/+page.svelte",
+					"path": "(auth)/device/+page.svelte",
+					"relativePath": "src/routes/(auth)/device/+page.svelte",
 					"_imports_": [],
 					"registryDependencies": [
 						"auth/lib",

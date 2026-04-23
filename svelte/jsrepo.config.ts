@@ -412,7 +412,7 @@ export default defineConfig({
 				type: 'routes',
 				files: [
 					{
-						path: 'src/routes/*/device-authorization/*/+page.svelte',
+						path: 'src/routes/*/device/+page.svelte',
 						dependencyResolution: 'manual',
 						registryDependencies: ['auth/lib', 'config']
 					}
