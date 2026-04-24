@@ -32,29 +32,23 @@ export default async function RootLayout({
 	if (initialToken) {
 		try {
 			const organizationsEnabled = AUTH_CONSTANTS.organizations;
-			const [
-				activeUser,
-				accountList,
-				activeOrganization,
-				organizationList,
-				invitationList,
-				role
-			] = await Promise.all([
-				fetchAuthQuery(api.users.queries.getActiveUser),
-				fetchAuthQuery(api.users.queries.listAccounts),
-				organizationsEnabled
-					? fetchAuthQuery(api.organizations.queries.getActiveOrganization)
-					: Promise.resolve(undefined),
-				organizationsEnabled
-					? fetchAuthQuery(api.organizations.queries.listOrganizations)
-					: Promise.resolve(undefined),
-				organizationsEnabled
-					? fetchAuthQuery(api.organizations.invitations.queries.listInvitations)
-					: Promise.resolve(undefined),
-				organizationsEnabled
-					? fetchAuthQuery(api.organizations.queries.getOrganizationRole, {})
-					: Promise.resolve(undefined)
-			]);
+			const [activeUser, accountList, activeOrganization, organizationList, invitationList, role] =
+				await Promise.all([
+					fetchAuthQuery(api.users.queries.getActiveUser),
+					fetchAuthQuery(api.users.queries.listAccounts),
+					organizationsEnabled
+						? fetchAuthQuery(api.organizations.queries.getActiveOrganization)
+						: Promise.resolve(undefined),
+					organizationsEnabled
+						? fetchAuthQuery(api.organizations.queries.listOrganizations)
+						: Promise.resolve(undefined),
+					organizationsEnabled
+						? fetchAuthQuery(api.organizations.invitations.queries.listInvitations)
+						: Promise.resolve(undefined),
+					organizationsEnabled
+						? fetchAuthQuery(api.organizations.queries.getOrganizationRole, {})
+						: Promise.resolve(undefined)
+				]);
 
 			initialData = {
 				activeUser,

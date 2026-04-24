@@ -145,10 +145,7 @@ export default function SignIn({
 		if (isMagicLinkFlow && !availableMethodSet.has('magicLink')) resetToEmailStep();
 	}, [availableMethods, currentStep]);
 
-	const handleMethodSelect = async (
-		method: AuthMethod,
-		exists: boolean
-	): Promise<void> => {
+	const handleMethodSelect = async (method: AuthMethod, exists: boolean): Promise<void> => {
 		setEmailExists(exists);
 
 		// Existing user + magic link: send directly, skip MagicLinkFlow UI
@@ -168,9 +165,7 @@ export default function SignIn({
 					},
 					onError: (ctx) => {
 						console.error('Magic link send error:', ctx.error);
-						toast.error(
-							ctx.error.message || 'Failed to send magic link. Please try again.'
-						);
+						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 					}
 				}
 			);
@@ -189,9 +184,7 @@ export default function SignIn({
 					},
 					onError: (ctx) => {
 						console.error('OTP send error:', ctx.error);
-						toast.error(
-							ctx.error.message || 'Failed to send verification code. Please try again.'
-						);
+						toast.error(ctx.error.message || 'Failed to send verification code. Please try again.');
 					}
 				}
 			);
@@ -366,7 +359,7 @@ export default function SignIn({
 				<>
 					<h5 className="h5 w-full text-left leading-8">{getStepTitle()}</h5>
 					<p className="text-surface-600-400 mt-2 max-w-96 pb-16 text-left text-sm sm:pb-12">
-					{getStepDescription()}
+						{getStepDescription()}
 					</p>
 
 					<div className="flex h-full w-full flex-col gap-6">
@@ -385,7 +378,7 @@ export default function SignIn({
 					{showLegal ? (
 						<div>
 							<p className="text-surface-600-400 mt-10 text-xs">
-						By continuing, you agree to our{' '}
+								By continuing, you agree to our{' '}
 								{showTerms ? (
 									<a href={termsUrl} className="anchor text-surface-950-50">
 										Terms

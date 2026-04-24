@@ -85,7 +85,7 @@
 		"svelte-easy-crop": "^5.0.1",
 		"svelte-toolbelt": "^0.10.6"
 	},
-	"packageManager": "pnpm@10.15.0",
+	"packageManager": "pnpm@10.33.2",
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"@tailwindcss/oxide",

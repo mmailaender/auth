@@ -6,7 +6,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as Dialog from '@/components/primitives/ui/dialog';
 import OrganizationProfile from '@/components/organizations/ui/OrganizationProfile';
 import { DIALOG_KEY } from '@/components/organizations/utils/organization.constants';
-import { isEditableElement, scheduleScrollIntoView } from '@/components/primitives/utils/focusScroll';
+import {
+	isEditableElement,
+	scheduleScrollIntoView
+} from '@/components/primitives/utils/focusScroll';
 
 export default function OrganizationProfileHost() {
 	const router = useRouter();
@@ -20,7 +23,9 @@ export default function OrganizationProfileHost() {
 
 	useEffect(() => {
 		const ua = navigator.userAgent;
-		setIsIOS(/iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1));
+		setIsIOS(
+			/iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1)
+		);
 	}, []);
 
 	useEffect(() => setOpen(shouldBeOpen), [shouldBeOpen]);

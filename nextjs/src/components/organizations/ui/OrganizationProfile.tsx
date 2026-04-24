@@ -17,7 +17,10 @@ type OrganizationProfileProps = {
 	onSuccessfulDelete?: () => void;
 };
 
-export default function OrganizationProfile({ open = false, onSuccessfulDelete }: OrganizationProfileProps) {
+export default function OrganizationProfile({
+	open = false,
+	onSuccessfulDelete
+}: OrganizationProfileProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -136,7 +139,7 @@ export default function OrganizationProfile({ open = false, onSuccessfulDelete }
 				</div>
 
 				<div className="flex w-full">
-					<Tabs.Content value="general" className="w-full flex h-full flex-col">
+					<Tabs.Content value="general" className="flex h-full w-full flex-col">
 						<div className="h-full">
 							<h6 className="h6 pb-6 text-left">General settings</h6>
 							<GeneralSettings />
@@ -160,8 +163,14 @@ export default function OrganizationProfile({ open = false, onSuccessfulDelete }
 					className={[
 						'flex h-full',
 						closingFromContent ? 'w-full transform-none' : 'w-[200%] transform',
-						!suppressMobileTransition && !closingFromContent ? 'transition-transform duration-300 ease-out' : '',
-						!closingFromContent && activeMobileTab !== '' ? '-translate-x-1/2' : !closingFromContent ? 'translate-x-0' : ''
+						!suppressMobileTransition && !closingFromContent
+							? 'transition-transform duration-300 ease-out'
+							: '',
+						!closingFromContent && activeMobileTab !== ''
+							? '-translate-x-1/2'
+							: !closingFromContent
+								? 'translate-x-0'
+								: ''
 					].join(' ')}
 				>
 					<div

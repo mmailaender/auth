@@ -30,7 +30,7 @@ function Content({ className, ...props }: React.ComponentProps<typeof ArkMenu.Co
 			<ArkMenu.Content
 				data-slot="menu-content"
 				className={cn(
-					'bg-surface-50-950 rounded-container z-50 min-w-36 border border-surface-300-700 p-1 shadow-lg outline-hidden',
+					'bg-surface-50-950 rounded-container border-surface-300-700 z-50 min-w-36 border p-1 shadow-lg outline-hidden',
 					className
 				)}
 				{...props}
@@ -59,7 +59,7 @@ function Item({ className, variant = 'default', ...props }: ItemProps) {
 }
 
 function Separator({ className, ...props }: React.ComponentProps<typeof ArkMenu.Separator>) {
-	return <ArkMenu.Separator className={cn('my-1 h-px bg-surface-300-700', className)} {...props} />;
+	return <ArkMenu.Separator className={cn('bg-surface-300-700 my-1 h-px', className)} {...props} />;
 }
 
 export { Root, Trigger, Content, Item, Separator };

@@ -75,7 +75,11 @@ export default function ApiKeys() {
 		setDialogOpen(true);
 	}
 
-	function openUpdate(apiKey: { id: string; name?: string | null; expiresAt?: string | number | Date | null }) {
+	function openUpdate(apiKey: {
+		id: string;
+		name?: string | null;
+		expiresAt?: string | number | Date | null;
+	}) {
 		setMode('update');
 		setEditKeyId(apiKey.id);
 		setName(apiKey.name ?? '');
@@ -125,7 +129,8 @@ export default function ApiKeys() {
 		try {
 			if (mode === 'create') {
 				const res = await authClient.apiKey.create({ name, expiresIn });
-				if (res.error) toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
+				if (res.error)
+					toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
 				else {
 					toast.success('API Key created successfully');
 					setNewKey(res.data?.key ?? '');
@@ -133,7 +138,8 @@ export default function ApiKeys() {
 				}
 			} else if (editKeyId) {
 				const res = await authClient.apiKey.update({ keyId: editKeyId, name, expiresIn });
-				if (res.error) toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
+				if (res.error)
+					toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
 				else toast.success('API Key updated successfully');
 			}
 		} finally {
@@ -153,7 +159,8 @@ export default function ApiKeys() {
 		setIsDeleting(true);
 		try {
 			const res = await authClient.apiKey.delete({ keyId: toDeleteId });
-			if (res.error) toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
+			if (res.error)
+				toast.error(`${res.error.status} ${res.error.statusText} ${res.error.message}`);
 			else toast.success('API Key deleted successfully');
 		} finally {
 			setIsDeleting(false);
@@ -191,7 +198,11 @@ export default function ApiKeys() {
 										<tr key={apiKey.id}>
 											<td>{apiKey.name}</td>
 											<td>{new Date(apiKey.createdAt).toLocaleDateString()}</td>
-											<td>{apiKey.expiresAt ? new Date(apiKey.expiresAt).toLocaleDateString() : 'Never'}</td>
+											<td>
+												{apiKey.expiresAt
+													? new Date(apiKey.expiresAt).toLocaleDateString()
+													: 'Never'}
+											</td>
 											<td className="text-right">
 												<Menu.Root>
 													<Menu.Trigger className="btn-icon hover:preset-tonal">
@@ -220,13 +231,18 @@ export default function ApiKeys() {
 
 					<Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
 						<div>
-							<Dialog.Trigger className="btn btn-sm preset-filled-surface-200-800" onClick={openCreate}>
+							<Dialog.Trigger
+								className="btn btn-sm preset-filled-surface-200-800"
+								onClick={openCreate}
+							>
 								Create API Key
 							</Dialog.Trigger>
 						</div>
 						<Dialog.Content className="sm:w-md">
 							<Dialog.Header>
-								<Dialog.Title>{mode === 'create' ? 'Create API Key' : 'Update API Key'}</Dialog.Title>
+								<Dialog.Title>
+									{mode === 'create' ? 'Create API Key' : 'Update API Key'}
+								</Dialog.Title>
 							</Dialog.Header>
 							<div className="mt-4 flex flex-col gap-4">
 								<div className="flex flex-col gap-1.5">
@@ -250,10 +266,16 @@ export default function ApiKeys() {
 									<Select.Root
 										collection={expirationCollection}
 										value={[expirationOption]}
-										onValueChange={(details) => setExpirationOption(details.value[0] as ExpirationOption)}
+										onValueChange={(details) =>
+											setExpirationOption(details.value[0] as ExpirationOption)
+										}
 										className="w-56"
 									>
-										<Select.Trigger placeholder="Select expiration" className="w-full" disabled={isSubmitting} />
+										<Select.Trigger
+											placeholder="Select expiration"
+											className="w-full"
+											disabled={isSubmitting}
+										/>
 										<Select.Content>
 											{expirationCollection.items.map((option) => (
 												<Select.Item key={option.value} item={option}>
@@ -281,8 +303,18 @@ export default function ApiKeys() {
 							</div>
 							<div className="mt-6 flex w-full items-center justify-end gap-2">
 								<Dialog.Close className="btn preset-filled-surface-200-800">Cancel</Dialog.Close>
-								<button onClick={handleSubmit} className="btn preset-filled-primary-500" disabled={isSubmitting}>
-									{isSubmitting ? (mode === 'create' ? 'Creating...' : 'Saving...') : mode === 'create' ? 'Create' : 'Save'}
+								<button
+									onClick={handleSubmit}
+									className="btn preset-filled-primary-500"
+									disabled={isSubmitting}
+								>
+									{isSubmitting
+										? mode === 'create'
+											? 'Creating...'
+											: 'Saving...'
+										: mode === 'create'
+											? 'Create'
+											: 'Save'}
 								</button>
 							</div>
 							<Dialog.CloseX />
@@ -295,11 +327,18 @@ export default function ApiKeys() {
 								<Dialog.Title>Delete API Key</Dialog.Title>
 							</Dialog.Header>
 							<p className="text-sm">
-								Are you sure you want to delete &apos;{toDeleteName}&apos;? This action cannot be undone.
+								Are you sure you want to delete &apos;{toDeleteName}&apos;? This action cannot be
+								undone.
 							</p>
 							<div className="mt-4 flex w-full items-center justify-end gap-2">
-								<Dialog.Close className="btn btn-sm preset-filled-surface-200-800">Cancel</Dialog.Close>
-								<button className="btn btn-sm preset-filled-error-500" onClick={handleConfirmDelete} disabled={isDeleting}>
+								<Dialog.Close className="btn btn-sm preset-filled-surface-200-800">
+									Cancel
+								</Dialog.Close>
+								<button
+									className="btn btn-sm preset-filled-error-500"
+									onClick={handleConfirmDelete}
+									disabled={isDeleting}
+								>
 									{isDeleting ? 'Deleting...' : 'Delete'}
 								</button>
 							</div>
@@ -312,7 +351,9 @@ export default function ApiKeys() {
 							<Dialog.Header>
 								<Dialog.Title>Your new API key</Dialog.Title>
 							</Dialog.Header>
-							<p className="text-sm">Copy and store this key now. You won&apos;t be able to see it again.</p>
+							<p className="text-sm">
+								Copy and store this key now. You won&apos;t be able to see it again.
+							</p>
 							<div className="input-group mt-4 grid-cols-[1fr_auto]">
 								<input className="ig-input" readOnly value={newKey} />
 								<Toggle.Root
@@ -325,7 +366,9 @@ export default function ApiKeys() {
 								</Toggle.Root>
 							</div>
 							<div className="mt-4 flex w-full items-center justify-end gap-2">
-								<Dialog.Close className="btn btn-sm preset-filled-surface-200-800">Close</Dialog.Close>
+								<Dialog.Close className="btn btn-sm preset-filled-surface-200-800">
+									Close
+								</Dialog.Close>
 							</div>
 							<Dialog.CloseX />
 						</Dialog.Content>

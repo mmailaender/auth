@@ -29,7 +29,9 @@ export default async function ActiveOrgPage({ params, searchParams }: ActiveOrgP
 		const resolvedSearchParams = await searchParams;
 
 		// Fetch the active organization using Convex HTTP client for server components
-		const activeOrganization = await fetchAuthQuery(api.organizations.queries.getActiveOrganization);
+		const activeOrganization = await fetchAuthQuery(
+			api.organizations.queries.getActiveOrganization
+		);
 
 		// Build the original path from params
 		const pathSegments = resolvedParams.all || [];

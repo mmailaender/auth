@@ -43,13 +43,7 @@ type TriggerProps = React.ComponentProps<typeof ArkSelect.Trigger> & {
 	size?: 'sm' | 'default';
 };
 
-function Trigger({
-	className,
-	placeholder,
-	size = 'default',
-	children,
-	...props
-}: TriggerProps) {
+function Trigger({ className, placeholder, size = 'default', children, ...props }: TriggerProps) {
 	return (
 		<ArkSelect.Control className="w-full">
 			<ArkSelect.Trigger

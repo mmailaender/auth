@@ -121,7 +121,9 @@ export const PasswordFlow = ({
 			toast.success('Password reset email sent!');
 		} catch (error) {
 			console.error('Password reset error:', error);
-			toast.error(error instanceof Error ? error.message : 'Failed to send reset email. Please try again.');
+			toast.error(
+				error instanceof Error ? error.message : 'Failed to send reset email. Please try again.'
+			);
 		} finally {
 			setIsRequestingReset(false);
 		}
@@ -134,13 +136,13 @@ export const PasswordFlow = ({
 					<label htmlFor="email" className="label">
 						Email
 					</label>
-				<input
-					id="email"
-					type="email"
-					value={email}
-					disabled
-					className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
-				/>
+					<input
+						id="email"
+						type="email"
+						value={email}
+						disabled
+						className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
+					/>
 				</div>
 
 				{mode === 'register' ? (
@@ -148,16 +150,16 @@ export const PasswordFlow = ({
 						<label htmlFor="name" className="label">
 							Full Name
 						</label>
-					<input
-						id="name"
-						name="name"
-						type="text"
-						className="input preset-filled-surface-200"
-						placeholder="Enter your full name"
-						autoComplete="name"
-						required
-						disabled={submitting}
-					/>
+						<input
+							id="name"
+							name="name"
+							type="text"
+							className="input preset-filled-surface-200"
+							placeholder="Enter your full name"
+							autoComplete="name"
+							required
+							disabled={submitting}
+						/>
 					</div>
 				) : null}
 

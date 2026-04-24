@@ -7,7 +7,10 @@ import { useConvexAuth } from 'convex/react';
 import * as Dialog from '@/components/primitives/ui/dialog';
 import UserProfile from '@/components/users/ui/UserProfile';
 import { DIALOG_KEY } from '@/components/users/utils/user.constants';
-import { isEditableElement, scheduleScrollIntoView } from '@/components/primitives/utils/focusScroll';
+import {
+	isEditableElement,
+	scheduleScrollIntoView
+} from '@/components/primitives/utils/focusScroll';
 
 export default function UserProfileHost() {
 	const { isAuthenticated } = useConvexAuth();
@@ -22,7 +25,9 @@ export default function UserProfileHost() {
 
 	useEffect(() => {
 		const ua = navigator.userAgent;
-		setIsIOS(/iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1));
+		setIsIOS(
+			/iPhone|iPad|iPod/.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1)
+		);
 	}, []);
 
 	useEffect(() => {

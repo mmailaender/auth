@@ -104,13 +104,13 @@ export const EmailOtpFlow = ({
 					<label className="label" htmlFor="email">
 						Email
 					</label>
-				<input
-					id="email"
-					type="email"
-					value={email}
-					disabled
-					className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
-				/>
+					<input
+						id="email"
+						type="email"
+						value={email}
+						disabled
+						className="input preset-filled-surface-200 cursor-not-allowed opacity-60"
+					/>
 				</div>
 
 				{mode === 'register' && (
@@ -118,17 +118,17 @@ export const EmailOtpFlow = ({
 						<label className="label" htmlFor="name">
 							Full Name
 						</label>
-					<input
-						id="name"
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						className="input preset-filled-surface-200"
-						placeholder="Enter your full name"
-						autoComplete="name"
-						required
-						disabled={submitting}
-					/>
+						<input
+							id="name"
+							type="text"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							className="input preset-filled-surface-200"
+							placeholder="Enter your full name"
+							autoComplete="name"
+							required
+							disabled={submitting}
+						/>
 					</div>
 				)}
 
@@ -136,21 +136,21 @@ export const EmailOtpFlow = ({
 					<label className="label" htmlFor="otp">
 						Verification Code
 					</label>
-				<input
-					id="otp"
-					type="text"
-					value={otp}
-					onChange={(e) => setOtp(e.target.value)}
-					className="input preset-filled-surface-200"
-					placeholder="Enter verification code"
-					pattern="[0-9]*"
-					inputMode="numeric"
-					autoComplete="one-time-code"
-					maxLength={6}
-					required
-					disabled={submitting}
-				/>
-			</div>
+					<input
+						id="otp"
+						type="text"
+						value={otp}
+						onChange={(e) => setOtp(e.target.value)}
+						className="input preset-filled-surface-200"
+						placeholder="Enter verification code"
+						pattern="[0-9]*"
+						inputMode="numeric"
+						autoComplete="one-time-code"
+						maxLength={6}
+						required
+						disabled={submitting}
+					/>
+				</div>
 			</div>
 
 			<div className="flex flex-col gap-2">

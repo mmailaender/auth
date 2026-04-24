@@ -28,7 +28,11 @@ function Close({ ...props }: React.ComponentProps<typeof ArkDrawer.CloseTrigger>
 	return <ArkDrawer.CloseTrigger data-slot="drawer-close" {...props} />;
 }
 
-function CloseX({ className, children, ...props }: React.ComponentProps<typeof ArkDrawer.CloseTrigger>) {
+function CloseX({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof ArkDrawer.CloseTrigger>) {
 	return (
 		<ArkDrawer.CloseTrigger
 			data-slot="drawer-close"
@@ -62,7 +66,11 @@ function Portal({ children }: { children?: React.ReactNode }) {
 	return <ArkDrawer.Positioner data-slot="drawer-portal">{children}</ArkDrawer.Positioner>;
 }
 
-function Content({ className, children, ...props }: React.ComponentProps<typeof ArkDrawer.Content>) {
+function Content({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof ArkDrawer.Content>) {
 	return (
 		<>
 			<Overlay />

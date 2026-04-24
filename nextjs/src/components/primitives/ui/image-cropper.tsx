@@ -288,7 +288,7 @@ export function Cropper({
 
 export function Controls({ children, className }: { children: ReactNode; className?: string }) {
 	return (
-		<div className={cn('flex w-full items-center justify-end gap-2  pt-3', className)}>
+		<div className={cn('flex w-full items-center justify-end gap-2 pt-3', className)}>
 			{children}
 		</div>
 	);

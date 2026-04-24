@@ -29,7 +29,11 @@ function Close({ ...props }: React.ComponentProps<typeof ArkDialog.CloseTrigger>
 	return <ArkDialog.CloseTrigger data-slot="dialog-close" type="button" {...props} />;
 }
 
-function CloseX({ className, children, ...props }: React.ComponentProps<typeof ArkDialog.CloseTrigger>) {
+function CloseX({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof ArkDialog.CloseTrigger>) {
 	return (
 		<ArkDialog.CloseTrigger
 			data-slot="dialog-close"
@@ -65,15 +69,13 @@ function Portal({ children }: { children?: React.ReactNode }) {
 }
 
 type ContentProps = Omit<React.ComponentProps<typeof ArkDialog.Content>, 'onInteractOutside'> & {
-	onInteractOutside?: (event: { preventDefault: () => void; detail: { originalEvent: Event } }) => void;
+	onInteractOutside?: (event: {
+		preventDefault: () => void;
+		detail: { originalEvent: Event };
+	}) => void;
 };
 
-function Content({
-	className,
-	children,
-	onInteractOutside,
-	...props
-}: ContentProps) {
+function Content({ className, children, onInteractOutside, ...props }: ContentProps) {
 	void onInteractOutside;
 	return (
 		<>

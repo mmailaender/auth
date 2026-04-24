@@ -8,12 +8,7 @@ type RootProps = Omit<React.ComponentProps<typeof ArkToggle.Root>, 'onPressedCha
 };
 
 function Root({ onPressedChange, ...props }: RootProps) {
-	return (
-		<ArkToggle.Root
-			onPressedChange={onPressedChange}
-			{...props}
-		/>
-	);
+	return <ArkToggle.Root onPressedChange={onPressedChange} {...props} />;
 }
 
 export { Root };

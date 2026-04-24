@@ -123,7 +123,9 @@ export function SocialFlow({
 	const activeProviders = useMemo(() => {
 		return providerConfigs.filter((provider) => {
 			if (provider.id === 'twitter') return AUTH_CONSTANTS.providers.x;
-			return AUTH_CONSTANTS.providers[provider.id as keyof typeof AUTH_CONSTANTS.providers] === true;
+			return (
+				AUTH_CONSTANTS.providers[provider.id as keyof typeof AUTH_CONSTANTS.providers] === true
+			);
 		});
 	}, []);
 

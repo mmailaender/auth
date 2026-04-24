@@ -197,7 +197,10 @@ export default function GeneralSettings() {
 							className="rounded-container size-20"
 							onStatusChange={(details) => setImageLoadingStatus(details.status)}
 						>
-							<Avatar.Image src={displayedLogoSrc} alt={activeOrganization.name || 'Organization'} />
+							<Avatar.Image
+								src={displayedLogoSrc}
+								alt={activeOrganization.name || 'Organization'}
+							/>
 							<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
 								<Building2 className="text-surface-700-300 size-10" />
 							</Avatar.Fallback>

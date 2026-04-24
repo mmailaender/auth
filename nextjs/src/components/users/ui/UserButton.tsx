@@ -110,7 +110,11 @@ export default function UserButton({
 				}}
 			>
 				<Dialog.Content className="sm:rounded-container h-full max-h-[100dvh] w-full rounded-none sm:h-auto sm:max-h-[90vh] sm:w-4xl sm:max-w-md">
-					<SignIn key={signInKey} onSignIn={() => setSignInDialogOpen(false)} className="p-2 sm:p-8" />
+					<SignIn
+						key={signInKey}
+						onSignIn={() => setSignInDialogOpen(false)}
+						className="p-2 sm:p-8"
+					/>
 					<Dialog.CloseX />
 				</Dialog.Content>
 			</Dialog.Root>

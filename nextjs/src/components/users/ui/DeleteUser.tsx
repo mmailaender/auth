@@ -50,7 +50,8 @@ export default function DeleteUser() {
 				<Dialog.Header>
 					<Dialog.Title>Delete your account</Dialog.Title>
 					<Dialog.Description className="text-surface-700-300">
-						Are you sure you want to delete your account? All of your data will be permanently deleted.
+						Are you sure you want to delete your account? All of your data will be permanently
+						deleted.
 					</Dialog.Description>
 				</Dialog.Header>
 				<Dialog.Footer className="w-full">

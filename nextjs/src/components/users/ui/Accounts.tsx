@@ -186,7 +186,11 @@ export default function Accounts() {
 		url.searchParams.set('dialog', 'user-profile');
 		url.searchParams.delete('success');
 		url.searchParams.delete('error');
-		window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+		window.history.replaceState(
+			window.history.state,
+			'',
+			`${url.pathname}${url.search}${url.hash}`
+		);
 	}, [searchParams, handledCallbackKey]);
 
 	async function linkAccount(provider: string) {
@@ -204,13 +208,20 @@ export default function Accounts() {
 		const baseUrl = new URL(window.location.href);
 		baseUrl.searchParams.set('dialog', 'user-profile');
 		const successUrl = new URL(baseUrl);
-		successUrl.searchParams.set('success', `${getProviderLabel(provider)} account linked successfully`);
+		successUrl.searchParams.set(
+			'success',
+			`${getProviderLabel(provider)} account linked successfully`
+		);
 		const errorUrl = new URL(baseUrl);
 		errorUrl.searchParams.delete('success');
 
 		const cleanUrl = new URL(window.location.href);
 		cleanUrl.searchParams.delete('dialog');
-		window.history.replaceState(window.history.state, '', `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+		window.history.replaceState(
+			window.history.state,
+			'',
+			`${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`
+		);
 
 		await authClient.linkSocial({
 			provider: provider as never,
@@ -344,7 +355,9 @@ export default function Accounts() {
 									<div className="flex w-full flex-row items-center justify-between">
 										<div className="flex items-center gap-3 pl-1">
 											<ProviderIcon size={16} />
-											<div className="text-sm font-medium">{getProviderLabel(account.providerId)}</div>
+											<div className="text-sm font-medium">
+												{getProviderLabel(account.providerId)}
+											</div>
 										</div>
 										<div className="flex items-center">
 											{account.providerId === 'credential' ? (
@@ -366,7 +379,11 @@ export default function Accounts() {
 													disabled={unlinkingAccountId === account.id}
 													onClick={() => void unlinkAccount(account.accountId, account.providerId)}
 												>
-													{unlinkingAccountId === account.id ? 'Unlinking...' : <Trash2 className="size-4" />}
+													{unlinkingAccountId === account.id ? (
+														'Unlinking...'
+													) : (
+														<Trash2 className="size-4" />
+													)}
 												</button>
 											) : null}
 										</div>
@@ -381,7 +398,10 @@ export default function Accounts() {
 											inert={!isEditingPasswordInline}
 										>
 											<div className="overflow-hidden">
-												<form onSubmit={handleChangePasswordSubmit} className="flex w-full flex-col gap-3 pt-4">
+												<form
+													onSubmit={handleChangePasswordSubmit}
+													className="flex w-full flex-col gap-3 pt-4"
+												>
 													<input
 														ref={currentPasswordInputRef}
 														type="password"
@@ -460,7 +480,9 @@ export default function Accounts() {
 							})}
 						</Select.Content>
 					</Select.Root>
-					{isLinking ? <p className="text-surface-600-400 mt-2 text-sm">Linking account...</p> : null}
+					{isLinking ? (
+						<p className="text-surface-600-400 mt-2 text-sm">Linking account...</p>
+					) : null}
 				</div>
 			) : null}
 

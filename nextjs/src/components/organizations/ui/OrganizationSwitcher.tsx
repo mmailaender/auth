@@ -51,9 +51,12 @@ export default function OrganizationSwitcher({
 				/\/(active-organization|active-org)(?=\/|$)/g,
 				`/${slug}`
 			);
-			router.replace(`${newPathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`, {
-				scroll: false
-			});
+			router.replace(
+				`${newPathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`,
+				{
+					scroll: false
+				}
+			);
 		}
 	}, [activeOrganization?.slug, pathname, router, searchParams]);
 
@@ -72,7 +75,10 @@ export default function OrganizationSwitcher({
 					const nextOrg = organizations?.find((org) => org?.id === organizationId);
 					if (nextOrg?.slug && nextOrg.slug !== currentActiveOrgSlug) {
 						router.replace(
-							pathname.replace(new RegExp(`/${currentActiveOrgSlug}(?=/|$)`, 'g'), `/${nextOrg.slug}`)
+							pathname.replace(
+								new RegExp(`/${currentActiveOrgSlug}(?=/|$)`, 'g'),
+								`/${nextOrg.slug}`
+							)
 						);
 					} else {
 						router.refresh();
@@ -111,12 +117,17 @@ export default function OrganizationSwitcher({
 	if (!AUTH_CONSTANTS.organizations) {
 		return (
 			<div className="text-error-600-400">
-				Organizations are disabled, but OrganizationSwitcher is being used. Please turn them on in auth.constants.ts
+				Organizations are disabled, but OrganizationSwitcher is being used. Please turn them on in
+				auth.constants.ts
 			</div>
 		);
 	}
 	if (!isAuthenticated) return null;
-	if ((isLoading || organizations === undefined || activeOrganization === undefined) && !organizations && !activeOrganization) {
+	if (
+		(isLoading || organizations === undefined || activeOrganization === undefined) &&
+		!organizations &&
+		!activeOrganization
+	) {
 		return <div className="placeholder h-8 w-40 animate-pulse" />;
 	}
 
@@ -156,20 +167,29 @@ export default function OrganizationSwitcher({
 								<Building2 className="size-5" />
 							</Avatar.Fallback>
 						</Avatar.Root>
-						<span className="text-surface-700-300 truncate text-sm">{activeOrganization?.name}</span>
+						<span className="text-surface-700-300 truncate text-sm">
+							{activeOrganization?.name}
+						</span>
 					</div>
 					<ChevronsUpDown className="size-4 opacity-40" />
 				</Popover.Trigger>
 				<Popover.Content>
 					<div className="flex flex-col gap-1">
-						<div role="list" className="bg-surface-50-950 rounded-container flex flex-col overflow-hidden">
+						<div
+							role="list"
+							className="bg-surface-50-950 rounded-container flex flex-col overflow-hidden"
+						>
 							{isOwnerOrAdmin ? (
 								<button
 									onClick={openProfileModal}
 									className="btn hover:bg-surface-100-900/50 text-surface-700-300 flex h-14 w-full max-w-80 items-center gap-3 p-3 pr-5 text-left text-sm/6"
 								>
 									<Avatar.Root className="rounded-container size-8 shrink-0">
-										<Avatar.Image src={activeOrganization?.logo ?? undefined} alt={activeOrganization?.name} className="rounded-container" />
+										<Avatar.Image
+											src={activeOrganization?.logo ?? undefined}
+											alt={activeOrganization?.name}
+											className="rounded-container"
+										/>
 										<Avatar.Fallback className="rounded-container">
 											<Building2 className="size-4" />
 										</Avatar.Fallback>
@@ -182,7 +202,11 @@ export default function OrganizationSwitcher({
 							) : (
 								<div className="text-surface-700-300 border-surface-200-800 flex max-w-80 items-center gap-3 border-t p-3 text-sm/6">
 									<Avatar.Root className="rounded-container size-8 shrink-0">
-										<Avatar.Image src={activeOrganization?.logo ?? undefined} alt={activeOrganization?.name} className="rounded-container" />
+										<Avatar.Image
+											src={activeOrganization?.logo ?? undefined}
+											alt={activeOrganization?.name}
+											className="rounded-container"
+										/>
 										<Avatar.Fallback className="rounded-container">
 											<Building2 className="size-4" />
 										</Avatar.Fallback>
@@ -204,7 +228,11 @@ export default function OrganizationSwitcher({
 												className="group hover:bg-surface-100-900/50 border-surface-200-800 flex w-full max-w-80 items-center gap-3 border-t p-3"
 											>
 												<Avatar.Root className="rounded-container size-8 shrink-0">
-													<Avatar.Image src={org.logo ?? undefined} alt={org.name} className="rounded-container" />
+													<Avatar.Image
+														src={org.logo ?? undefined}
+														alt={org.name}
+														className="rounded-container"
+													/>
 													<Avatar.Fallback className="rounded-container">
 														<Building2 className="size-4" />
 													</Avatar.Fallback>

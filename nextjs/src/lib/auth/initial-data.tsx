@@ -13,7 +13,11 @@ export function InitialAuthDataProvider({
 	children: React.ReactNode;
 	initialData?: InitialAuthData;
 }) {
-	return <InitialAuthDataContext.Provider value={initialData}>{children}</InitialAuthDataContext.Provider>;
+	return (
+		<InitialAuthDataContext.Provider value={initialData}>
+			{children}
+		</InitialAuthDataContext.Provider>
+	);
 }
 
 export function useInitialAuthData() {

@@ -150,7 +150,11 @@ export default function LeaveOrganization(): React.ReactNode {
 				)}
 
 				<Dialog.Footer>
-					<button className="btn preset-tonal" onClick={() => setIsOpen(false)} disabled={isLeaving}>
+					<button
+						className="btn preset-tonal"
+						onClick={() => setIsOpen(false)}
+						disabled={isLeaving}
+					>
 						Cancel
 					</button>
 					<button
