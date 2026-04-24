@@ -8,7 +8,6 @@
 		"dev:email": "email dev",
 		"dev": "concurrently --kill-others --prefix-colors blue,yellow --names 'next,convex' 'pnpm dev:frontend' 'pnpm dev:backend'",
 		"build": "next build",
-		"build:production": "sh ../vercel.sh",
 		"start": "next start",
 		"lint": "eslint .",
 		"format": "prettier --write .",

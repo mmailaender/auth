@@ -1,22 +1,16 @@
 import { convexBetterAuthNextJs } from '@convex-dev/better-auth/nextjs';
 
-const requireEnv = (name: string) => {
-	const value = process.env[name];
-	if (!value) {
-		throw new Error(`${name} must be set.`);
-	}
-	return value;
-};
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+if (!convexUrl) {
+	throw new Error('NEXT_PUBLIC_CONVEX_URL must be set.');
+}
 
-const requireOneEnv = (...names: string[]) => {
-	for (const name of names) {
-		const value = process.env[name];
-		if (value) return value;
-	}
-	throw new Error(`${names.join(' or ')} must be set.`);
-};
+const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL ?? process.env.CONVEX_SITE_URL;
+if (!convexSiteUrl) {
+	throw new Error('NEXT_PUBLIC_CONVEX_SITE_URL or CONVEX_SITE_URL must be set.');
+}
 
 export const { fetchAuthQuery, getToken, handler } = convexBetterAuthNextJs({
-	convexUrl: requireEnv('NEXT_PUBLIC_CONVEX_URL'),
-	convexSiteUrl: requireOneEnv('NEXT_PUBLIC_CONVEX_SITE_URL', 'CONVEX_SITE_URL')
+	convexUrl,
+	convexSiteUrl
 });
