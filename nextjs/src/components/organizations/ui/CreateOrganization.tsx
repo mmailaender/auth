@@ -188,14 +188,14 @@ export default function CreateOrganization({
 					onCropped={handleCropped}
 				>
 					<ImageCropper.UploadTrigger>
-						<div className="relative cursor-pointer transition-colors hover:brightness-125 hover:dark:brightness-75">
+						<div className="rounded-container relative size-20 cursor-pointer transition-all duration-200">
 							<Avatar.Root className="rounded-container size-20">
 								<Avatar.Image src={logo} alt={name.length > 0 ? name : 'My Organization'} />
-								<Avatar.Fallback className="bg-surface-400-600 rounded-container">
-									<Building2 className="size-10" />
+								<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
+									<Building2 className="text-surface-700-300 size-10" />
 								</Avatar.Fallback>
 							</Avatar.Root>
-							<div className="badge-icon preset-filled-surface-300-700 border-surface-200-800 absolute -right-1.5 -bottom-1.5 size-3 rounded-full border-2">
+							<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
 								<Pencil className="size-4" />
 							</div>
 						</div>
@@ -204,7 +204,7 @@ export default function CreateOrganization({
 						<ImageCropper.Cropper cropShape="rect" />
 						<ImageCropper.Controls>
 							<ImageCropper.Cancel />
-							<ImageCropper.Crop />
+							<ImageCropper.Crop>Upload</ImageCropper.Crop>
 						</ImageCropper.Controls>
 					</ImageCropper.Dialog>
 				</ImageCropper.Root>

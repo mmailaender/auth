@@ -58,7 +58,7 @@ export default function GeneralSettings() {
 		'loaded'
 	);
 	const [isUploading, setIsUploading] = useState(false);
-	const [logoKey, setLogoKey] = useState(0);
+	const [logoKey] = useState(0);
 	const [cropSrc, setCropSrc] = useState('');
 	const [isEditingName, setIsEditingName] = useState(false);
 	const [name, setName] = useState('');
@@ -76,14 +76,16 @@ export default function GeneralSettings() {
 	}, [activeOrganization, isEditingName, isEditingSlug]);
 
 	useEffect(() => {
-		if (activeOrganization?.logo) {
+		if (activeOrganization?.logo && !cropSrc.startsWith('blob:')) {
 			setCropSrc(activeOrganization.logo);
 		}
-	}, [activeOrganization?.logo]);
+	}, [activeOrganization?.logo, cropSrc]);
 
 	async function handleCropped(url: string) {
 		if (!activeOrganization) return;
+		const previousLogo = activeOrganization.logo ?? '';
 		try {
+			setCropSrc(url);
 			setIsUploading(true);
 			const croppedFile = await ImageCropper.getFileFromUrl(url, 'logo.png');
 			const optimizedFile = await optimizeImage(croppedFile, {
@@ -103,13 +105,12 @@ export default function GeneralSettings() {
 			if (!response.ok) throw new Error('Failed to upload file');
 			const { storageId } = (await response.json()) as { storageId: GenericId<'_storage'> };
 			await updateOrganization({ logoId: storageId });
-			setImageLoadingStatus('loading');
-			setLogoKey((key) => key + 1);
-			setCropSrc(url);
+			setImageLoadingStatus('loaded');
 			toast.success('Organization logo updated successfully');
 		} catch (err) {
 			const message = err instanceof Error ? err.message : 'An unknown error occurred';
 			toast.error(`Failed to update logo: ${message}`);
+			setCropSrc(previousLogo);
 			setImageLoadingStatus('error');
 		} finally {
 			setIsUploading(false);
@@ -177,6 +178,9 @@ export default function GeneralSettings() {
 	}
 
 	if (!user || !activeOrganization) return null;
+	const displayedLogoSrc = cropSrc || activeOrganization.logo || undefined;
+	const showLogoOverlay =
+		!cropSrc.startsWith('blob:') && (isUploading || imageLoadingStatus === 'loading');
 
 	return (
 		<div className="flex w-full flex-col items-start gap-6">
@@ -186,34 +190,33 @@ export default function GeneralSettings() {
 				accept="image/*"
 				onCropped={handleCropped}
 			>
-				<ImageCropper.UploadTrigger className="rounded-container relative cursor-pointer transition-all duration-200">
-					<Avatar.Root
-						key={logoKey}
-						className="rounded-container size-20"
-						onStatusChange={(details) => setImageLoadingStatus(details.status)}
-					>
-						<Avatar.Image
-							src={activeOrganization.logo ?? undefined}
-							alt={activeOrganization.name || 'Organization'}
-						/>
-						<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
-							<Building2 className="text-surface-700-300 size-10" />
-						</Avatar.Fallback>
-					</Avatar.Root>
-					{isUploading || imageLoadingStatus === 'loading' ? (
-						<div className="bg-surface-50-950 rounded-container pointer-events-none absolute inset-0 flex items-center justify-center">
-							<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent" />
+				<ImageCropper.UploadTrigger>
+					<div className="rounded-container relative cursor-pointer transition-all duration-200">
+						<Avatar.Root
+							key={logoKey}
+							className="rounded-container size-20"
+							onStatusChange={(details) => setImageLoadingStatus(details.status)}
+						>
+							<Avatar.Image src={displayedLogoSrc} alt={activeOrganization.name || 'Organization'} />
+							<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
+								<Building2 className="text-surface-700-300 size-10" />
+							</Avatar.Fallback>
+						</Avatar.Root>
+						{showLogoOverlay ? (
+							<div className="bg-surface-50-950 rounded-container pointer-events-none absolute inset-0 flex items-center justify-center">
+								<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent" />
+							</div>
+						) : null}
+						<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
+							<Pencil className="size-4" />
 						</div>
-					) : null}
-					<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
-						<Pencil className="size-4" />
 					</div>
 				</ImageCropper.UploadTrigger>
 				<ImageCropper.Dialog>
 					<ImageCropper.Cropper cropShape="rect" />
 					<ImageCropper.Controls>
 						<ImageCropper.Cancel />
-						<ImageCropper.Crop />
+						<ImageCropper.Crop>Upload</ImageCropper.Crop>
 					</ImageCropper.Controls>
 				</ImageCropper.Dialog>
 			</ImageCropper.Root>

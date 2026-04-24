@@ -52,7 +52,7 @@ export default function ProfileInfo() {
 	const [name, setName] = useState('');
 	const [loadingStatus, setLoadingStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
 	const [isUploading, setIsUploading] = useState(false);
-	const [avatarKey, setAvatarKey] = useState(0);
+	const [avatarKey] = useState(0);
 	const [cropSrc, setCropSrc] = useState('');
 	const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -63,10 +63,10 @@ export default function ProfileInfo() {
 	}, [activeUser, isEditingName]);
 
 	useEffect(() => {
-		if (activeUser?.image) {
+		if (activeUser?.image && !cropSrc.startsWith('blob:')) {
 			setCropSrc(activeUser.image);
 		}
-	}, [activeUser?.image]);
+	}, [activeUser?.image, cropSrc]);
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -89,7 +89,9 @@ export default function ProfileInfo() {
 	}
 
 	async function handleCropped(url: string) {
+		const previousImage = activeUser?.image ?? '';
 		try {
+			setCropSrc(url);
 			setIsUploading(true);
 			const croppedFile = await ImageCropper.getFileFromUrl(url, 'avatar.png');
 			const optimizedFile = await optimizeImage(croppedFile, {
@@ -110,15 +112,14 @@ export default function ProfileInfo() {
 			if (!response.ok) throw new Error('Failed to upload file');
 
 			const result = (await response.json()) as { storageId: GenericId<'_storage'> };
-			const imageUrl = await updateAvatar({ storageId: result.storageId, optimisticImage: url });
+			await updateAvatar({ storageId: result.storageId, optimisticImage: url });
 
-			setLoadingStatus('loading');
-			setAvatarKey((key) => key + 1);
-			setCropSrc(imageUrl);
+			setLoadingStatus('loaded');
 			toast.success('Avatar updated successfully');
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
 			toast.error(`Failed to upload avatar: ${errorMsg}`);
+			setCropSrc(previousImage);
 			setLoadingStatus('error');
 		} finally {
 			setIsUploading(false);
@@ -129,6 +130,10 @@ export default function ProfileInfo() {
 		return <div className="placeholder h-16 w-full animate-pulse" />;
 	}
 
+	const displayedAvatarSrc = cropSrc || activeUser.image || undefined;
+	const showAvatarOverlay =
+		!cropSrc.startsWith('blob:') && (isUploading || loadingStatus === 'loading');
+
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="rounded-base flex items-center justify-start pt-6 pl-0.5">
@@ -138,25 +143,27 @@ export default function ProfileInfo() {
 					accept="image/*"
 					onCropped={handleCropped}
 				>
-					<ImageCropper.UploadTrigger className="rounded-container relative size-20 cursor-pointer transition-all duration-200">
-						<div className="relative cursor-pointer transition-colors">
-							<Avatar.Root
-								key={avatarKey}
-								className="size-20"
-								onStatusChange={(details) => setLoadingStatus(details.status)}
-							>
-								<Avatar.Image src={activeUser.image ?? undefined} alt={activeUser.name} />
-								<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
-									<Avatar.Marble name={activeUser.name} />
-								</Avatar.Fallback>
-							</Avatar.Root>
-							{isUploading || loadingStatus === 'loading' ? (
-								<div className="bg-surface-50-950 pointer-events-none absolute inset-0 flex items-center justify-center rounded-full">
-									<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent" />
+					<ImageCropper.UploadTrigger>
+						<div className="rounded-container relative size-20 cursor-pointer transition-all duration-200">
+							<div className="relative cursor-pointer transition-colors">
+								<Avatar.Root
+									key={avatarKey}
+									className="size-20"
+									onStatusChange={(details) => setLoadingStatus(details.status)}
+								>
+									<Avatar.Image src={displayedAvatarSrc} alt={activeUser.name} />
+									<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
+										<Avatar.Marble name={activeUser.name} />
+									</Avatar.Fallback>
+								</Avatar.Root>
+								{showAvatarOverlay ? (
+									<div className="bg-surface-50-950 pointer-events-none absolute inset-0 flex items-center justify-center rounded-full">
+										<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent" />
+									</div>
+								) : null}
+								<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 hover:bg-surface-400-600 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
+									<Pencil className="size-4" />
 								</div>
-							) : null}
-							<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 hover:bg-surface-400-600 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
-								<Pencil className="size-4" />
 							</div>
 						</div>
 					</ImageCropper.UploadTrigger>
@@ -164,7 +171,7 @@ export default function ProfileInfo() {
 						<ImageCropper.Cropper cropShape="round" />
 						<ImageCropper.Controls>
 							<ImageCropper.Cancel />
-							<ImageCropper.Crop />
+							<ImageCropper.Crop>Upload</ImageCropper.Crop>
 						</ImageCropper.Controls>
 					</ImageCropper.Dialog>
 				</ImageCropper.Root>

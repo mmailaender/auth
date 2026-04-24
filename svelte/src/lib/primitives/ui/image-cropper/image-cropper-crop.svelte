@@ -2,13 +2,21 @@
 	import { useImageCropperCrop } from './image-cropper.svelte.js';
 	import CropIcon from '@lucide/svelte/icons/crop';
 	import { cn } from '$lib/primitives/utils.js';
+	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	type ButtonProps = HTMLAttributes<HTMLButtonElement> & {
+	type ButtonProps = Omit<HTMLAttributes<HTMLButtonElement>, 'children'> & {
 		ref?: HTMLButtonElement | null;
+		children?: Snippet;
 	};
 
-	let { ref = $bindable(null), onclick, class: className, ...rest }: ButtonProps = $props();
+	let {
+		ref = $bindable(null),
+		onclick,
+		class: className,
+		children,
+		...rest
+	}: ButtonProps = $props();
 
 	const cropState = useImageCropperCrop();
 </script>
@@ -27,6 +35,10 @@
 		cropState.onclick();
 	}}
 >
-	<CropIcon class="size-4" />
-	<span>Crop</span>
+	{#if children}
+		{@render children()}
+	{:else}
+		<CropIcon class="size-4" />
+		<span>Crop</span>
+	{/if}
 </button>

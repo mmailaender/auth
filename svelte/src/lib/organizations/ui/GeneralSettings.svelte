@@ -73,7 +73,7 @@
 	// Avatar State
 	let imageLoadingStatus: 'loading' | 'loaded' | 'error' = $state('loaded');
 	let isUploading: boolean = $state(false);
-	let logoKey: number = $state(0); // Force re-render when logo changes
+	let logoKey: number = $state(0);
 	let cropSrc: string = $state('');
 
 	// Inline name editing state
@@ -101,7 +101,7 @@
 
 	// Keep crop preview in sync with org logo
 	$effect(() => {
-		if (activeOrganization?.logo) {
+		if (activeOrganization?.logo && !cropSrc.startsWith('blob:')) {
 			cropSrc = activeOrganization.logo;
 		}
 	});
@@ -110,7 +110,9 @@
 
 	async function handleCropped(url: string): Promise<void> {
 		if (!activeOrganization) return;
+		const previousLogo = activeOrganization.logo ?? '';
 		try {
+			cropSrc = url;
 			isUploading = true;
 			const croppedFile = await getFileFromUrl(url, 'logo.png');
 			const optimizedFile = await optimizeImage(croppedFile, {
@@ -133,17 +135,23 @@
 			const { storageId } = await response.json();
 			await updateOrganization({ logoId: storageId });
 
-			imageLoadingStatus = 'loading';
-			logoKey += 1;
+			imageLoadingStatus = 'loaded';
 			toast.success('Organization logo updated successfully');
 		} catch (err) {
 			const message = err instanceof Error ? err.message : 'An unknown error occurred';
 			toast.error(`Failed to update logo: ${message}`);
+			cropSrc = previousLogo;
 			imageLoadingStatus = 'error';
 		} finally {
 			isUploading = false;
 		}
 	}
+
+	const displayedLogoSrc = $derived(cropSrc || activeOrganization?.logo || undefined);
+	const showLogoOverlay = $derived(
+		!cropSrc.startsWith('blob:') &&
+			(isUploading || (imageLoadingStatus as 'loading' | 'loaded' | 'error') === 'loading')
+	);
 
 	async function handleNameSubmit(e: SubmitEvent): Promise<void> {
 		e.preventDefault();
@@ -262,7 +270,7 @@
 							onStatusChange={(e) => (imageLoadingStatus = e.status)}
 						>
 							<Avatar.Image
-								src={activeOrganization.logo}
+								src={displayedLogoSrc}
 								alt={activeOrganization.name || 'Organization'}
 							/>
 							<Avatar.Fallback
@@ -273,7 +281,7 @@
 						</Avatar.Root>
 					{/key}
 
-					{#if isUploading || imageLoadingStatus === 'loading'}
+					{#if showLogoOverlay}
 						<div
 							class="bg-surface-50-950 rounded-container pointer-events-none absolute inset-0 flex items-center justify-center"
 						>
@@ -294,7 +302,7 @@
 				<ImageCropper.Cropper cropShape="rect" />
 				<ImageCropper.Controls>
 					<ImageCropper.Cancel />
-					<ImageCropper.Crop />
+					<ImageCropper.Crop>Upload</ImageCropper.Crop>
 				</ImageCropper.Controls>
 			</ImageCropper.Dialog>
 		</ImageCropper.Root>

@@ -51,7 +51,7 @@
 
 	let nameInputEl: HTMLInputElement | null = $state(null);
 
-	let avatarKey: number = $state(0); // Force re-render when image changes
+	let avatarKey: number = $state(0);
 
 	// Initialize state when user data is available
 	$effect(() => {
@@ -62,7 +62,7 @@
 
 	// Keep crop preview in sync with current user image
 	$effect(() => {
-		if (activeUser?.image) {
+		if (activeUser?.image && !cropSrc.startsWith('blob:')) {
 			cropSrc = activeUser.image;
 		}
 	});
@@ -108,7 +108,9 @@
 
 	// Handle cropped image from ImageCropper
 	async function handleCropped(url: string): Promise<void> {
+		const previousImage = activeUser?.image ?? '';
 		try {
+			cropSrc = url;
 			isUploading = true;
 			// Convert cropped URL to File, then optimize and upload
 			const croppedFile = await getFileFromUrl(url, 'avatar.png');
@@ -131,7 +133,7 @@
 
 			const result = await response.json();
 			const storageId = result.storageId as GenericId<'_storage'>;
-			const imageUrl = await updateAvatar(
+			await updateAvatar(
 				{ storageId, optimisticImage: url },
 				{
 					optimisticUpdate: (store, args) => {
@@ -152,18 +154,23 @@
 				}
 			);
 
-			loadingStatus = 'loading';
-			avatarKey += 1;
-			cropSrc = imageUrl;
+			loadingStatus = 'loaded';
 			toast.success('Avatar updated successfully');
 		} catch (err: unknown) {
 			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
 			toast.error(`Failed to upload avatar: ${errorMsg}`);
+			cropSrc = previousImage;
 			loadingStatus = 'error';
 		} finally {
 			isUploading = false;
 		}
 	}
+
+	const displayedAvatarSrc = $derived(cropSrc || activeUser?.image || undefined);
+	const showAvatarOverlay = $derived(
+		!cropSrc.startsWith('blob:') &&
+			(isUploading || (loadingStatus as 'loading' | 'loaded' | 'error') === 'loading')
+	);
 </script>
 
 <div class="flex flex-col gap-6">
@@ -180,7 +187,7 @@
 						<div class="relative cursor-pointer transition-colors">
 							{#key avatarKey}
 								<Avatar.Root class="size-20" onStatusChange={(e) => (loadingStatus = e.status)}>
-									<Avatar.Image src={activeUser.image} alt={activeUser.name} />
+									<Avatar.Image src={displayedAvatarSrc} alt={activeUser.name} />
 									<Avatar.Fallback
 										class="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out"
 									>
@@ -189,7 +196,7 @@
 								</Avatar.Root>
 							{/key}
 
-							{#if isUploading || loadingStatus === 'loading'}
+							{#if showAvatarOverlay}
 								<div
 									class="bg-surface-50-950 pointer-events-none absolute inset-0 flex items-center justify-center rounded-full"
 								>
@@ -211,7 +218,7 @@
 					<ImageCropper.Cropper cropShape="round" />
 					<ImageCropper.Controls>
 						<ImageCropper.Cancel />
-						<ImageCropper.Crop />
+						<ImageCropper.Crop>Upload</ImageCropper.Crop>
 					</ImageCropper.Controls>
 				</ImageCropper.Dialog>
 			</ImageCropper.Root>

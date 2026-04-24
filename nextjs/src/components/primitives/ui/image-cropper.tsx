@@ -153,17 +153,20 @@ export function Root({
 		setOpen(false);
 	}, []);
 
-	const handleUpload = useCallback((file: File) => {
-		if (!VALID_IMAGE_TYPES.includes(file.type as (typeof VALID_IMAGE_TYPES)[number])) {
-			onUnsupportedFile?.(file);
-			return;
-		}
+	const handleUpload = useCallback(
+		(file: File) => {
+			if (!VALID_IMAGE_TYPES.includes(file.type as (typeof VALID_IMAGE_TYPES)[number])) {
+				onUnsupportedFile?.(file);
+				return;
+			}
 
-		const nextTempUrl = URL.createObjectURL(file);
-		createdUrlsRef.current.push(nextTempUrl);
-		setTempUrl(nextTempUrl);
-		setOpen(true);
-	}, [onUnsupportedFile]);
+			const nextTempUrl = URL.createObjectURL(file);
+			createdUrlsRef.current.push(nextTempUrl);
+			setTempUrl(nextTempUrl);
+			setOpen(true);
+		},
+		[onUnsupportedFile]
+	);
 
 	const handleCrop = useCallback(async () => {
 		if (!pixelCrop || !tempUrl) return;
@@ -190,14 +193,12 @@ export function Root({
 		[accept, handleCancel, handleCrop, handleUpload, inputId, open, tempUrl]
 	);
 
-	return <ImageCropperContext.Provider value={contextValue}>{children}</ImageCropperContext.Provider>;
+	return (
+		<ImageCropperContext.Provider value={contextValue}>{children}</ImageCropperContext.Provider>
+	);
 }
 
-export function UploadTrigger({
-	children,
-	className,
-	...props
-}: React.ComponentProps<'label'>) {
+export function UploadTrigger({ children, className, ...props }: React.ComponentProps<'label'>) {
 	const { accept, inputId, handleUpload } = useImageCropperContext();
 
 	return (
@@ -235,8 +236,10 @@ export function DialogContent({
 				if (!nextOpen) handleCancel();
 			}}
 		>
-			<DialogPrimitive.Content className={cn('max-w-xl', className)}>
-				{children}
+			<DialogPrimitive.Content
+				className={cn('max-h-[85vh] min-h-96 max-w-full p-4 sm:max-w-md sm:p-5', className)}
+			>
+				<div className="flex min-h-0 w-full flex-1 flex-col gap-4">{children}</div>
 			</DialogPrimitive.Content>
 		</DialogPrimitive.Root>
 	);
@@ -283,14 +286,12 @@ export function Cropper({
 	);
 }
 
-export function Controls({
-	children,
-	className
-}: {
-	children: ReactNode;
-	className?: string;
-}) {
-	return <div className={cn('flex justify-end gap-2 pt-4', className)}>{children}</div>;
+export function Controls({ children, className }: { children: ReactNode; className?: string }) {
+	return (
+		<div className={cn('flex w-full items-center justify-end gap-2  pt-3', className)}>
+			{children}
+		</div>
+	);
 }
 
 export function Cancel({
@@ -312,11 +313,7 @@ export function Cancel({
 	);
 }
 
-export function Crop({
-	children = 'Crop',
-	className,
-	...props
-}: React.ComponentProps<'button'>) {
+export function Crop({ children = 'Crop', className, ...props }: React.ComponentProps<'button'>) {
 	const { handleCrop } = useImageCropperContext();
 
 	return (

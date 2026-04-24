@@ -71,7 +71,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en" data-theme="auth">
-			<body className="antialiased">
+			<body>
 				<ConvexClientProvider initialToken={initialToken ?? null} initialData={initialData}>
 					<div className="flex min-h-[100dvh] flex-col">
 						<header className="flex items-center justify-between gap-5 p-4">
