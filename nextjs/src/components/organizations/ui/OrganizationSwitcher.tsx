@@ -155,8 +155,8 @@ export default function OrganizationSwitcher({
 				onOpenChange={setOpenSwitcher}
 				positioning={{ placement: popoverPlacement }}
 			>
-				<Popover.Trigger className="border-surface-200-800 rounded-container flex w-40 flex-row items-center justify-between border p-1 pr-2 duration-200 ease-in-out">
-					<div className="flex w-full max-w-64 items-center gap-3 overflow-hidden">
+				<Popover.Trigger className="border-surface-200-800 rounded-container flex w-32 flex-row items-center justify-between border p-1 pr-2 duration-200 ease-in-out sm:w-40">
+					<div className="flex w-full max-w-64 items-center gap-2 overflow-hidden sm:gap-3">
 						<Avatar.Root className="rounded-container size-8 shrink-0">
 							<Avatar.Image
 								src={activeOrganization?.logo ?? undefined}

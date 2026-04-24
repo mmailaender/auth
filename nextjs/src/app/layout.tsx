@@ -68,8 +68,11 @@ export default async function RootLayout({
 			<body>
 				<ConvexClientProvider initialToken={initialToken ?? null} initialData={initialData}>
 					<div className="flex min-h-[100dvh] flex-col">
-						<header className="flex items-center justify-between gap-5 p-4">
-							<Link href="/" className="mr-auto text-2xl font-bold text-white">
+						<header className="flex min-w-0 items-center justify-between gap-2 p-3 sm:gap-5 sm:p-4">
+							<Link
+								href="/"
+								className="mr-auto min-w-0 truncate text-xl font-bold text-white sm:text-2xl"
+							>
 								Next.js
 							</Link>
 							{AUTH_CONSTANTS.organizations ? <OrganizationSwitcher /> : null}
