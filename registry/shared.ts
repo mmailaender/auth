@@ -2,6 +2,18 @@ const packageVersion = 'package' as const;
 const whenAdded = 'when-added' as const;
 const manual = 'manual' as const;
 
+export const betterAuthApiKeyDependency = {
+	ecosystem: 'js' as const,
+	name: '@better-auth/api-key',
+	version: '1.6.9'
+};
+
+export const betterAuthDependency = {
+	ecosystem: 'js' as const,
+	name: 'better-auth',
+	version: '1.6.9'
+};
+
 const sharedMeta = {
 	description: 'Plug & Play Auth Widgets for your application',
 	homepage: 'https://etesie.dev/docs/auth',
@@ -27,12 +39,12 @@ export function createConfigItem() {
 			{
 				path: 'src/convex/auth.ts',
 				dependencyResolution: manual,
-				dependencies: ['@convex-dev/better-auth', 'better-auth']
+				dependencies: ['@convex-dev/better-auth', betterAuthDependency]
 			},
 			{
 				path: 'src/convex/url.ts',
 				dependencyResolution: manual,
-				dependencies: ['better-auth']
+				dependencies: [betterAuthDependency]
 			},
 			{
 				path: 'src/convex/storage.ts',
@@ -125,12 +137,12 @@ export function createUsersConvexItem() {
 					{
 						path: 'mutations.ts',
 						dependencyResolution: manual,
-						dependencies: ['convex', 'better-auth']
+						dependencies: ['convex', betterAuthDependency]
 					},
 					{
 						path: 'queries.ts',
 						dependencyResolution: manual,
-						dependencies: ['convex', 'better-auth']
+						dependencies: ['convex', betterAuthDependency]
 					}
 				]
 			},
@@ -160,7 +172,7 @@ export function createOrganizationsConvexItem() {
 					{
 						path: 'mutations.ts',
 						dependencyResolution: manual,
-						dependencies: ['convex', 'better-auth']
+						dependencies: ['convex', betterAuthDependency]
 					},
 					{
 						path: 'queries.ts',
@@ -177,7 +189,7 @@ export function createOrganizationsConvexItem() {
 							{
 								path: 'mutations.ts',
 								dependencyResolution: manual,
-								dependencies: ['convex', 'better-auth']
+								dependencies: ['convex', betterAuthDependency]
 							}
 						]
 					}
@@ -192,7 +204,7 @@ export function createOrganizationsConvexItem() {
 							{
 								path: 'index.ts',
 								dependencyResolution: manual,
-								dependencies: ['convex', 'better-auth']
+								dependencies: ['convex', betterAuthDependency]
 							}
 						]
 					}
@@ -251,7 +263,7 @@ export function createDeviceAuthorizationConvexItem() {
 			{
 				path: 'src/convex/deviceAuthorization.ts',
 				dependencyResolution: manual,
-				dependencies: ['convex', 'better-auth']
+				dependencies: ['convex', betterAuthDependency]
 			}
 		]
 	};

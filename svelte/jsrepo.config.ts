@@ -2,6 +2,8 @@ import { defineConfig } from 'jsrepo';
 import { repository } from 'jsrepo/outputs';
 import { fs, jsrepo } from 'jsrepo/providers';
 import {
+	betterAuthApiKeyDependency,
+	betterAuthDependency,
 	createConfigItem,
 	createConvexBaseFiles,
 	createDeviceAuthorizationConvexItem,
@@ -130,7 +132,11 @@ export default defineConfig({
 										path: 'auth-client.ts',
 										dependencyResolution: 'manual',
 										registryDependencies: ['config'],
-										dependencies: ['@better-auth/api-key', '@convex-dev/better-auth', 'better-auth']
+										dependencies: [
+											betterAuthApiKeyDependency,
+											'@convex-dev/better-auth',
+											betterAuthDependency
+										]
 									}
 								]
 							},

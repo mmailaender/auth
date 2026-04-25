@@ -2,6 +2,8 @@ import { defineConfig } from 'jsrepo';
 import { repository } from 'jsrepo/outputs';
 import { fs, jsrepo } from 'jsrepo/providers';
 import {
+	betterAuthApiKeyDependency,
+	betterAuthDependency,
 	createConfigItem,
 	createConvexBaseFiles,
 	createDeviceAuthorizationConvexItem,
@@ -11,6 +13,12 @@ import {
 	createThemesItem,
 	createUsersConvexItem
 } from '../registry/shared';
+
+const reactSimpleIconsDependency = {
+	ecosystem: 'js' as const,
+	name: '@icons-pack/react-simple-icons',
+	version: '13.7.0'
+};
 
 export default defineConfig({
 	providers: [fs(), jsrepo()],
@@ -109,10 +117,10 @@ export default defineConfig({
 				dependencyResolution: 'manual',
 				registryDependencies: ['config', 'primitives'],
 				dependencies: [
-					'@better-auth/api-key',
+					betterAuthApiKeyDependency,
 					'@convex-dev/better-auth',
-					'@icons-pack/react-simple-icons',
-					'better-auth',
+					reactSimpleIconsDependency,
+					betterAuthDependency,
 					'convex',
 					'lucide-react',
 					'sonner'
@@ -135,7 +143,11 @@ export default defineConfig({
 										path: 'auth-client.ts',
 										dependencyResolution: 'manual',
 										registryDependencies: ['config'],
-										dependencies: ['@better-auth/api-key', '@convex-dev/better-auth', 'better-auth']
+										dependencies: [
+											betterAuthApiKeyDependency,
+											'@convex-dev/better-auth',
+											betterAuthDependency
+										]
 									},
 									{
 										path: 'auth.ts',
@@ -190,8 +202,8 @@ export default defineConfig({
 				dependencies: [
 					'@ark-ui/react',
 					'@convex-dev/better-auth',
-					'@icons-pack/react-simple-icons',
-					'better-auth',
+					reactSimpleIconsDependency,
+					betterAuthDependency,
 					'convex',
 					'lucide-react',
 					'sonner'
@@ -214,7 +226,7 @@ export default defineConfig({
 				dependencies: [
 					'@ark-ui/react',
 					'@convex-dev/better-auth',
-					'better-auth',
+					betterAuthDependency,
 					'convex',
 					'lucide-react',
 					'sonner'

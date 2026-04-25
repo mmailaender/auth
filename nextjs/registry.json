@@ -4,7 +4,13 @@
 	"description": "Plug & Play Auth Widgets for your application",
 	"homepage": "https://etesie.dev/docs/auth",
 	"repository": "https://github.com/mmailaender/Convex-Better-Auth-UI",
-	"tags": ["auth", "nextjs", "ui", "convex", "better-auth"],
+	"tags": [
+		"auth",
+		"nextjs",
+		"ui",
+		"convex",
+		"better-auth"
+	],
 	"version": "package",
 	"type": "repository",
 	"defaultPaths": {
@@ -39,7 +45,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -54,7 +61,8 @@
 					"dependencies": [
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -106,7 +114,9 @@
 			"name": "base",
 			"type": "base",
 			"add": "when-added",
-			"registryDependencies": ["config"],
+			"registryDependencies": [
+				"config"
+			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -612,11 +622,15 @@
 			"name": "auth/lib",
 			"type": "lib",
 			"add": "when-added",
-			"registryDependencies": ["config", "primitives"],
+			"registryDependencies": [
+				"config",
+				"primitives"
+			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
-					"name": "@better-auth/api-key"
+					"name": "@better-auth/api-key",
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -624,11 +638,13 @@
 				},
 				{
 					"ecosystem": "js",
-					"name": "@icons-pack/react-simple-icons"
+					"name": "@icons-pack/react-simple-icons",
+					"version": "13.7.0"
 				},
 				{
 					"ecosystem": "js",
-					"name": "better-auth"
+					"name": "better-auth",
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -686,11 +702,14 @@
 					"path": "auth/api/auth-client.ts",
 					"relativePath": "src/lib/auth/api/auth-client.ts",
 					"_imports_": [],
-					"registryDependencies": ["config"],
+					"registryDependencies": [
+						"config"
+					],
 					"dependencies": [
 						{
 							"ecosystem": "js",
-							"name": "@better-auth/api-key"
+							"name": "@better-auth/api-key",
+							"version": "1.6.9"
 						},
 						{
 							"ecosystem": "js",
@@ -698,7 +717,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -709,7 +729,9 @@
 					"path": "auth/api/auth.ts",
 					"relativePath": "src/lib/auth/api/auth.ts",
 					"_imports_": [],
-					"registryDependencies": ["config"],
+					"registryDependencies": [
+						"config"
+					],
 					"dependencies": [],
 					"devDependencies": []
 				},
@@ -822,7 +844,9 @@
 			"name": "auth/routes",
 			"type": "routes",
 			"add": "when-added",
-			"registryDependencies": ["auth/lib"],
+			"registryDependencies": [
+				"auth/lib"
+			],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
@@ -898,7 +922,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -917,7 +942,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -947,7 +973,10 @@
 			"name": "users/lib",
 			"type": "components",
 			"add": "when-added",
-			"registryDependencies": ["auth/lib", "primitives"],
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -959,11 +988,13 @@
 				},
 				{
 					"ecosystem": "js",
-					"name": "@icons-pack/react-simple-icons"
+					"name": "@icons-pack/react-simple-icons",
+					"version": "13.7.0"
 				},
 				{
 					"ecosystem": "js",
-					"name": "better-auth"
+					"name": "better-auth",
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -1104,7 +1135,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1148,7 +1180,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1167,7 +1200,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1197,7 +1231,10 @@
 			"name": "organizations/lib",
 			"type": "components",
 			"add": "when-added",
-			"registryDependencies": ["auth/lib", "primitives"],
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -1209,7 +1246,8 @@
 				},
 				{
 					"ecosystem": "js",
-					"name": "better-auth"
+					"name": "better-auth",
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -1362,7 +1400,11 @@
 			"name": "organizations/routes",
 			"type": "routes",
 			"add": "when-added",
-			"registryDependencies": ["auth/lib", "organizations/lib", "organizations/convex"],
+			"registryDependencies": [
+				"auth/lib",
+				"organizations/lib",
+				"organizations/convex"
+			],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
@@ -1488,7 +1530,8 @@
 						},
 						{
 							"ecosystem": "js",
-							"name": "better-auth"
+							"name": "better-auth",
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1510,7 +1553,10 @@
 					"relativePath": "src/app/device-authorization/[code]/page.tsx",
 					"_imports_": [],
 					"target": "src/app/device-authorization/[code]/page.tsx",
-					"registryDependencies": ["auth/lib", "config"],
+					"registryDependencies": [
+						"auth/lib",
+						"config"
+					],
 					"dependencies": [],
 					"devDependencies": []
 				}
