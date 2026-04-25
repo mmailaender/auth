@@ -10,6 +10,9 @@
 	// Components
 	import OrganizationProfile from '$lib/organizations/ui/OrganizationProfile.svelte';
 
+	// API
+	import { useAuth } from '@mmailaender/convex-better-auth-svelte/svelte';
+
 	// Constants
 	import { DIALOG_KEY } from '$lib/organizations/utils/organization.constants';
 
@@ -32,6 +35,10 @@
 	};
 
 	let { initialData }: OrganizationProfileHostProps = $props();
+
+	// Auth
+	const auth = useAuth();
+	const isAuthenticated = $derived(auth.isAuthenticated);
 
 	// Local dialog state (formerly from singleton)
 	let orgProfile = $state({
@@ -125,7 +132,7 @@
 	}
 </script>
 
-{#if !suppressDialogRender}
+{#if isAuthenticated && !suppressDialogRender}
 	<Dialog.Root
 		bind:open={orgProfile.open}
 		onOpenChange={(status) => {

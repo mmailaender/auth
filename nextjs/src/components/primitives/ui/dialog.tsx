@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Dialog as ArkDialog } from '@ark-ui/react/dialog';
+import { Portal as ArkPortal, type PortalProps } from '@ark-ui/react/portal';
 import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -64,8 +65,12 @@ function Overlay({ className, ...props }: React.ComponentProps<typeof ArkDialog.
 	);
 }
 
-function Portal({ children }: { children?: React.ReactNode }) {
-	return <ArkDialog.Positioner data-slot="dialog-portal">{children}</ArkDialog.Positioner>;
+function Portal({ children, ...props }: PortalProps & { children?: React.ReactNode }) {
+	return (
+		<ArkPortal {...props}>
+			<ArkDialog.Positioner data-slot="dialog-portal">{children}</ArkDialog.Positioner>
+		</ArkPortal>
+	);
 }
 
 type ContentProps = Omit<React.ComponentProps<typeof ArkDialog.Content>, 'onInteractOutside'> & {
@@ -78,7 +83,7 @@ type ContentProps = Omit<React.ComponentProps<typeof ArkDialog.Content>, 'onInte
 function Content({ className, children, onInteractOutside, ...props }: ContentProps) {
 	void onInteractOutside;
 	return (
-		<>
+		<ArkPortal>
 			<Overlay />
 			<ArkDialog.Positioner className="fixed inset-0 z-50">
 				<ArkDialog.Content
@@ -92,7 +97,7 @@ function Content({ className, children, onInteractOutside, ...props }: ContentPr
 					{children}
 				</ArkDialog.Content>
 			</ArkDialog.Positioner>
-		</>
+		</ArkPortal>
 	);
 }
 

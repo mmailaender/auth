@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useConvexAuth } from 'convex/react';
 
 import * as Dialog from '@/components/primitives/ui/dialog';
 import OrganizationProfile from '@/components/organizations/ui/OrganizationProfile';
@@ -12,6 +13,7 @@ import {
 } from '@/components/primitives/utils/focusScroll';
 
 export default function OrganizationProfileHost() {
+	const { isAuthenticated } = useConvexAuth();
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -28,7 +30,7 @@ export default function OrganizationProfileHost() {
 		);
 	}, []);
 
-	useEffect(() => setOpen(shouldBeOpen), [shouldBeOpen]);
+	useEffect(() => setOpen(isAuthenticated && shouldBeOpen), [isAuthenticated, shouldBeOpen]);
 
 	useEffect(() => {
 		if (!isIOS) return;
@@ -55,7 +57,7 @@ export default function OrganizationProfileHost() {
 		setOpen(false);
 	}
 
-	if (suppressDialogRender) return null;
+	if (!isAuthenticated || suppressDialogRender) return null;
 
 	return (
 		<Dialog.Root
