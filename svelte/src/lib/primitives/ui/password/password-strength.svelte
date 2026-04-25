@@ -2,7 +2,7 @@
 	import { tv } from 'tailwind-variants';
 	import { usePasswordStrength } from './password.svelte.js';
 	import type { PasswordStrengthProps } from './types.js';
-	import { Progress } from '@ark-ui/svelte';
+	import { Progress as ProgressPrimitive } from '@ark-ui/svelte/progress';
 	import { cn } from '$lib/primitives/utils.js';
 
 	let { class: className }: PasswordStrengthProps = $props();
@@ -25,7 +25,7 @@
 	});
 </script>
 
-<Progress.Root
+<ProgressPrimitive.Root
 	value={state.strength.score}
 	class={cn('bg-surface-200-800 relative h-1 w-full gap-1 overflow-hidden rounded-full', className)}
 	min={0}
@@ -41,4 +41,4 @@
 			<div class="ring-surface-100-900 h-1 w-1/4 rounded-full ring-3"></div>
 		{/each}
 	</div>
-</Progress.Root>
+</ProgressPrimitive.Root>

@@ -13,6 +13,7 @@ export {
 	ToggleVisibility,
 	Error,
 	//
+	Root as Password,
 	Root as PasswordRoot,
 	Input as PasswordInput,
 	Strength as PasswordStrength,

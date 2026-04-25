@@ -1,10 +1,6 @@
 <script lang="ts">
-	import {
-		Dialog as ArkDialog,
-		type DialogContentProps,
-		type DialogPositionerProps
-	} from '@ark-ui/svelte/dialog';
-	import { Portal as ArkPortal, type PortalProps } from '@ark-ui/svelte/portal';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
+	import { Portal as PortalPrimitive, type PortalProps } from '@ark-ui/svelte/portal';
 	import type { Snippet } from 'svelte';
 	import DrawerBackdrop from './drawer-backdrop.svelte';
 	import { cn, type WithoutChildrenOrChild } from '$lib/primitives/utils.js';
@@ -19,18 +15,18 @@
 		positionerProps,
 		children,
 		...restProps
-	}: WithoutChildrenOrChild<DialogContentProps> & {
+	}: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
 		portalProps?: PortalProps;
-		positionerProps?: DialogPositionerProps;
+		positionerProps?: DialogPrimitive.PositionerProps;
 		children: Snippet;
 		side?: Side;
 	} = $props();
 </script>
 
-<ArkPortal {...portalProps}>
+<PortalPrimitive {...portalProps}>
 	<DrawerBackdrop />
-	<ArkDialog.Positioner {...positionerProps}>
-		<ArkDialog.Content
+	<DialogPrimitive.Positioner {...positionerProps}>
+		<DialogPrimitive.Content
 			bind:ref
 			data-scope="drawer"
 			data-side={side}
@@ -58,6 +54,6 @@
 			{...restProps}
 		>
 			{@render children?.()}
-		</ArkDialog.Content>
-	</ArkDialog.Positioner>
-</ArkPortal>
+		</DialogPrimitive.Content>
+	</DialogPrimitive.Positioner>
+</PortalPrimitive>

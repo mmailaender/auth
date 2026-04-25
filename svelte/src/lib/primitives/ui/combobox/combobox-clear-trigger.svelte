@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { ComboboxClearTrigger as ArkComboboxClearTrigger } from '@ark-ui/svelte/combobox';
-	import type { ComboboxClearTriggerProps as ArkComboboxClearTriggerProps } from '@ark-ui/svelte/combobox';
+	import { Combobox as ComboboxPrimitive } from '@ark-ui/svelte/combobox';
 	import { cn } from '$lib/primitives/utils.js';
 
-	type ComboboxClearTriggerProps = ArkComboboxClearTriggerProps & {
+	type ComboboxClearTriggerProps = ComboboxPrimitive.ClearTriggerProps & {
 		class?: string;
 	};
 
@@ -14,4 +13,4 @@
 	}: ComboboxClearTriggerProps = $props();
 </script>
 
-<ArkComboboxClearTrigger bind:ref class={cn('relative', className)} {...restProps} />
+<ComboboxPrimitive.ClearTrigger bind:ref class={cn('relative', className)} {...restProps} />

@@ -1,18 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { Popover as ArkPopover } from '@ark-ui/react/popover';
+import { Popover as PopoverPrimitive } from '@ark-ui/react/popover';
 
 import { cn } from '@/lib/utils';
 
-type ArkRootProps = React.ComponentProps<typeof ArkPopover.Root>;
-type RootProps = Omit<ArkRootProps, 'onOpenChange'> & {
+type RootPrimitiveProps = React.ComponentProps<typeof PopoverPrimitive.Root>;
+type RootProps = Omit<RootPrimitiveProps, 'onOpenChange'> & {
 	onOpenChange?: (open: boolean) => void;
 };
 
 function Root({ onOpenChange, positioning, ...props }: RootProps) {
 	return (
-		<ArkPopover.Root
+		<PopoverPrimitive.Root
 			data-slot="popover"
 			positioning={{
 				placement: 'bottom',
@@ -25,11 +25,11 @@ function Root({ onOpenChange, positioning, ...props }: RootProps) {
 	);
 }
 
-function Trigger({ ...props }: React.ComponentProps<typeof ArkPopover.Trigger>) {
-	return <ArkPopover.Trigger data-slot="popover-trigger" {...props} />;
+function Trigger({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
+	return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
-type ContentProps = React.ComponentProps<typeof ArkPopover.Content> & {
+type ContentProps = React.ComponentProps<typeof PopoverPrimitive.Content> & {
 	side?: 'top' | 'right' | 'bottom' | 'left';
 	align?: 'start' | 'center' | 'end';
 	sideOffset?: number;
@@ -40,8 +40,8 @@ function Content({ className, side, align, sideOffset, ...props }: ContentProps)
 	void align;
 	void sideOffset;
 	return (
-		<ArkPopover.Positioner>
-			<ArkPopover.Content
+		<PopoverPrimitive.Positioner>
+			<PopoverPrimitive.Content
 				data-slot="popover-content"
 				className={cn(
 					'bg-surface-200-800 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container z-50 w-80 p-1 outline-hidden',
@@ -49,12 +49,12 @@ function Content({ className, side, align, sideOffset, ...props }: ContentProps)
 				)}
 				{...props}
 			/>
-		</ArkPopover.Positioner>
+		</PopoverPrimitive.Positioner>
 	);
 }
 
-function Anchor({ ...props }: React.ComponentProps<typeof ArkPopover.Anchor>) {
-	return <ArkPopover.Anchor data-slot="popover-anchor" {...props} />;
+function Anchor({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
+	return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
 }
 
 export {

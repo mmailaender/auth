@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { Dialog as ArkDialog } from '@ark-ui/svelte/dialog';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
 
 	const fallbackId = nextDialogId();
 
@@ -17,7 +17,7 @@
 		ids,
 		onInteractOutside,
 		...restProps
-	}: ArkDialog.RootProps = $props();
+	}: DialogPrimitive.RootProps = $props();
 
 	const resolvedIds = $derived({
 		...ids,
@@ -36,7 +36,7 @@
 	});
 
 	function handleInteractOutside(
-		event: Parameters<NonNullable<ArkDialog.RootProps['onInteractOutside']>>[0]
+		event: Parameters<NonNullable<DialogPrimitive.RootProps['onInteractOutside']>>[0]
 	) {
 		const originalEvent = event.detail?.originalEvent || event.detail;
 
@@ -52,7 +52,7 @@
 	}
 </script>
 
-<ArkDialog.Root
+<DialogPrimitive.Root
 	bind:open
 	ids={resolvedIds}
 	onInteractOutside={handleInteractOutside}

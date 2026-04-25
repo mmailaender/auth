@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { TabTrigger as ArkTabTrigger, type TabTriggerProps } from '@ark-ui/svelte';
+	import { Tabs as TabsPrimitive } from '@ark-ui/svelte/tabs';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { ref = $bindable(null), class: className, ...restProps }: TabTriggerProps = $props();
+	let {
+		ref = $bindable(null),
+		class: className,
+		...restProps
+	}: TabsPrimitive.TriggerProps = $props();
 </script>
 
-<ArkTabTrigger
+<TabsPrimitive.Trigger
 	bind:ref
 	data-slot="tabs-trigger"
 	class={cn(

@@ -1,14 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { Avatar as ArkAvatar } from '@ark-ui/react/avatar';
+import { Avatar as AvatarPrimitive } from '@ark-ui/react/avatar';
 import AvatarMarble from './avatar-marble';
 
 import { cn } from '@/lib/utils';
 
-function Avatar({ className, ...props }: React.ComponentProps<typeof ArkAvatar.Root>) {
+function Avatar({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Root>) {
 	return (
-		<ArkAvatar.Root
+		<AvatarPrimitive.Root
 			data-slot="avatar"
 			className={cn('relative flex size-8 shrink-0 overflow-hidden rounded-full', className)}
 			{...props}
@@ -16,9 +16,9 @@ function Avatar({ className, ...props }: React.ComponentProps<typeof ArkAvatar.R
 	);
 }
 
-function AvatarImage({ className, ...props }: React.ComponentProps<typeof ArkAvatar.Image>) {
+function AvatarImage({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Image>) {
 	return (
-		<ArkAvatar.Image
+		<AvatarPrimitive.Image
 			data-slot="avatar-image"
 			className={cn('aspect-square size-full', className)}
 			{...props}
@@ -26,9 +26,12 @@ function AvatarImage({ className, ...props }: React.ComponentProps<typeof ArkAva
 	);
 }
 
-function AvatarFallback({ className, ...props }: React.ComponentProps<typeof ArkAvatar.Fallback>) {
+function AvatarFallback({
+	className,
+	...props
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
 	return (
-		<ArkAvatar.Fallback
+		<AvatarPrimitive.Fallback
 			data-slot="avatar-fallback"
 			className={cn('bg-muted flex size-full items-center justify-center rounded-full', className)}
 			{...props}

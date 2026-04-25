@@ -1,18 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { Drawer as ArkDrawer } from '@ark-ui/react/drawer';
+import { Drawer as DrawerPrimitive } from '@ark-ui/react/drawer';
 import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-type RootProps = Omit<React.ComponentProps<typeof ArkDrawer.Root>, 'onOpenChange'> & {
+type RootProps = Omit<React.ComponentProps<typeof DrawerPrimitive.Root>, 'onOpenChange'> & {
 	onOpenChange?: (open: boolean) => void;
 };
 
 function Root({ onOpenChange, ...props }: RootProps) {
 	return (
-		<ArkDrawer.Root
+		<DrawerPrimitive.Root
 			data-slot="drawer"
 			onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
 			{...props}
@@ -20,21 +20,21 @@ function Root({ onOpenChange, ...props }: RootProps) {
 	);
 }
 
-function Trigger({ ...props }: React.ComponentProps<typeof ArkDrawer.Trigger>) {
-	return <ArkDrawer.Trigger data-slot="drawer-trigger" {...props} />;
+function Trigger({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
+	return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
 }
 
-function Close({ ...props }: React.ComponentProps<typeof ArkDrawer.CloseTrigger>) {
-	return <ArkDrawer.CloseTrigger data-slot="drawer-close" {...props} />;
+function Close({ ...props }: React.ComponentProps<typeof DrawerPrimitive.CloseTrigger>) {
+	return <DrawerPrimitive.CloseTrigger data-slot="drawer-close" {...props} />;
 }
 
 function CloseX({
 	className,
 	children,
 	...props
-}: React.ComponentProps<typeof ArkDrawer.CloseTrigger>) {
+}: React.ComponentProps<typeof DrawerPrimitive.CloseTrigger>) {
 	return (
-		<ArkDrawer.CloseTrigger
+		<DrawerPrimitive.CloseTrigger
 			data-slot="drawer-close"
 			aria-label="Close"
 			className={cn(
@@ -45,13 +45,13 @@ function CloseX({
 		>
 			{children ?? <XIcon />}
 			<span className="sr-only">Close</span>
-		</ArkDrawer.CloseTrigger>
+		</DrawerPrimitive.CloseTrigger>
 	);
 }
 
-function Overlay({ className, ...props }: React.ComponentProps<typeof ArkDrawer.Backdrop>) {
+function Overlay({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Backdrop>) {
 	return (
-		<ArkDrawer.Backdrop
+		<DrawerPrimitive.Backdrop
 			data-slot="drawer-overlay"
 			className={cn(
 				'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 bg-surface-950/80 fixed inset-0 z-50',
@@ -63,19 +63,21 @@ function Overlay({ className, ...props }: React.ComponentProps<typeof ArkDrawer.
 }
 
 function Portal({ children }: { children?: React.ReactNode }) {
-	return <ArkDrawer.Positioner data-slot="drawer-portal">{children}</ArkDrawer.Positioner>;
+	return (
+		<DrawerPrimitive.Positioner data-slot="drawer-portal">{children}</DrawerPrimitive.Positioner>
+	);
 }
 
 function Content({
 	className,
 	children,
 	...props
-}: React.ComponentProps<typeof ArkDrawer.Content>) {
+}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
 	return (
 		<>
 			<Overlay />
-			<ArkDrawer.Positioner className="fixed inset-0 z-50">
-				<ArkDrawer.Content
+			<DrawerPrimitive.Positioner className="fixed inset-0 z-50">
+				<DrawerPrimitive.Content
 					data-slot="drawer-content"
 					className={cn(
 						'group/drawer-content bg-surface-100-900 fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-lg p-6',
@@ -84,8 +86,8 @@ function Content({
 					{...props}
 				>
 					{children}
-				</ArkDrawer.Content>
-			</ArkDrawer.Positioner>
+				</DrawerPrimitive.Content>
+			</DrawerPrimitive.Positioner>
 		</>
 	);
 }
@@ -106,9 +108,9 @@ function Footer({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function Title({ className, ...props }: React.ComponentProps<typeof ArkDrawer.Title>) {
+function Title({ className, ...props }: React.ComponentProps<typeof DrawerPrimitive.Title>) {
 	return (
-		<ArkDrawer.Title
+		<DrawerPrimitive.Title
 			data-slot="drawer-title"
 			className={cn('pb-6 text-left text-xl leading-none tracking-tight', className)}
 			{...props}
@@ -116,9 +118,12 @@ function Title({ className, ...props }: React.ComponentProps<typeof ArkDrawer.Ti
 	);
 }
 
-function Description({ className, ...props }: React.ComponentProps<typeof ArkDrawer.Description>) {
+function Description({
+	className,
+	...props
+}: React.ComponentProps<typeof DrawerPrimitive.Description>) {
 	return (
-		<ArkDrawer.Description
+		<DrawerPrimitive.Description
 			data-slot="drawer-description"
 			className={cn('text-surface-600-400 text-sm', className)}
 			{...props}

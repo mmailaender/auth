@@ -1,22 +1,19 @@
 <script lang="ts">
 	import { cn } from '$lib/primitives/utils.js';
-	import {
-		PopoverContent as ArkPopoverContent,
-		PopoverPositioner as ArkPopoverPositioner,
-		type PopoverContentProps,
-		type PopoverPositionerProps
-	} from '@ark-ui/svelte';
+	import { Popover as PopoverPrimitive } from '@ark-ui/svelte/popover';
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		positionerProps,
 		...restProps
-	}: PopoverContentProps & { positionerProps?: PopoverPositionerProps } = $props();
+	}: PopoverPrimitive.ContentProps & {
+		positionerProps?: PopoverPrimitive.PositionerProps;
+	} = $props();
 </script>
 
-<ArkPopoverPositioner {...positionerProps}>
-	<ArkPopoverContent
+<PopoverPrimitive.Positioner {...positionerProps}>
+	<PopoverPrimitive.Content
 		bind:ref
 		data-slot="popover-content"
 		class={cn(
@@ -25,4 +22,4 @@
 		)}
 		{...restProps}
 	/>
-</ArkPopoverPositioner>
+</PopoverPrimitive.Positioner>

@@ -27,6 +27,7 @@ export {
 	ItemText,
 	ItemIndicator,
 	//
+	Root as Combobox,
 	Root as ComboboxRoot,
 	Label as ComboboxLabel,
 	Control as ComboboxControl,

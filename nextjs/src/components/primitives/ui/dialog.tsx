@@ -1,20 +1,20 @@
 'use client';
 
 import * as React from 'react';
-import { Dialog as ArkDialog } from '@ark-ui/react/dialog';
-import { Portal as ArkPortal, type PortalProps } from '@ark-ui/react/portal';
+import { Dialog as DialogPrimitive } from '@ark-ui/react/dialog';
+import { Portal as PortalPrimitive, type PortalProps } from '@ark-ui/react/portal';
 import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-type ArkRootProps = React.ComponentProps<typeof ArkDialog.Root>;
-type RootProps = Omit<ArkRootProps, 'onOpenChange'> & {
+type RootPrimitiveProps = React.ComponentProps<typeof DialogPrimitive.Root>;
+type RootProps = Omit<RootPrimitiveProps, 'onOpenChange'> & {
 	onOpenChange?: (open: boolean) => void;
 };
 
 function Root({ onOpenChange, ...props }: RootProps) {
 	return (
-		<ArkDialog.Root
+		<DialogPrimitive.Root
 			data-slot="dialog"
 			onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
 			{...props}
@@ -22,21 +22,21 @@ function Root({ onOpenChange, ...props }: RootProps) {
 	);
 }
 
-function Trigger({ ...props }: React.ComponentProps<typeof ArkDialog.Trigger>) {
-	return <ArkDialog.Trigger data-slot="dialog-trigger" {...props} />;
+function Trigger({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+	return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function Close({ ...props }: React.ComponentProps<typeof ArkDialog.CloseTrigger>) {
-	return <ArkDialog.CloseTrigger data-slot="dialog-close" type="button" {...props} />;
+function Close({ ...props }: React.ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
+	return <DialogPrimitive.CloseTrigger data-slot="dialog-close" type="button" {...props} />;
 }
 
 function CloseX({
 	className,
 	children,
 	...props
-}: React.ComponentProps<typeof ArkDialog.CloseTrigger>) {
+}: React.ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
 	return (
-		<ArkDialog.CloseTrigger
+		<DialogPrimitive.CloseTrigger
 			data-slot="dialog-close"
 			aria-label="Close"
 			type="button"
@@ -48,13 +48,13 @@ function CloseX({
 		>
 			{children ?? <XIcon />}
 			<span className="sr-only">Close</span>
-		</ArkDialog.CloseTrigger>
+		</DialogPrimitive.CloseTrigger>
 	);
 }
 
-function Overlay({ className, ...props }: React.ComponentProps<typeof ArkDialog.Backdrop>) {
+function Overlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Backdrop>) {
 	return (
-		<ArkDialog.Backdrop
+		<DialogPrimitive.Backdrop
 			data-slot="dialog-overlay"
 			className={cn(
 				'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 bg-surface-950/80 fixed inset-0 z-50',
@@ -67,13 +67,16 @@ function Overlay({ className, ...props }: React.ComponentProps<typeof ArkDialog.
 
 function Portal({ children, ...props }: PortalProps & { children?: React.ReactNode }) {
 	return (
-		<ArkPortal {...props}>
-			<ArkDialog.Positioner data-slot="dialog-portal">{children}</ArkDialog.Positioner>
-		</ArkPortal>
+		<PortalPrimitive {...props}>
+			<DialogPrimitive.Positioner data-slot="dialog-portal">{children}</DialogPrimitive.Positioner>
+		</PortalPrimitive>
 	);
 }
 
-type ContentProps = Omit<React.ComponentProps<typeof ArkDialog.Content>, 'onInteractOutside'> & {
+type ContentProps = Omit<
+	React.ComponentProps<typeof DialogPrimitive.Content>,
+	'onInteractOutside'
+> & {
 	onInteractOutside?: (event: {
 		preventDefault: () => void;
 		detail: { originalEvent: Event };
@@ -83,10 +86,10 @@ type ContentProps = Omit<React.ComponentProps<typeof ArkDialog.Content>, 'onInte
 function Content({ className, children, onInteractOutside, ...props }: ContentProps) {
 	void onInteractOutside;
 	return (
-		<ArkPortal>
+		<PortalPrimitive>
 			<Overlay />
-			<ArkDialog.Positioner className="fixed inset-0 z-50">
-				<ArkDialog.Content
+			<DialogPrimitive.Positioner className="fixed inset-0 z-50">
+				<DialogPrimitive.Content
 					data-slot="dialog-content"
 					className={cn(
 						'bg-surface-50-950 dark:bg-surface-100-900 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container fixed top-1/2 left-1/2 z-50 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col items-start gap-5 overflow-x-hidden overflow-y-auto p-5 duration-200',
@@ -95,9 +98,9 @@ function Content({ className, children, onInteractOutside, ...props }: ContentPr
 					{...props}
 				>
 					{children}
-				</ArkDialog.Content>
-			</ArkDialog.Positioner>
-		</ArkPortal>
+				</DialogPrimitive.Content>
+			</DialogPrimitive.Positioner>
+		</PortalPrimitive>
 	);
 }
 
@@ -121,9 +124,9 @@ function Footer({ className, ...props }: React.ComponentProps<'div'>) {
 	);
 }
 
-function Title({ className, ...props }: React.ComponentProps<typeof ArkDialog.Title>) {
+function Title({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
 	return (
-		<ArkDialog.Title
+		<DialogPrimitive.Title
 			data-slot="dialog-title"
 			className={cn('h5 text-left leading-none tracking-tight', className)}
 			{...props}
@@ -131,9 +134,12 @@ function Title({ className, ...props }: React.ComponentProps<typeof ArkDialog.Ti
 	);
 }
 
-function Description({ className, ...props }: React.ComponentProps<typeof ArkDialog.Description>) {
+function Description({
+	className,
+	...props
+}: React.ComponentProps<typeof DialogPrimitive.Description>) {
 	return (
-		<ArkDialog.Description
+		<DialogPrimitive.Description
 			data-slot="dialog-description"
 			className={cn('text-surface-600-400 w-full text-left text-sm', className)}
 			{...props}

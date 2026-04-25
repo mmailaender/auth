@@ -1,14 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { Toggle as ArkToggle } from '@ark-ui/react/toggle';
+import { Toggle as TogglePrimitive } from '@ark-ui/react/toggle';
 
-type RootProps = Omit<React.ComponentProps<typeof ArkToggle.Root>, 'onPressedChange'> & {
+type RootProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, 'onPressedChange'> & {
 	onPressedChange?: (pressed: boolean) => void;
 };
 
 function Root({ onPressedChange, ...props }: RootProps) {
-	return <ArkToggle.Root onPressedChange={onPressedChange} {...props} />;
+	return <TogglePrimitive.Root onPressedChange={onPressedChange} {...props} />;
 }
 
-export { Root };
+export { Root, Root as Toggle };

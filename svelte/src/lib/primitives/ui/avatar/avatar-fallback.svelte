@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { AvatarFallback as ArkAvatarFallback, type AvatarFallbackProps } from '@ark-ui/svelte';
+	import { Avatar as AvatarPrimitive } from '@ark-ui/svelte/avatar';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { class: className, ...restProps }: AvatarFallbackProps = $props();
+	let { class: className, ...restProps }: AvatarPrimitive.FallbackProps = $props();
 </script>
 
-<ArkAvatarFallback
+<AvatarPrimitive.Fallback
 	class={cn('bg-muted flex size-full items-center justify-center rounded-full', className)}
 	{...restProps}
 />

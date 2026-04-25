@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { ComboboxControl as ArkComboboxControl } from '@ark-ui/svelte/combobox';
-	import type { ComboboxControlProps as ArkComboboxControlProps } from '@ark-ui/svelte/combobox';
+	import { Combobox as ComboboxPrimitive } from '@ark-ui/svelte/combobox';
 	import { cn } from '$lib/primitives/utils.js';
 
-	type ComboboxControlProps = ArkComboboxControlProps & {
+	type ComboboxControlProps = ComboboxPrimitive.ControlProps & {
 		class?: string;
 	};
 
 	let { ref = $bindable(null), class: className, ...restProps }: ComboboxControlProps = $props();
 </script>
 
-<ArkComboboxControl bind:ref class={cn('relative', className)} {...restProps} />
+<ComboboxPrimitive.Control bind:ref class={cn('relative', className)} {...restProps} />

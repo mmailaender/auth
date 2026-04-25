@@ -1,18 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { Tabs as ArkTabs } from '@ark-ui/react/tabs';
+import { Tabs as TabsPrimitive } from '@ark-ui/react/tabs';
 
 import { cn } from '@/lib/utils';
 
-type ArkRootProps = React.ComponentProps<typeof ArkTabs.Root>;
-type RootProps = Omit<ArkRootProps, 'onValueChange'> & {
+type RootPrimitiveProps = React.ComponentProps<typeof TabsPrimitive.Root>;
+type RootProps = Omit<RootPrimitiveProps, 'onValueChange'> & {
 	onValueChange?: (value: string) => void;
 };
 
 function Root({ className, onValueChange, ...props }: RootProps) {
 	return (
-		<ArkTabs.Root
+		<TabsPrimitive.Root
 			data-slot="tabs"
 			className={cn(
 				'flex',
@@ -26,9 +26,9 @@ function Root({ className, onValueChange, ...props }: RootProps) {
 	);
 }
 
-function List({ className, ...props }: React.ComponentProps<typeof ArkTabs.List>) {
+function List({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) {
 	return (
-		<ArkTabs.List
+		<TabsPrimitive.List
 			data-slot="tabs-list"
 			className={cn(
 				'text-surface-700-300 rounded-base bg-transparent',
@@ -42,9 +42,9 @@ function List({ className, ...props }: React.ComponentProps<typeof ArkTabs.List>
 	);
 }
 
-function Trigger({ className, ...props }: React.ComponentProps<typeof ArkTabs.Trigger>) {
+function Trigger({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
 	return (
-		<ArkTabs.Trigger
+		<TabsPrimitive.Trigger
 			data-slot="tabs-trigger"
 			className={cn(
 				'aria-selected:bg-surface-400/50 dark:aria-selected:bg-surface-700/50 aria-selected:text-surface-950-50 text-surface-700 dark:text-surface-400 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring rounded-base inline-flex items-center px-3 py-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
@@ -57,9 +57,9 @@ function Trigger({ className, ...props }: React.ComponentProps<typeof ArkTabs.Tr
 	);
 }
 
-function Content({ className, ...props }: React.ComponentProps<typeof ArkTabs.Content>) {
+function Content({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Content>) {
 	return (
-		<ArkTabs.Content
+		<TabsPrimitive.Content
 			data-slot="tabs-content"
 			className={cn(
 				'outline-none',

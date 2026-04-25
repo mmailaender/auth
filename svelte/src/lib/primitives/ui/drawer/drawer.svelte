@@ -1,10 +1,14 @@
 <script lang="ts">
-	import { Dialog as ArkDialog } from '@ark-ui/svelte/dialog';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
 
-	let { open = $bindable(false), onInteractOutside, ...restProps }: ArkDialog.RootProps = $props();
+	let {
+		open = $bindable(false),
+		onInteractOutside,
+		...restProps
+	}: DialogPrimitive.RootProps = $props();
 </script>
 
-<ArkDialog.Root
+<DialogPrimitive.Root
 	bind:open
 	onInteractOutside={onInteractOutside
 		? onInteractOutside

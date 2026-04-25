@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {
-	Select as ArkSelect,
+	Select as SelectPrimitive,
 	createListCollection,
 	type ListCollection
 } from '@ark-ui/react/select';
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 type SelectOption = { label: string; value: string };
 
 type RootProps = Omit<
-	React.ComponentProps<typeof ArkSelect.Root<SelectOption>>,
+	React.ComponentProps<typeof SelectPrimitive.Root<SelectOption>>,
 	'collection' | 'onValueChange' | 'onSelect'
 > & {
 	collection: ListCollection<SelectOption>;
@@ -23,7 +23,7 @@ type RootProps = Omit<
 
 function Root({ children, onValueChange, onSelect, ...props }: RootProps) {
 	return (
-		<ArkSelect.Root<SelectOption>
+		<SelectPrimitive.Root<SelectOption>
 			data-slot="select"
 			onValueChange={(details) => {
 				onValueChange?.(details);
@@ -32,21 +32,21 @@ function Root({ children, onValueChange, onSelect, ...props }: RootProps) {
 			}}
 			{...props}
 		>
-			<ArkSelect.HiddenSelect />
+			<SelectPrimitive.HiddenSelect />
 			{children}
-		</ArkSelect.Root>
+		</SelectPrimitive.Root>
 	);
 }
 
-type TriggerProps = React.ComponentProps<typeof ArkSelect.Trigger> & {
+type TriggerProps = React.ComponentProps<typeof SelectPrimitive.Trigger> & {
 	placeholder?: string;
 	size?: 'sm' | 'default';
 };
 
 function Trigger({ className, placeholder, size = 'default', children, ...props }: TriggerProps) {
 	return (
-		<ArkSelect.Control className="w-full">
-			<ArkSelect.Trigger
+		<SelectPrimitive.Control className="w-full">
+			<SelectPrimitive.Trigger
 				data-slot="select-trigger"
 				data-size={size}
 				className={cn(
@@ -55,19 +55,19 @@ function Trigger({ className, placeholder, size = 'default', children, ...props 
 				)}
 				{...props}
 			>
-				{children ?? <ArkSelect.ValueText placeholder={placeholder} />}
-				<ArkSelect.Indicator>
+				{children ?? <SelectPrimitive.ValueText placeholder={placeholder} />}
+				<SelectPrimitive.Indicator>
 					<ChevronDownIcon className="size-4" />
-				</ArkSelect.Indicator>
-			</ArkSelect.Trigger>
-		</ArkSelect.Control>
+				</SelectPrimitive.Indicator>
+			</SelectPrimitive.Trigger>
+		</SelectPrimitive.Control>
 	);
 }
 
-function Content({ className, ...props }: React.ComponentProps<typeof ArkSelect.Content>) {
+function Content({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Content>) {
 	return (
-		<ArkSelect.Positioner>
-			<ArkSelect.Content
+		<SelectPrimitive.Positioner>
+			<SelectPrimitive.Content
 				data-slot="select-content"
 				className={cn(
 					'bg-surface-100-900 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 border-surface-300-700 rounded-container relative z-50 max-h-(--available-height) w-(--reference-width) min-w-[8rem] overflow-x-hidden overflow-y-auto border p-1 shadow-md data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
@@ -75,13 +75,17 @@ function Content({ className, ...props }: React.ComponentProps<typeof ArkSelect.
 				)}
 				{...props}
 			/>
-		</ArkSelect.Positioner>
+		</SelectPrimitive.Positioner>
 	);
 }
 
-function Item({ className, children, ...props }: React.ComponentProps<typeof ArkSelect.Item>) {
+function Item({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof SelectPrimitive.Item>) {
 	return (
-		<ArkSelect.Item
+		<SelectPrimitive.Item
 			data-slot="select-item"
 			className={cn(
 				'hover:bg-surface-200-800 data-[highlighted]:bg-surface-200-800 rounded-base flex cursor-pointer items-center gap-2 px-2 py-2 text-sm outline-hidden',
@@ -90,19 +94,33 @@ function Item({ className, children, ...props }: React.ComponentProps<typeof Ark
 			{...props}
 		>
 			{children}
-			<ArkSelect.ItemIndicator className="ml-auto">
+			<SelectPrimitive.ItemIndicator className="ml-auto">
 				<CheckIcon className="size-4" />
-			</ArkSelect.ItemIndicator>
-		</ArkSelect.Item>
+			</SelectPrimitive.ItemIndicator>
+		</SelectPrimitive.Item>
 	);
 }
 
-function ItemText(props: React.ComponentProps<typeof ArkSelect.ItemText>) {
-	return <ArkSelect.ItemText data-slot="select-item-text" {...props} />;
+function ItemText(props: React.ComponentProps<typeof SelectPrimitive.ItemText>) {
+	return <SelectPrimitive.ItemText data-slot="select-item-text" {...props} />;
 }
 
-function Label(props: React.ComponentProps<typeof ArkSelect.Label>) {
-	return <ArkSelect.Label data-slot="select-label" {...props} />;
+function Label(props: React.ComponentProps<typeof SelectPrimitive.Label>) {
+	return <SelectPrimitive.Label data-slot="select-label" {...props} />;
 }
 
-export { Root, Trigger, Content, Item, ItemText, Label, createListCollection };
+export {
+	Root,
+	Trigger,
+	Content,
+	Item,
+	ItemText,
+	Label,
+	createListCollection,
+	Root as Select,
+	Trigger as SelectTrigger,
+	Content as SelectContent,
+	Item as SelectItem,
+	ItemText as SelectItemText,
+	Label as SelectLabel
+};

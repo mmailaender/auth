@@ -1,14 +1,15 @@
 <script lang="ts">
-	import {
-		DialogBackdrop as ArkDialogBackdrop,
-		type DialogBackdropProps
-	} from '@ark-ui/svelte/dialog';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { ref = $bindable(null), class: className, ...restProps }: DialogBackdropProps = $props();
+	let {
+		ref = $bindable(null),
+		class: className,
+		...restProps
+	}: DialogPrimitive.BackdropProps = $props();
 </script>
 
-<ArkDialogBackdrop
+<DialogPrimitive.Backdrop
 	bind:ref
 	data-slot="dialog-overlay"
 	class={cn(

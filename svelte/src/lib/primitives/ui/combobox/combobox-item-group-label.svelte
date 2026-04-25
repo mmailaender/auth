@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { ComboboxItemGroupLabel as ArkComboboxItemGroupLabel } from '@ark-ui/svelte/combobox';
-	import type { ComboboxItemGroupLabelProps as ArkComboboxItemGroupLabelProps } from '@ark-ui/svelte/combobox';
+	import { Combobox as ComboboxPrimitive } from '@ark-ui/svelte/combobox';
 	import { cn } from '$lib/primitives/utils.js';
 
-	type ComboboxItemGroupLabelProps = ArkComboboxItemGroupLabelProps & {
+	type ComboboxItemGroupLabelProps = ComboboxPrimitive.ItemGroupLabelProps & {
 		class?: string;
 	};
 
@@ -14,4 +13,4 @@
 	}: ComboboxItemGroupLabelProps = $props();
 </script>
 
-<ArkComboboxItemGroupLabel bind:ref class={cn('relative', className)} {...restProps} />
+<ComboboxPrimitive.ItemGroupLabel bind:ref class={cn('relative', className)} {...restProps} />

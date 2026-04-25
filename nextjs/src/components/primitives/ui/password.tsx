@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Progress as ArkProgress } from '@ark-ui/react/progress';
+import { Progress as ProgressPrimitive } from '@ark-ui/react/progress';
 import { zxcvbn, zxcvbnOptions, type ZxcvbnResult } from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
@@ -251,7 +251,7 @@ function Strength({ className }: { className?: string }) {
 					: 'bg-success-600-400';
 
 	return (
-		<ArkProgress.Root
+		<ProgressPrimitive.Root
 			value={score}
 			min={0}
 			max={4}
@@ -260,19 +260,30 @@ function Strength({ className }: { className?: string }) {
 				className
 			)}
 		>
-			<ArkProgress.Track className="h-full w-full">
-				<ArkProgress.Range
+			<ProgressPrimitive.Track className="h-full w-full">
+				<ProgressPrimitive.Range
 					className={cn('block h-full transition-all duration-500', color)}
 					style={{ width: `${(score / 4) * 100}%` }}
 				/>
-			</ArkProgress.Track>
+			</ProgressPrimitive.Track>
 			<div className="absolute top-0 left-0 z-10 flex h-1 w-full place-items-center gap-1 px-0.5">
 				{Array.from({ length: 4 }).map((_, index) => (
 					<div key={index} className="ring-surface-100-900 h-1 w-1/4 rounded-full ring-3" />
 				))}
 			</div>
-		</ArkProgress.Root>
+		</ProgressPrimitive.Root>
 	);
 }
 
-export { Root, Input, ToggleVisibility, Error, Strength };
+export {
+	Root,
+	Input,
+	ToggleVisibility,
+	Error,
+	Strength,
+	Root as Password,
+	Input as PasswordInput,
+	ToggleVisibility as PasswordToggleVisibility,
+	Error as PasswordError,
+	Strength as PasswordStrength
+};

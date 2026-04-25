@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Dialog as ArkDialog } from '@ark-ui/svelte/dialog';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
 
-	let { ref = $bindable(null), ...restProps }: ArkDialog.TriggerProps = $props();
+	let { ref = $bindable(null), ...restProps }: DialogPrimitive.TriggerProps = $props();
 </script>
 
-<ArkDialog.Trigger bind:ref data-slot="dialog-trigger" {...restProps} />
+<DialogPrimitive.Trigger bind:ref data-slot="dialog-trigger" {...restProps} />
