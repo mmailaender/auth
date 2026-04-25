@@ -1,0 +1,1566 @@
+{
+	"name": "@auth/nextjs",
+	"bugs": "https://github.com/mmailaender/Convex-Better-Auth-UI/issues",
+	"description": "Plug & Play Auth Widgets for your application",
+	"homepage": "https://etesie.dev/docs/auth",
+	"repository": "https://github.com/mmailaender/Convex-Better-Auth-UI",
+	"tags": [
+		"auth",
+		"nextjs",
+		"ui",
+		"convex",
+		"better-auth"
+	],
+	"version": "package",
+	"type": "repository",
+	"defaultPaths": {
+		"app": "@/app",
+		"base": "./",
+		"components": "@/components",
+		"convex": "./src/convex",
+		"lib": "@/lib",
+		"themes": "@/themes",
+		"types": "@/types"
+	},
+	"items": [
+		{
+			"name": "config",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "auth.ts",
+					"relativePath": "src/convex/auth.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "url.ts",
+					"relativePath": "src/convex/url.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "storage.ts",
+					"relativePath": "src/convex/storage.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "auth.constants.dist.ts",
+					"relativePath": "src/convex/auth.constants.dist.ts",
+					"_imports_": [
+						{
+							"import": "./auth.constants.types",
+							"item": "config",
+							"file": {
+								"type": "convex",
+								"path": "auth.constants.types.ts"
+							},
+							"meta": {}
+						}
+					],
+					"target": "src/convex/auth.constants.ts",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "auth.constants.types.ts",
+					"relativePath": "src/convex/auth.constants.types.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "base",
+			"type": "base",
+			"add": "when-added",
+			"registryDependencies": [
+				"config"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/better-auth"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@skeletonlabs/skeleton"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@tailwindcss/forms"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@types/node"
+				},
+				{
+					"ecosystem": "js",
+					"name": "tailwindcss"
+				},
+				{
+					"ecosystem": "js",
+					"name": "tw-animate-css"
+				}
+			],
+			"files": [
+				{
+					"type": "base",
+					"role": "file",
+					"path": "convex.dist.json",
+					"relativePath": "convex.dist.json",
+					"_imports_": [],
+					"target": "convex.json",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "components.json",
+					"relativePath": "components.json",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "next.config.mjs",
+					"relativePath": "next.config.mjs",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "postcss.config.mjs",
+					"relativePath": "postcss.config.mjs",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/proxy.ts",
+					"relativePath": "src/proxy.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/app/ConvexClientProvider.tsx",
+					"relativePath": "src/app/ConvexClientProvider.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/app/globals.css",
+					"relativePath": "src/app/globals.css",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/app/layout.tsx",
+					"relativePath": "src/app/layout.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/app/page.tsx",
+					"relativePath": "src/app/page.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/types/react-html-attributes.d.ts",
+					"relativePath": "src/types/react-html-attributes.d.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/tsconfig.json",
+					"relativePath": "src/convex/tsconfig.json",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/auth.config.ts",
+					"relativePath": "src/convex/auth.config.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/convex.config.ts",
+					"relativePath": "src/convex/convex.config.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/http.ts",
+					"relativePath": "src/convex/http.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/polyfills.ts",
+					"relativePath": "src/convex/polyfills.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/schema.ts",
+					"relativePath": "src/convex/schema.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/migrations.ts",
+					"relativePath": "src/convex/migrations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/migrations"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/betterAuth/adapter.ts",
+					"relativePath": "src/convex/betterAuth/adapter.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/betterAuth/convex.config.ts",
+					"relativePath": "src/convex/betterAuth/convex.config.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "base",
+					"role": "file",
+					"path": "src/convex/betterAuth/schema.ts",
+					"relativePath": "src/convex/betterAuth/schema.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "primitives",
+			"type": "components",
+			"add": "when-needed",
+			"registryDependencies": [],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@zxcvbn-ts/core"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@zxcvbn-ts/language-common"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@zxcvbn-ts/language-en"
+				},
+				{
+					"ecosystem": "js",
+					"name": "clsx"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "lucide-react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "path-to-regexp"
+				},
+				{
+					"ecosystem": "js",
+					"name": "react-easy-crop"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				},
+				{
+					"ecosystem": "js",
+					"name": "tailwind-merge"
+				}
+			],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/hooks/useImageUpload.ts",
+					"relativePath": "src/components/primitives/hooks/useImageUpload.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/avatar-marble.tsx",
+					"relativePath": "src/components/primitives/ui/avatar-marble.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/avatar.tsx",
+					"relativePath": "src/components/primitives/ui/avatar.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/dialog.tsx",
+					"relativePath": "src/components/primitives/ui/dialog.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/drawer.tsx",
+					"relativePath": "src/components/primitives/ui/drawer.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/image-cropper.tsx",
+					"relativePath": "src/components/primitives/ui/image-cropper.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/menu.tsx",
+					"relativePath": "src/components/primitives/ui/menu.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/password.tsx",
+					"relativePath": "src/components/primitives/ui/password.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/popover.tsx",
+					"relativePath": "src/components/primitives/ui/popover.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/select.tsx",
+					"relativePath": "src/components/primitives/ui/select.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/sonner.tsx",
+					"relativePath": "src/components/primitives/ui/sonner.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/tabs.tsx",
+					"relativePath": "src/components/primitives/ui/tabs.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/ui/toggle.tsx",
+					"relativePath": "src/components/primitives/ui/toggle.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/utils/focusScroll.ts",
+					"relativePath": "src/components/primitives/utils/focusScroll.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/utils/mobileState.ts",
+					"relativePath": "src/components/primitives/utils/mobileState.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/utils/optimizeImage.ts",
+					"relativePath": "src/components/primitives/utils/optimizeImage.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "primitives/utils/routeMatcher.ts",
+					"relativePath": "src/components/primitives/utils/routeMatcher.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "utils.ts",
+					"relativePath": "src/lib/utils.ts",
+					"_imports_": [],
+					"target": "src/lib/utils.ts",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "themes",
+			"type": "themes",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "themes",
+					"role": "file",
+					"path": "auth.css",
+					"relativePath": "src/themes/auth.css",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "auth/lib",
+			"type": "lib",
+			"add": "when-added",
+			"registryDependencies": [
+				"config",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@better-auth/api-key",
+					"version": "1.6.9"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/better-auth"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@icons-pack/react-simple-icons",
+					"version": "13.7.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "better-auth",
+					"version": "1.6.9"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "lucide-react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				}
+			],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/hooks.ts",
+					"relativePath": "src/lib/auth/hooks.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/initial-data.tsx",
+					"relativePath": "src/lib/auth/initial-data.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/types.ts",
+					"relativePath": "src/lib/auth/types.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/api/auth-client.ts",
+					"relativePath": "src/lib/auth/api/auth-client.ts",
+					"_imports_": [],
+					"registryDependencies": [
+						"config"
+					],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@better-auth/api-key",
+							"version": "1.6.9"
+						},
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/api/auth.ts",
+					"relativePath": "src/lib/auth/api/auth.ts",
+					"_imports_": [],
+					"registryDependencies": [
+						"config"
+					],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/api/server.ts",
+					"relativePath": "src/lib/auth/api/server.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/better-auth"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/DeviceAuthorization.tsx",
+					"relativePath": "src/components/auth/ui/DeviceAuthorization.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/DeviceAuthorization.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/EmailOtpFlow.tsx",
+					"relativePath": "src/components/auth/ui/EmailOtpFlow.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/EmailOtpFlow.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/EmailStep.tsx",
+					"relativePath": "src/components/auth/ui/EmailStep.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/EmailStep.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/MagicLinkFlow.tsx",
+					"relativePath": "src/components/auth/ui/MagicLinkFlow.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/MagicLinkFlow.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/PasswordFlow.tsx",
+					"relativePath": "src/components/auth/ui/PasswordFlow.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/PasswordFlow.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SignIn.tsx",
+					"relativePath": "src/components/auth/ui/SignIn.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/SignIn.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SignOutButton.tsx",
+					"relativePath": "src/components/auth/ui/SignOutButton.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/SignOutButton.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "auth/ui/SocialFlow.tsx",
+					"relativePath": "src/components/auth/ui/SocialFlow.tsx",
+					"_imports_": [],
+					"target": "src/components/auth/ui/SocialFlow.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "auth/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib"
+			],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "[...all]/route.ts",
+					"relativePath": "src/app/api/auth/[...all]/route.ts",
+					"_imports_": [],
+					"target": "src/app/api/auth/[...all]/route.ts",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "page.tsx",
+					"relativePath": "src/app/signin/page.tsx",
+					"_imports_": [],
+					"target": "src/app/signin/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "page.tsx",
+					"relativePath": "src/app/reset-password/page.tsx",
+					"_imports_": [],
+					"target": "src/app/reset-password/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "users/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/actions.ts",
+					"relativePath": "src/convex/users/actions.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/mutations.ts",
+					"relativePath": "src/convex/users/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "users/queries.ts",
+					"relativePath": "src/convex/users/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "betterAuth/user.ts",
+					"relativePath": "src/convex/betterAuth/user.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "users/lib",
+			"type": "components",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/better-auth"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@icons-pack/react-simple-icons",
+					"version": "13.7.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "better-auth",
+					"version": "1.6.9"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "lucide-react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				}
+			],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/Accounts.tsx",
+					"relativePath": "src/components/users/ui/Accounts.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/ApiKeys.tsx",
+					"relativePath": "src/components/users/ui/ApiKeys.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/DeleteUser.tsx",
+					"relativePath": "src/components/users/ui/DeleteUser.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/Emails.tsx",
+					"relativePath": "src/components/users/ui/Emails.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/ProfileInfo.tsx",
+					"relativePath": "src/components/users/ui/ProfileInfo.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/UserButton.tsx",
+					"relativePath": "src/components/users/ui/UserButton.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/UserProfile.tsx",
+					"relativePath": "src/components/users/ui/UserProfile.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/ui/UserProfileHost.tsx",
+					"relativePath": "src/components/users/ui/UserProfileHost.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/utils/user.constants.ts",
+					"relativePath": "src/components/users/utils/user.constants.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "users/utils/userProfile.ts",
+					"relativePath": "src/components/users/utils/userProfile.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/mutations.ts",
+					"relativePath": "src/convex/organizations/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/queries.ts",
+					"relativePath": "src/convex/organizations/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/invitations/queries.ts",
+					"relativePath": "src/convex/organizations/invitations/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "organizations/members/mutations.ts",
+					"relativePath": "src/convex/organizations/members/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/organizations/index.ts",
+					"relativePath": "src/convex/model/organizations/index.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "betterAuth/organization.ts",
+					"relativePath": "src/convex/betterAuth/organization.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/lib",
+			"type": "components",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"primitives"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/better-auth"
+				},
+				{
+					"ecosystem": "js",
+					"name": "better-auth",
+					"version": "1.6.9"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "lucide-react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				}
+			],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/api/hooks.ts",
+					"relativePath": "src/components/organizations/api/hooks.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/CreateOrganization.tsx",
+					"relativePath": "src/components/organizations/ui/CreateOrganization.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/DeleteOrganization.tsx",
+					"relativePath": "src/components/organizations/ui/DeleteOrganization.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/GeneralSettings.tsx",
+					"relativePath": "src/components/organizations/ui/GeneralSettings.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/Invitations.tsx",
+					"relativePath": "src/components/organizations/ui/Invitations.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/InviteMembers.tsx",
+					"relativePath": "src/components/organizations/ui/InviteMembers.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/LeaveOrganization.tsx",
+					"relativePath": "src/components/organizations/ui/LeaveOrganization.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/Members.tsx",
+					"relativePath": "src/components/organizations/ui/Members.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/MembersAndInvitations.tsx",
+					"relativePath": "src/components/organizations/ui/MembersAndInvitations.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/OrganizationProfile.tsx",
+					"relativePath": "src/components/organizations/ui/OrganizationProfile.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/OrganizationProfileHost.tsx",
+					"relativePath": "src/components/organizations/ui/OrganizationProfileHost.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/ui/OrganizationSwitcher.tsx",
+					"relativePath": "src/components/organizations/ui/OrganizationSwitcher.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "organizations/utils/organization.constants.ts",
+					"relativePath": "src/components/organizations/utils/organization.constants.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "organizations/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"auth/lib",
+				"organizations/lib",
+				"organizations/convex"
+			],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "[[...all]]/page.tsx",
+					"relativePath": "src/app/active-organization/[[...all]]/page.tsx",
+					"_imports_": [],
+					"target": "src/app/active-organization/[[...all]]/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "[invitationId]/page.tsx",
+					"relativePath": "src/app/api/organization/accept-invitation/[invitationId]/page.tsx",
+					"_imports_": [],
+					"target": "src/app/api/organization/accept-invitation/[invitationId]/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "page.tsx",
+					"relativePath": "src/app/organization/create/page.tsx",
+					"_imports_": [],
+					"target": "src/app/organization/create/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "email/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "email.ts",
+					"relativePath": "src/convex/email.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "@convex-dev/resend"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/validateEmail.ts",
+					"relativePath": "src/convex/model/emails/validateEmail.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/templates/baseEmail.ts",
+					"relativePath": "src/convex/model/emails/templates/baseEmail.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/emails/templates/emailTemplates.ts",
+					"relativePath": "src/convex/model/emails/templates/emailTemplates.ts",
+					"_imports_": [
+						{
+							"import": "./baseEmail",
+							"item": "email/convex",
+							"file": {
+								"type": "convex",
+								"path": "model/emails/templates/baseEmail.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "device-authorization/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "deviceAuthorization.ts",
+					"relativePath": "src/convex/deviceAuthorization.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "device-authorization/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "[code]/page.tsx",
+					"relativePath": "src/app/device-authorization/[code]/page.tsx",
+					"_imports_": [],
+					"target": "src/app/device-authorization/[code]/page.tsx",
+					"registryDependencies": [
+						"auth/lib",
+						"config"
+					],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		}
+	]
+}

@@ -1,27 +1,60 @@
-<script lang="ts">
-	import { Dialog as ArkDialog } from '@ark-ui/svelte/dialog';
+<script module lang="ts">
+	let dialogIdCounter = 0;
 
-	let { open = $bindable(false), onInteractOutside, ...restProps }: ArkDialog.RootProps = $props();
+	function nextDialogId() {
+		dialogIdCounter += 1;
+		return `dialog-${dialogIdCounter}`;
+	}
 </script>
 
-<ArkDialog.Root
+<script lang="ts">
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
+
+	const fallbackId = nextDialogId();
+
+	let {
+		open = $bindable(false),
+		ids,
+		onInteractOutside,
+		...restProps
+	}: DialogPrimitive.RootProps = $props();
+
+	const resolvedIds = $derived({
+		...ids,
+		backdrop:
+			typeof ids?.backdrop === 'string' && ids.backdrop.length > 0
+				? ids.backdrop
+				: `${fallbackId}-backdrop`,
+		positioner:
+			typeof ids?.positioner === 'string' && ids.positioner.length > 0
+				? ids.positioner
+				: `${fallbackId}-positioner`,
+		content:
+			typeof ids?.content === 'string' && ids.content.length > 0
+				? ids.content
+				: `${fallbackId}-content`
+	});
+
+	function handleInteractOutside(
+		event: Parameters<NonNullable<DialogPrimitive.RootProps['onInteractOutside']>>[0]
+	) {
+		const originalEvent = event.detail?.originalEvent || event.detail;
+
+		if (originalEvent instanceof Event && originalEvent.target instanceof Element) {
+			const sonnerElement = originalEvent.target.closest('[data-sonner-toast]');
+			if (sonnerElement) {
+				event.preventDefault();
+				return;
+			}
+		}
+
+		onInteractOutside?.(event);
+	}
+</script>
+
+<DialogPrimitive.Root
 	bind:open
-	onInteractOutside={onInteractOutside
-		? onInteractOutside
-		: (e) => {
-				// Access the original DOM event from Ark UI's synthetic event
-				const originalEvent = e.detail?.originalEvent || e.detail;
-
-				if (originalEvent && originalEvent.target instanceof Element) {
-					// Check if the click was on a Sonner toast
-					const sonnerElement = originalEvent.target.closest('[data-sonner-toast]');
-
-					if (sonnerElement) {
-						// Prevent dialog from closing when clicking on toast
-						e.preventDefault();
-						return;
-					}
-				}
-			}}
+	ids={resolvedIds}
+	onInteractOutside={handleInteractOutside}
 	{...restProps}
 />

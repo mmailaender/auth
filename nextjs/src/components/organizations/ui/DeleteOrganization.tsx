@@ -7,13 +7,15 @@ import { useState } from 'react';
 // Primitives
 import { toast } from 'sonner';
 import * as Dialog from '@/components/primitives/ui/dialog';
+import { Loader2 } from 'lucide-react';
 
 // API
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery } from 'convex/react';
+import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useRoles } from '@/components/organizations/api/hooks';
 import { ConvexError } from 'convex/values';
+import { useActiveOrganizationData } from '@/lib/auth/hooks';
 
 /**
  * Component for deleting an organization
@@ -33,8 +35,9 @@ export default function DeleteOrganization({
 	redirectTo?: string;
 }) {
 	const [open, setOpen] = useState<boolean>(false);
+	const [isDeleting, setIsDeleting] = useState<boolean>(false);
 	const router = useRouter();
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeOrganization = useActiveOrganizationData();
 	const deleteOrganization = useMutation(api.organizations.mutations.deleteOrganization);
 	const isOwner = useRoles().hasOwnerRole;
 
@@ -43,6 +46,7 @@ export default function DeleteOrganization({
 	}
 
 	const handleConfirm = async (): Promise<void> => {
+		setIsDeleting(true);
 		try {
 			await deleteOrganization({ organizationId: activeOrganization.id });
 
@@ -67,6 +71,8 @@ export default function DeleteOrganization({
 			}
 			toast.error('Failed to delete organization');
 			return;
+		} finally {
+			setIsDeleting(false);
 		}
 	};
 
@@ -89,19 +95,32 @@ export default function DeleteOrganization({
 				<article>
 					<div className="text-surface-700-300 space-y-3 text-sm">
 						<p>Are you sure you want to delete this organization?</p>
-						<div className="bg-surface-100-900 border-surface-200-800 rounded-container border p-3 text-center">
-							<span className="text-surface-800-200 text-base font-semibold">
-								{activeOrganization.name}
-							</span>
+						<div className="bg-surface-200-800 border-surface-200-800 rounded-container border p-3 text-center">
+							<span className="text-surface-800-200 font-semibold">{activeOrganization.name}</span>
 						</div>
 						<p>All organization data will be permanently deleted and cannot be recovered.</p>
 					</div>
 				</article>
 
-				<Dialog.Footer>
-					<Dialog.Close className="btn preset-tonal">Cancel</Dialog.Close>
-					<button type="button" className="btn preset-filled-error-500" onClick={handleConfirm}>
-						Confirm
+				<Dialog.Footer className="w-full">
+					<Dialog.Close className="btn preset-tonal" disabled={isDeleting}>
+						Cancel
+					</Dialog.Close>
+					<button
+						type="button"
+						className="btn preset-filled-error-500"
+						onClick={handleConfirm}
+						disabled={isDeleting}
+						aria-busy={isDeleting}
+					>
+						{isDeleting ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+								Deleting...
+							</>
+						) : (
+							'Delete'
+						)}
 					</button>
 				</Dialog.Footer>
 			</Dialog.Content>

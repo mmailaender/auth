@@ -1,7 +1,7 @@
 'use client';
 
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 /** UI **/
@@ -9,8 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LogIn, Pencil, Building2 } from 'lucide-react';
 // Primitives
 import * as Avatar from '@/components/primitives/ui/avatar';
+import * as ImageCropper from '@/components/primitives/ui/image-cropper';
 import { toast } from 'sonner';
-import { FileUpload } from '@skeletonlabs/skeleton-react';
 
 // Utils
 import { optimizeImage } from '@/components/primitives/utils/optimizeImage';
@@ -22,7 +22,6 @@ import { authClient } from '../../../lib/auth/api/auth-client';
 
 // Types
 import type { Id } from '@/convex/_generated/dataModel';
-import type { FileChangeDetails } from '@zag-js/file-upload';
 
 export default function CreateOrganization({
 	onSuccessfulCreate,
@@ -46,6 +45,15 @@ export default function CreateOrganization({
 	const [slug, setSlug] = useState('');
 	const [logo, setLogo] = useState<string | undefined>();
 	const [logoFile, setLogoFile] = useState<File | null>(null);
+	const [cropSrc, setCropSrc] = useState('');
+
+	useEffect(() => {
+		return () => {
+			if (logo?.startsWith('blob:')) {
+				URL.revokeObjectURL(logo);
+			}
+		};
+	}, [logo]);
 
 	const generateSlug = (input: string): string => input.toLowerCase().replace(/\s+/g, '-');
 
@@ -55,12 +63,10 @@ export default function CreateOrganization({
 		setSlug(generateSlug(input));
 	};
 
-	const handleFileChange = async (details: FileChangeDetails) => {
-		const file = details.acceptedFiles.at(0);
-		if (!file) return;
-
+	const handleCropped = async (url: string) => {
 		try {
-			const optimizedFile = await optimizeImage(file, {
+			const croppedFile = await ImageCropper.getFileFromUrl(url, 'logo.png');
+			const optimizedFile = await optimizeImage(croppedFile, {
 				maxWidth: 512,
 				maxHeight: 512,
 				maxSizeKB: 500,
@@ -69,9 +75,13 @@ export default function CreateOrganization({
 				forceConvert: true
 			});
 
+			if (logo?.startsWith('blob:')) {
+				URL.revokeObjectURL(logo);
+			}
 			const previewUrl = URL.createObjectURL(optimizedFile);
 			setLogo(previewUrl);
 			setLogoFile(optimizedFile);
+			setCropSrc(previewUrl);
 			toast.success('Logo ready for upload!');
 		} catch (err: unknown) {
 			const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -171,19 +181,33 @@ export default function CreateOrganization({
 	return (
 		<form onSubmit={handleSubmit} className="mx-auto w-full max-w-md">
 			<div className="my-6">
-				<FileUpload accept="image/*" allowDrop maxFiles={1} onFileChange={handleFileChange}>
-					<div className="relative cursor-pointer transition-colors hover:brightness-125 hover:dark:brightness-75">
-						<Avatar.Root className="rounded-container size-20">
-							<Avatar.Image src={logo} alt={name.length > 0 ? name : 'My Organization'} />
-							<Avatar.Fallback className="bg-surface-400-600 rounded-container">
-								<Building2 className="size-10" />
-							</Avatar.Fallback>
-						</Avatar.Root>
-						<div className="badge-icon preset-filled-surface-300-700 border-surface-200-800 absolute -right-1.5 -bottom-1.5 size-3 rounded-full border-2">
-							<Pencil className="size-4" />
+				<ImageCropper.Root
+					src={cropSrc}
+					onSrcChange={setCropSrc}
+					accept="image/*"
+					onCropped={handleCropped}
+				>
+					<ImageCropper.UploadTrigger>
+						<div className="rounded-container relative size-20 cursor-pointer transition-all duration-200">
+							<Avatar.Root className="rounded-container size-20">
+								<Avatar.Image src={logo} alt={name.length > 0 ? name : 'My Organization'} />
+								<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
+									<Building2 className="text-surface-700-300 size-10" />
+								</Avatar.Fallback>
+							</Avatar.Root>
+							<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
+								<Pencil className="size-4" />
+							</div>
 						</div>
-					</div>
-				</FileUpload>
+					</ImageCropper.UploadTrigger>
+					<ImageCropper.Dialog>
+						<ImageCropper.Cropper cropShape="rect" />
+						<ImageCropper.Controls>
+							<ImageCropper.Cancel />
+							<ImageCropper.Crop>Upload</ImageCropper.Crop>
+						</ImageCropper.Controls>
+					</ImageCropper.Dialog>
+				</ImageCropper.Root>
 			</div>
 
 			<div className="flex flex-col gap-2">

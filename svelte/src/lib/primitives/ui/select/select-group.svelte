@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Select, type SelectItemGroupProps } from '@ark-ui/svelte/select';
+	import { Select as SelectPrimitive } from '@ark-ui/svelte/select';
 
-	let { ref = $bindable(null), children, ...restProps }: SelectItemGroupProps = $props();
+	let { ref = $bindable(null), children, ...restProps }: SelectPrimitive.ItemGroupProps = $props();
 </script>
 
-<Select.ItemGroup bind:ref data-slot="select-group" {...restProps}>
+<SelectPrimitive.ItemGroup bind:ref data-slot="select-group" {...restProps}>
 	{@render children?.()}
-</Select.ItemGroup>
+</SelectPrimitive.ItemGroup>

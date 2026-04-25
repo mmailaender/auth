@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select, type SelectContentProps } from '@ark-ui/svelte/select';
+	import { Select as SelectPrimitive } from '@ark-ui/svelte/select';
 	import { cn, type WithoutChild } from '$lib/primitives/utils.js';
 
 	let {
@@ -7,11 +7,11 @@
 		class: className,
 		children,
 		...restProps
-	}: WithoutChild<SelectContentProps> = $props();
+	}: WithoutChild<SelectPrimitive.ContentProps> = $props();
 </script>
 
-<Select.Positioner>
-	<Select.Content
+<SelectPrimitive.Positioner>
+	<SelectPrimitive.Content
 		bind:ref
 		data-slot="select-content"
 		class={cn(
@@ -21,5 +21,5 @@
 		{...restProps}
 	>
 		{@render children?.()}
-	</Select.Content>
-</Select.Positioner>
+	</SelectPrimitive.Content>
+</SelectPrimitive.Positioner>

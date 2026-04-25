@@ -3,12 +3,11 @@
 // React
 import { useState, useCallback, useEffect } from 'react';
 // Nextjs
-import { redirect, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Primitives
 import { toast } from 'sonner';
 // Icons
-import { SiGithub } from '@icons-pack/react-simple-icons';
 import { Mail } from 'lucide-react';
 
 // Utils
@@ -25,6 +24,7 @@ import { EmailStep } from './EmailStep';
 import { PasswordFlow } from './PasswordFlow';
 import { EmailOtpFlow } from './EmailOtpFlow';
 import { MagicLinkFlow } from './MagicLinkFlow';
+import { SocialFlow } from './SocialFlow';
 
 type AuthStep =
 	| 'email'
@@ -47,6 +47,7 @@ export default function SignIn({
 	onSignIn,
 	className
 }: SignInProps = {}) {
+	const router = useRouter();
 	const searchParams = useSearchParams();
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	const [currentStep, setCurrentStep] = useState<AuthStep>('email');
@@ -55,12 +56,15 @@ export default function SignIn({
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const [magicLinkSent, setMagicLinkSent] = useState(false);
 	const [emailExists, setEmailExists] = useState(false);
+	const [verifyContext, setVerifyContext] = useState<'emailVerification' | 'magicLink'>(
+		'emailVerification'
+	);
 
 	const getAvailableMethods = (): AuthMethod[] => {
 		const methods: AuthMethod[] = [];
 		if (AUTH_CONSTANTS.providers.password) methods.push('password');
-		if (AUTH_CONSTANTS.providers.emailOTP) methods.push('emailOTP');
-		if (AUTH_CONSTANTS.providers.magicLink) methods.push('magicLink');
+		if (AUTH_CONSTANTS.providers.emailOTP && AUTH_CONSTANTS.sendEmails) methods.push('emailOTP');
+		if (AUTH_CONSTANTS.providers.magicLink && AUTH_CONSTANTS.sendEmails) methods.push('magicLink');
 		return methods;
 	};
 
@@ -76,16 +80,33 @@ export default function SignIn({
 			return redirectTo;
 		}
 
-		if (window.location.pathname.includes('/signin')) {
-			redirect('/');
+		if (typeof window !== 'undefined' && window.location.pathname.includes('/signin')) {
+			return '/';
 		}
 	}, [redirectParam, searchParams]);
 
-	const handleRedirect = useCallback((): void => {
-		const url = getRedirectURL();
-		if (!url) return;
-		redirect(url);
-	}, [getRedirectURL]);
+	const handleRedirect = useCallback((): 'internal' | 'external' | 'none' => {
+		const redirectURL = getRedirectURL();
+		if (!redirectURL || typeof window === 'undefined') return 'none';
+
+		try {
+			const target = new URL(redirectURL, window.location.origin);
+			if (target.origin === window.location.origin) {
+				router.push(`${target.pathname}${target.search}${target.hash}`);
+				return 'internal';
+			}
+
+			window.location.assign(target.toString());
+			return 'external';
+		} catch {
+			if (redirectURL.startsWith('/')) {
+				router.push(redirectURL);
+				return 'internal';
+			}
+		}
+
+		return 'none';
+	}, [getRedirectURL, router]);
 
 	const handleAuthSuccess = () => {
 		console.log('Sign in successful, waiting for Convex auth sync...');
@@ -97,19 +118,34 @@ export default function SignIn({
 	// Monitor authentication state and redirect once Convex auth is synchronized
 	useEffect(() => {
 		if (isSigningIn && isAuthenticated && !isLoading) {
-			// User has been signed in and Convex auth state has synchronized
 			console.log('Convex auth synchronized, redirecting...');
 			onSignIn?.();
-			handleRedirect();
-			setSubmitting(false);
-			setIsSigningIn(false);
+			const redirectMode = handleRedirect();
+			if (redirectMode !== 'external') {
+				setSubmitting(false);
+				setIsSigningIn(false);
+			}
 		}
 	}, [isSigningIn, isAuthenticated, isLoading, onSignIn, handleRedirect]);
 
-	const handleMethodSelect = async (
-		method: AuthMethod,
-		exists: boolean
-	): Promise<void> => {
+	useEffect(() => {
+		const availableMethodSet = new Set(availableMethods);
+		const isPasswordFlow = currentStep === 'password-flow';
+		const isOtpFlow = currentStep === 'email-otp-flow';
+		const isMagicLinkFlow = currentStep === 'magic-link-flow';
+		const isVerifyEmail = currentStep === 'verify-email';
+
+		if (!AUTH_CONSTANTS.sendEmails && (isVerifyEmail || isMagicLinkFlow || isOtpFlow)) {
+			resetToEmailStep();
+			return;
+		}
+
+		if (isPasswordFlow && !availableMethodSet.has('password')) resetToEmailStep();
+		if (isOtpFlow && !availableMethodSet.has('emailOTP')) resetToEmailStep();
+		if (isMagicLinkFlow && !availableMethodSet.has('magicLink')) resetToEmailStep();
+	}, [availableMethods, currentStep]);
+
+	const handleMethodSelect = async (method: AuthMethod, exists: boolean): Promise<void> => {
 		setEmailExists(exists);
 
 		// Existing user + magic link: send directly, skip MagicLinkFlow UI
@@ -122,15 +158,14 @@ export default function SignIn({
 				},
 				{
 					onSuccess: () => {
+						setVerifyContext('magicLink');
 						setMagicLinkSent(true);
 						setIsSigningIn(true);
 						toast.success('Magic link sent to your email!');
 					},
 					onError: (ctx) => {
 						console.error('Magic link send error:', ctx.error);
-						toast.error(
-							ctx.error.message || 'Failed to send magic link. Please try again.'
-						);
+						toast.error(ctx.error.message || 'Failed to send magic link. Please try again.');
 					}
 				}
 			);
@@ -149,9 +184,7 @@ export default function SignIn({
 					},
 					onError: (ctx) => {
 						console.error('OTP send error:', ctx.error);
-						toast.error(
-							ctx.error.message || 'Failed to send verification code. Please try again.'
-						);
+						toast.error(ctx.error.message || 'Failed to send verification code. Please try again.');
 					}
 				}
 			);
@@ -172,26 +205,14 @@ export default function SignIn({
 		}
 	};
 
-	const handleSocialSignIn = async (provider: string): Promise<void> => {
-		await authClient.signIn.social(
-			{ provider },
-			{
-				onSuccess: handleAuthSuccess,
-				onError: (ctx) => {
-					console.error('Social sign in error:', ctx.error);
-					toast.error('Failed to sign in with GitHub. Please try again.');
-				}
-			}
-		);
-	};
-
-	const resetToEmailStep = () => {
+	function resetToEmailStep() {
 		setCurrentStep('email');
 		setEmail('');
 		setSubmitting(false);
 		setMagicLinkSent(false);
 		setEmailExists(false);
-	};
+		setVerifyContext('emailVerification');
+	}
 
 	const renderCurrentStep = () => {
 		switch (currentStep) {
@@ -211,9 +232,14 @@ export default function SignIn({
 						email={email}
 						emailExists={emailExists}
 						onSuccess={handleAuthSuccess}
+						onVerifyEmail={() => {
+							setVerifyContext('emailVerification');
+							setCurrentStep('verify-email');
+						}}
 						onBack={resetToEmailStep}
 						submitting={submitting}
 						onSubmittingChange={setSubmitting}
+						callbackURL={getRedirectURL() || '/'}
 					/>
 				);
 			case 'email-otp-flow':
@@ -246,53 +272,81 @@ export default function SignIn({
 		}
 	};
 
+	const termsUrl = (AUTH_CONSTANTS.terms ?? '').trim();
+	const privacyUrl = (AUTH_CONSTANTS.privacy ?? '').trim();
+	const showTerms = Boolean(termsUrl);
+	const showPrivacy = Boolean(privacyUrl);
+	const showLegal = showTerms || showPrivacy;
+
 	const getStepTitle = () => {
 		switch (currentStep) {
 			case 'password-flow':
-				return 'Sign in with password';
+				return emailExists ? 'Sign in with password' : 'Create account with password';
 			case 'email-otp-flow':
-				return 'Sign in with verification code';
+				return emailExists
+					? 'Sign in with verification code'
+					: 'Create account with verification code';
 			case 'magic-link-flow':
 				return 'Sign in with magic link';
 			default:
-				return 'Self hosted Auth in Minutes';
+				return `Sign in into ${(AUTH_CONSTANTS.brandName ?? 'self hosted Auth').trim()}`;
 		}
 	};
 
 	const getStepDescription = () => {
 		switch (currentStep) {
 			case 'password-flow':
-				return 'Enter your password to continue.';
+				return emailExists ? 'Enter your password to continue.' : 'Create a password to continue.';
 			case 'email-otp-flow':
-				return "We'll send a verification code to your email address.";
+				return emailExists
+					? 'Enter the verification code we sent to your email address.'
+					: 'Enter the verification code we sent to your email address.';
 			case 'magic-link-flow':
 				return "We'll send a magic link to your email address.";
 			default:
-				return 'Plug & Play Auth Widgets for your application.';
+				return (
+					AUTH_CONSTANTS.brandTagline ?? 'Plug & Play Auth Widgets for your application.'
+				).trim();
 		}
 	};
 
-	if (magicLinkSent) {
-		return (
-			<div
-				className={cn(
-					'flex h-full w-full flex-col items-center justify-center p-8',
-					className
-				)}
-			>
-				<div className="flex h-full w-full max-w-md flex-col">
+	const showEmailSentState =
+		AUTH_CONSTANTS.sendEmails &&
+		(currentStep === 'verify-email' || (verifyContext === 'magicLink' && magicLinkSent));
+
+	return (
+		<div
+			className={cn(
+				'mx-auto flex h-full w-full max-w-md flex-col justify-center p-4 pb-8',
+				className
+			)}
+		>
+			{showEmailSentState ? (
+				<div className="flex flex-col">
 					<div className="mb-4 flex">
 						<div className="bg-surface-200-800 flex h-16 w-16 items-center justify-center rounded-full">
 							<Mail className="text-surface-600-400 size-8" />
 						</div>
 					</div>
+
 					<h3 className="h5 w-full text-left leading-8">Check your email</h3>
 					<p className="text-surface-600-400 mt-2 text-sm">
-						We&apos;ve sent a magic link to <strong>{email}</strong>.
+						{verifyContext === 'magicLink' ? (
+							<>
+								We&apos;ve sent a magic link to <strong>{email}</strong>.
+							</>
+						) : (
+							<>
+								We&apos;ve sent a verification link to <strong>{email}</strong>.
+							</>
+						)}
 					</p>
 					<p className="text-surface-600-400 pb-8 text-sm">
-						Click the link in your email to sign in instantly.
+						{verifyContext === 'magicLink'
+							? 'Click the link in your email to sign in instantly.'
+							: "Click the link to verify your email. You'll be signed in automatically after verification."}
 					</p>
+
 					<button
 						type="button"
 						className="btn preset-filled-surface-300-700"
@@ -301,57 +355,46 @@ export default function SignIn({
 						Use a different email
 					</button>
 				</div>
-			</div>
-		);
-	}
-
-	return (
-		<div className={cn('flex h-full w-full flex-col items-center justify-center p-8', className)}>
-			<div className="flex h-full w-full max-w-md flex-col">
-				<h5 className="h4 max-w-96 text-left leading-9 tracking-tighter">{getStepTitle()}</h5>
-				<p className="text-surface-600-400 mt-3 mb-10 max-w-96 text-left text-sm">
-					{getStepDescription()}
-				</p>
-
-				<div className="flex h-full w-full flex-col gap-8">
-					{/* Social Sign In */}
-					{AUTH_CONSTANTS.providers.github && currentStep === 'email' && (
-						<>
-							<button
-								className="btn preset-filled hover:border-surface-600-400 w-full shadow-sm"
-								onClick={() => handleSocialSignIn('github')}
-							>
-								<SiGithub className="size-5" />
-								Sign in with GitHub
-							</button>
-
-							{availableMethods.length > 0 && (
-								<div className="relative flex items-center">
-									<div className="border-surface-600-400 flex-1 border-t"></div>
-									<span className="text-surface-600-400 px-4">OR</span>
-									<div className="border-surface-600-400 flex-1 border-t"></div>
-								</div>
-							)}
-						</>
-					)}
-
-					{/* Email-based Auth Methods */}
-					{availableMethods.length > 0 && renderCurrentStep()}
-				</div>
-
-				<div>
-					<p className="text-surface-600-400 mt-10 text-xs">
-						By continuing, you agree to our{' '}
-						<a href={AUTH_CONSTANTS.terms} className="anchor text-surface-950-50">
-							Terms
-						</a>{' '}
-						and{' '}
-						<a href={AUTH_CONSTANTS.privacy} className="anchor text-surface-950-50">
-							Privacy Policies
-						</a>
+			) : (
+				<>
+					<h5 className="h5 w-full text-left leading-8">{getStepTitle()}</h5>
+					<p className="text-surface-600-400 mt-2 max-w-96 pb-16 text-left text-sm sm:pb-12">
+						{getStepDescription()}
 					</p>
-				</div>
-			</div>
+
+					<div className="flex h-full w-full flex-col gap-6">
+						<SocialFlow
+							show={currentStep === 'email'}
+							dividerAfter={availableMethods.length > 0}
+							callbackURL={getRedirectURL() || '/'}
+							onSuccess={handleAuthSuccess}
+							onSubmittingChange={setSubmitting}
+						/>
+
+						{/* Email-based Auth Methods */}
+						{availableMethods.length > 0 && renderCurrentStep()}
+					</div>
+
+					{showLegal ? (
+						<div>
+							<p className="text-surface-600-400 mt-10 text-xs">
+								By continuing, you agree to our{' '}
+								{showTerms ? (
+									<a href={termsUrl} className="anchor text-surface-950-50">
+										Terms
+									</a>
+								) : null}
+								{showTerms && showPrivacy ? ' and ' : null}
+								{showPrivacy ? (
+									<a href={privacyUrl} className="anchor text-surface-950-50">
+										Privacy Policies
+									</a>
+								) : null}
+							</p>
+						</div>
+					) : null}
+				</>
+			)}
 		</div>
 	);
 }

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type Plugin, type UserConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
@@ -11,29 +11,37 @@ function isBareImport(source: string): boolean {
 	return !source.startsWith('.') && !source.startsWith('/') && !source.startsWith('\0');
 }
 
-export default defineConfig({
+type VitestConfig = UserConfig & {
+	test?: {
+		include?: string[];
+	};
+};
+
+const resolveSharedConvexDepsPlugin: Plugin = {
+	name: 'resolve-shared-convex-deps',
+	enforce: 'pre',
+	async resolveId(source, importer) {
+		if (!importer || !isBareImport(source)) {
+			return null;
+		}
+
+		const normalizedImporter = path.normalize(importer);
+		if (!normalizedImporter.startsWith(sharedConvexRoot + path.sep)) {
+			return null;
+		}
+
+		const remappedImporter = path.join(
+			symlinkedConvexRoot,
+			path.relative(sharedConvexRoot, normalizedImporter)
+		);
+
+		return this.resolve(source, remappedImporter, { skipSelf: true });
+	}
+};
+
+const config: VitestConfig = {
 	plugins: [
-		{
-			name: 'resolve-shared-convex-deps',
-			enforce: 'pre',
-			async resolveId(source, importer) {
-				if (!importer || !isBareImport(source)) {
-					return null;
-				}
-
-				const normalizedImporter = path.normalize(importer);
-				if (!normalizedImporter.startsWith(sharedConvexRoot + path.sep)) {
-					return null;
-				}
-
-				const remappedImporter = path.join(
-					symlinkedConvexRoot,
-					path.relative(sharedConvexRoot, normalizedImporter)
-				);
-
-				return this.resolve(source, remappedImporter, { skipSelf: true });
-			}
-		},
+		resolveSharedConvexDepsPlugin,
 		tailwindcss(),
 		sveltekit()
 	],
@@ -46,4 +54,6 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	}
-});
+};
+
+export default defineConfig(config);

@@ -1,43 +1,60 @@
 'use client';
 
 import * as React from 'react';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { Dialog as DialogPrimitive } from '@ark-ui/react/dialog';
+import { Portal as PortalPrimitive, type PortalProps } from '@ark-ui/react/portal';
 import { XIcon } from 'lucide-react';
 
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 
-function Root({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-	return <DialogPrimitive.Root data-slot="dialog" {...props} />;
+type RootPrimitiveProps = React.ComponentProps<typeof DialogPrimitive.Root>;
+type RootProps = Omit<RootPrimitiveProps, 'onOpenChange'> & {
+	onOpenChange?: (open: boolean) => void;
+};
+
+function Root({ onOpenChange, ...props }: RootProps) {
+	return (
+		<DialogPrimitive.Root
+			data-slot="dialog"
+			onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
+			{...props}
+		/>
+	);
 }
 
 function Trigger({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
 	return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function Portal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
-	return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
+function Close({ ...props }: React.ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
+	return <DialogPrimitive.CloseTrigger data-slot="dialog-close" type="button" {...props} />;
 }
 
-function Close({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
-	return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
-}
-
-function CloseX({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function CloseX({
+	className,
+	children,
+	...props
+}: React.ComponentProps<typeof DialogPrimitive.CloseTrigger>) {
 	return (
-		<DialogPrimitive.Close
+		<DialogPrimitive.CloseTrigger
 			data-slot="dialog-close"
+			aria-label="Close"
+			type="button"
+			className={cn(
+				'hover:bg-surface-300-700 rounded-base absolute top-5 right-4 p-2 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
+				className
+			)}
 			{...props}
-			className="hover:bg-surface-300-700 rounded-base absolute top-5 right-4 p-2 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 		>
-			<XIcon />
+			{children ?? <XIcon />}
 			<span className="sr-only">Close</span>
-		</DialogPrimitive.Close>
+		</DialogPrimitive.CloseTrigger>
 	);
 }
 
-function Overlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+function Overlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Backdrop>) {
 	return (
-		<DialogPrimitive.Overlay
+		<DialogPrimitive.Backdrop
 			data-slot="dialog-overlay"
 			className={cn(
 				'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 bg-surface-950/80 fixed inset-0 z-50',
@@ -48,39 +65,42 @@ function Overlay({ className, ...props }: React.ComponentProps<typeof DialogPrim
 	);
 }
 
-function Content({
-	className,
-	children,
-	onInteractOutside,
-	...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+function Portal({ children, ...props }: PortalProps & { children?: React.ReactNode }) {
 	return (
-		<Portal data-slot="dialog-portal">
+		<PortalPrimitive {...props}>
+			<DialogPrimitive.Positioner data-slot="dialog-portal">{children}</DialogPrimitive.Positioner>
+		</PortalPrimitive>
+	);
+}
+
+type ContentProps = Omit<
+	React.ComponentProps<typeof DialogPrimitive.Content>,
+	'onInteractOutside'
+> & {
+	onInteractOutside?: (event: {
+		preventDefault: () => void;
+		detail: { originalEvent: Event };
+	}) => void;
+};
+
+function Content({ className, children, onInteractOutside, ...props }: ContentProps) {
+	void onInteractOutside;
+	return (
+		<PortalPrimitive>
 			<Overlay />
-			<DialogPrimitive.Content
-				data-slot="dialog-content"
-				className={cn(
-					'bg-surface-200-800 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container fixed top-[50%] left-[50%] z-50 grid w-[90%] translate-x-[-50%] translate-y-[-50%] overflow-hidden p-6 duration-200 sm:w-4xl',
-					className
-				)}
-				onInteractOutside={
-					onInteractOutside
-						? onInteractOutside
-						: (e) => {
-								const { originalEvent } = e.detail;
-								if (
-									originalEvent.target instanceof Element &&
-									originalEvent.target.closest('[data-sonner-toast]')
-								) {
-									e.preventDefault();
-								}
-							}
-				}
-				{...props}
-			>
-				{children}
-			</DialogPrimitive.Content>
-		</Portal>
+			<DialogPrimitive.Positioner className="fixed inset-0 z-50">
+				<DialogPrimitive.Content
+					data-slot="dialog-content"
+					className={cn(
+						'bg-surface-50-950 dark:bg-surface-100-900 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container fixed top-1/2 left-1/2 z-50 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col items-start gap-5 overflow-x-hidden overflow-y-auto p-5 duration-200',
+						className
+					)}
+					{...props}
+				>
+					{children}
+				</DialogPrimitive.Content>
+			</DialogPrimitive.Positioner>
+		</PortalPrimitive>
 	);
 }
 
@@ -108,7 +128,7 @@ function Title({ className, ...props }: React.ComponentProps<typeof DialogPrimit
 	return (
 		<DialogPrimitive.Title
 			data-slot="dialog-title"
-			className={cn('pb-6 text-left text-xl leading-none tracking-tight', className)}
+			className={cn('h5 text-left leading-none tracking-tight', className)}
 			{...props}
 		/>
 	);
@@ -139,7 +159,6 @@ export {
 	Description,
 	Close,
 	CloseX,
-	//
 	Root as Dialog,
 	Title as DialogTitle,
 	Portal as DialogPortal,

@@ -1,39 +1,49 @@
-import { useState } from 'react';
+'use client';
 
-// Primitives
-import * as Dialog from '@/components/primitives/ui/dialog';
+import { useState } from 'react';
+import { useMutation } from 'convex/react';
+import { ConvexError } from 'convex/values';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-// API
-import { ConvexError } from 'convex/values';
-import { authClient } from '../../../lib/auth/api/auth-client';
+import * as Dialog from '@/components/primitives/ui/dialog';
+import { requestCloseUserProfile } from '@/components/users/utils/userProfile';
+import { api } from '@/convex/_generated/api';
+import { authClient } from '@/lib/auth/api/auth-client';
 
 export default function DeleteUser() {
+	const deleteUser = useMutation(api.users.mutations.deleteUser);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 
-	/**
-	 * Handle the delete confirmation action
-	 */
 	async function handleConfirm() {
+		setIsDeleting(true);
 		try {
-			await authClient.deleteUser();
-			await authClient.signOut();
-			setDeleteDialogOpen(false);
+			await deleteUser({});
 		} catch (error) {
-			console.error('Error deleting user:', error);
-			if (error instanceof ConvexError) {
-				toast.error(error.data);
-			} else if (error instanceof Error) {
-				toast.error(error.message);
-			} else {
-				toast.error('Error deleting user');
-			}
+			if (error instanceof ConvexError) toast.error(error.data);
+			else if (error instanceof Error) toast.error(error.message);
+			else toast.error('Failed to delete user');
+			setIsDeleting(false);
+			return;
 		}
+
+		const { error: signOutError } = await authClient.signOut();
+		if (signOutError) {
+			toast.error(signOutError.message || `${signOutError.status} ${signOutError.statusText}`);
+			setIsDeleting(false);
+			return;
+		}
+
+		requestCloseUserProfile();
+		toast.success('User deleted successfully');
+		setDeleteDialogOpen(false);
+		setIsDeleting(false);
 	}
 
 	return (
 		<Dialog.Root open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-			<Dialog.Trigger className="btn btn-sm preset-faded-surface-50-950 text-surface-600-400 hover:bg-error-300-700 hover:text-error-950-50 rounded-base justify-between gap-1 text-sm">
+			<Dialog.Trigger className="preset-faded-surface-50-950 btn rounded-base btn-sm text-surface-600-400 hover:bg-error-300-700 hover:text-error-950-50 justify-between gap-1 text-sm">
 				Delete account
 			</Dialog.Trigger>
 			<Dialog.Content className="md:max-w-108">
@@ -44,11 +54,25 @@ export default function DeleteUser() {
 						deleted.
 					</Dialog.Description>
 				</Dialog.Header>
-
-				<Dialog.Footer>
-					<Dialog.Close className="btn preset-tonal">Cancel</Dialog.Close>
-					<button type="button" className="btn preset-filled-error-500" onClick={handleConfirm}>
-						Confirm
+				<Dialog.Footer className="w-full">
+					<Dialog.Close className="btn preset-tonal" disabled={isDeleting}>
+						Cancel
+					</Dialog.Close>
+					<button
+						type="button"
+						className="btn preset-filled-error-500"
+						onClick={handleConfirm}
+						disabled={isDeleting}
+						aria-busy={isDeleting}
+					>
+						{isDeleting ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+								Deleting...
+							</>
+						) : (
+							'Delete'
+						)}
 					</button>
 				</Dialog.Footer>
 			</Dialog.Content>

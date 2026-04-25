@@ -1,37 +1,55 @@
 'use client';
 
 import * as React from 'react';
-import * as PopoverPrimitive from '@radix-ui/react-popover';
+import { Popover as PopoverPrimitive } from '@ark-ui/react/popover';
 
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 
-function Root({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
-	return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+type RootPrimitiveProps = React.ComponentProps<typeof PopoverPrimitive.Root>;
+type RootProps = Omit<RootPrimitiveProps, 'onOpenChange'> & {
+	onOpenChange?: (open: boolean) => void;
+};
+
+function Root({ onOpenChange, positioning, ...props }: RootProps) {
+	return (
+		<PopoverPrimitive.Root
+			data-slot="popover"
+			positioning={{
+				placement: 'bottom',
+				offset: { mainAxis: 8, crossAxis: 0 },
+				...positioning
+			}}
+			onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
+			{...props}
+		/>
+	);
 }
 
 function Trigger({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
 	return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
-function Content({
-	className,
-	align = 'center',
-	sideOffset = 4,
-	...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content>) {
+type ContentProps = React.ComponentProps<typeof PopoverPrimitive.Content> & {
+	side?: 'top' | 'right' | 'bottom' | 'left';
+	align?: 'start' | 'center' | 'end';
+	sideOffset?: number;
+};
+
+function Content({ className, side, align, sideOffset, ...props }: ContentProps) {
+	void side;
+	void align;
+	void sideOffset;
 	return (
-		<PopoverPrimitive.Portal>
+		<PopoverPrimitive.Positioner>
 			<PopoverPrimitive.Content
 				data-slot="popover-content"
-				align={align}
-				sideOffset={sideOffset}
 				className={cn(
-					'bg-surface-200-800 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 rounded-container z-50 w-80 origin-(--radix-popover-content-transform-origin) p-1 outline-hidden',
+					'bg-surface-200-800 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-container z-50 w-80 p-1 outline-hidden',
 					className
 				)}
 				{...props}
 			/>
-		</PopoverPrimitive.Portal>
+		</PopoverPrimitive.Positioner>
 	);
 }
 
@@ -44,7 +62,6 @@ export {
 	Content,
 	Trigger,
 	Anchor,
-	//
 	Root as Popover,
 	Trigger as PopoverTrigger,
 	Content as PopoverContent,

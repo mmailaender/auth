@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { AvatarRoot as ArkAvatarRoot, type AvatarRootProps } from '@ark-ui/svelte';
+	import { Avatar as AvatarPrimitive } from '@ark-ui/svelte/avatar';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { class: className, ...restProps }: AvatarRootProps = $props();
+	let { class: className, ...restProps }: AvatarPrimitive.RootProps = $props();
 </script>
 
-<ArkAvatarRoot
+<AvatarPrimitive.Root
 	class={cn('relative flex size-8 shrink-0 overflow-hidden rounded-full', className)}
 	{...restProps}
 />

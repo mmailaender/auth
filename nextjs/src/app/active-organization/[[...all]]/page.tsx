@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation';
-import { api } from '../../../../convex/_generated/api';
-import { getToken } from '@convex-dev/better-auth/nextjs';
-import { createAuth } from '../../../lib/auth/api/auth';
-import { fetchQuery } from 'convex/nextjs';
+import { api } from '@/convex/_generated/api';
+import { fetchAuthQuery } from '@/lib/auth/api/server';
 interface ActiveOrgPageProps {
 	params: Promise<{
 		all: string[];
@@ -31,10 +29,8 @@ export default async function ActiveOrgPage({ params, searchParams }: ActiveOrgP
 		const resolvedSearchParams = await searchParams;
 
 		// Fetch the active organization using Convex HTTP client for server components
-		const activeOrganization = await fetchQuery(
-			api.organizations.queries.getActiveOrganization,
-			{},
-			{ token: await getToken(createAuth) }
+		const activeOrganization = await fetchAuthQuery(
+			api.organizations.queries.getActiveOrganization
 		);
 
 		// Build the original path from params

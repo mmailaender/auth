@@ -24,7 +24,7 @@ import {
 
 // Constants
 import { AUTH_CONSTANTS } from './auth.constants';
-import { getBetterAuthBaseUrl, resolveRequestBaseUrl } from './url';
+import { getBetterAuthBaseUrl, getBetterAuthFallbackUrl, resolveRequestBaseUrl } from './url';
 
 // Typesafe way to pass Convex functions defined in this file
 const authFunctions: AuthFunctions = internal.auth;
@@ -86,6 +86,10 @@ export const authComponent = createClient<DataModel, typeof authSchema>(componen
 export const { onCreate, onUpdate, onDelete } = authComponent.triggersApi();
 
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
+  const betterAuthFallbackUrl = getBetterAuthFallbackUrl();
+	const deviceVerificationUri = betterAuthFallbackUrl
+		? new URL('/device', betterAuthFallbackUrl).toString()
+		: undefined;
 	// Configure your Better Auth instance here
 	return {
 		// All auth requests will be proxied through your sveltekit server
@@ -356,7 +360,8 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 			...(AUTH_CONSTANTS.deviceAuthorization
 				? [
 						deviceAuthorization({
-							expiresIn: '7d' // Device code expiration time
+							expiresIn: '7d', // Device code expiration time
+              verificationUri: deviceVerificationUri
 						})
 					]
 				: [])

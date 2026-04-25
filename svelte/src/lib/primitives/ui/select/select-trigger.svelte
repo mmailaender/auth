@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select, type SelectTriggerProps } from '@ark-ui/svelte/select';
+	import { Select as SelectPrimitive } from '@ark-ui/svelte/select';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import { cn, type WithoutChild } from '$lib/primitives/utils.js';
 
@@ -9,14 +9,14 @@
 		size = 'default',
 		placeholder,
 		...restProps
-	}: WithoutChild<SelectTriggerProps> & {
+	}: WithoutChild<SelectPrimitive.TriggerProps> & {
 		size?: 'sm' | 'default';
 		placeholder?: string;
 	} = $props();
 </script>
 
-<Select.Control>
-	<Select.Trigger
+<SelectPrimitive.Control>
+	<SelectPrimitive.Trigger
 		bind:ref
 		data-slot="select-trigger"
 		data-size={size}
@@ -26,9 +26,9 @@
 		)}
 		{...restProps}
 	>
-		<Select.ValueText {placeholder} />
-		<Select.Indicator>
+		<SelectPrimitive.ValueText {placeholder} />
+		<SelectPrimitive.Indicator>
 			<ChevronDownIcon class="size-4" />
-		</Select.Indicator>
-	</Select.Trigger>
-</Select.Control>
+		</SelectPrimitive.Indicator>
+	</SelectPrimitive.Trigger>
+</SelectPrimitive.Control>

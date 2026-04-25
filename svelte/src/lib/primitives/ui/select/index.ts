@@ -1,4 +1,4 @@
-import { Select } from '@ark-ui/svelte/select';
+import { Select as SelectPrimitive } from '@ark-ui/svelte/select';
 
 import Group from './select-group.svelte';
 import Label from './select-label.svelte';
@@ -10,10 +10,10 @@ import ScrollDownButton from './select-scroll-down-button.svelte';
 import ScrollUpButton from './select-scroll-up-button.svelte';
 import GroupHeading from './select-group-heading.svelte';
 
-const Root = Select.Root;
-const Positioner = Select.Positioner;
-const ItemText = Select.ItemText;
-const ItemIndicator = Select.ItemIndicator;
+const Root = SelectPrimitive.Root;
+const Positioner = SelectPrimitive.Positioner;
+const ItemText = SelectPrimitive.ItemText;
+const ItemIndicator = SelectPrimitive.ItemIndicator;
 
 export {
 	Root,

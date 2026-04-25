@@ -49,7 +49,7 @@ export const getOrganizationRole = query({
 			// Get role from active organization if no specific organizationId provided
 			if (!args.organizationId) {
 				const activeMember = await auth.api.getActiveMember({ headers });
-				return (activeMember?.role as typeof auth.$Infer.Member.role) || null;
+				return activeMember?.role || null;
 			}
 
 			// Get role from specific organization
@@ -59,7 +59,7 @@ export const getOrganizationRole = query({
 			});
 
 			const member = memberList.members.find((member) => member.userId === user._id);
-			return (member?.role as typeof auth.$Infer.Member.role) || null;
+			return member?.role || null;
 		} catch {
 			return null;
 		}

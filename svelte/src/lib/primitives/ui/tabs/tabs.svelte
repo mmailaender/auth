@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TabsRoot as ArkTabsRoot, type TabsRootProps } from '@ark-ui/svelte';
+	import { Tabs as TabsPrimitive } from '@ark-ui/svelte/tabs';
 	import { cn } from '$lib/primitives/utils.js';
 
 	let {
@@ -7,10 +7,10 @@
 		value = $bindable<string | undefined>(),
 		class: className,
 		...restProps
-	}: TabsRootProps = $props();
+	}: TabsPrimitive.RootProps = $props();
 </script>
 
-<ArkTabsRoot
+<TabsPrimitive.Root
 	bind:ref
 	bind:value
 	class={cn(

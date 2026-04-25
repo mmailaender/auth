@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { ComboboxPositioner as ArkComboboxPositioner } from '@ark-ui/svelte/combobox';
-	import type { ComboboxPositionerProps as ArkComboboxPositionerProps } from '@ark-ui/svelte/combobox';
+	import { Combobox as ComboboxPrimitive } from '@ark-ui/svelte/combobox';
 	import { cn } from '$lib/primitives/utils.js';
 
-	type ComboboxPositionerProps = ArkComboboxPositionerProps & {
+	type ComboboxPositionerProps = ComboboxPrimitive.ComboboxPositionerProps & {
 		class?: string;
 	};
 
 	let { ref = $bindable(null), class: className, ...restProps }: ComboboxPositionerProps = $props();
 </script>
 
-<ArkComboboxPositioner bind:ref class={cn('relative', className)} {...restProps} />
+<ComboboxPrimitive.Positioner bind:ref class={cn('relative', className)} {...restProps} />

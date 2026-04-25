@@ -13,10 +13,6 @@ const getUnit = (number: number, range: number, index?: number): number => {
 	return value;
 };
 
-const getRandId = (prefix: string = ''): string => {
-	return prefix + Math.random().toString(36).substring(2);
-};
-
 // Utility function for combining class names (simplified cn function)
 const cn = (...classes: (string | undefined)[]): string => {
 	return classes.filter(Boolean).join(' ');
@@ -83,9 +79,10 @@ const AvatarMarble: React.FC<AvatarMarbleProps> = ({
 
 	const initials: string = name ? getInitials(name) : '';
 
-	// Generate unique IDs
-	const maskId: string = getRandId('mask__marble');
-	const filterId: string = getRandId('filter__marble');
+	// Generate SSR-safe unique IDs
+	const reactId = React.useId().replace(/:/g, '');
+	const maskId: string = `mask__marble${reactId}`;
+	const filterId: string = `filter__marble${reactId}`;
 
 	// Create CSS custom properties for colors with proper typing
 	const svgStyle: CustomCSSProperties = {

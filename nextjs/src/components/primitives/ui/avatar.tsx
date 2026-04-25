@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { Avatar as AvatarPrimitive } from '@ark-ui/react/avatar';
 import AvatarMarble from './avatar-marble';
 
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 
 function Avatar({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Root>) {
 	return (
@@ -44,7 +44,6 @@ export {
 	AvatarImage as Image,
 	AvatarFallback as Fallback,
 	AvatarMarble as Marble,
-	//
 	Avatar,
 	AvatarImage,
 	AvatarFallback,

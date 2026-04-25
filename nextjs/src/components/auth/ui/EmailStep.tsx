@@ -76,18 +76,19 @@ export const EmailStep = ({
 	};
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex flex-col gap-2">
-				<label className="text-surface-950-50 text-sm font-medium" htmlFor="email">
+		<div className="flex flex-col gap-8">
+			<div className="flex flex-col">
+				<label className="label" htmlFor="email">
 					Email
 				</label>
 				<input
 					id="email"
 					name="email"
 					type="email"
+					autoComplete="email"
 					value={email}
 					onChange={(e) => onEmailChange(e.target.value)}
-					className="input preset-filled-surface-200"
+					className="input preset-filled-surface-200 text-sm"
 					placeholder="Enter your email"
 					required
 					disabled={submitting || validatingEmail}

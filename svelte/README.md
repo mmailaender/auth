@@ -25,7 +25,7 @@
 
 ## 🧩 What is Auth UI?
 
-**Auth UI** gives you full-ownership authentication and organization management for **SvelteKit** or **React** — built on  
+**Auth UI** gives you full-ownership authentication and organization management for **SvelteKit** or **Nextjs** — built on  
 **Better Auth + Convex**, wrapped in an extensible UI layer you completely control.
 
 You don’t integrate a service.  
@@ -58,7 +58,7 @@ Auth gives you hosted-provider convenience **without losing control**:
 
 ## ⚡ Getting Started
 
-Start building now with pre-built Svelte or React components —  
+Start building now with pre-built SvelteKit or Nextjs components —  
 fully functional, fully editable, and ready for production.
 
 📘 **[Read the Getting Started Guide →](https://etesie.dev/docs/auth/getting-started)**
@@ -69,7 +69,7 @@ fully functional, fully editable, and ready for production.
 
 - **Convex** – Backend, auth data & real-time sync
 - **Better Auth** – Secure, framework-agnostic auth core
-- **SvelteKit / React** – First-class framework support
+- **SvelteKit / Nextjs** – First-class framework support
 
 ### UI & Styling
 

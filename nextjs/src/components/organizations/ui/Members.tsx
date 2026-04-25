@@ -11,8 +11,6 @@ import { toast } from 'sonner';
 import { Search, Trash, Pencil } from 'lucide-react';
 
 // API Convex
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 // API Types
 type Member = typeof authClient.$Infer.Member;
 type Role = Member['role'];
@@ -20,6 +18,7 @@ type Role = Member['role'];
 // Hooks
 import { useRoles } from '@/components/organizations/api/hooks';
 import { authClient } from '../../../lib/auth/api/auth-client';
+import { useActiveOrganizationData, useActiveUserData } from '@/lib/auth/hooks';
 
 /**
  * Component that displays a list of organization members with role management functionality
@@ -33,8 +32,8 @@ export default function Members(): React.ReactNode {
 	const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
 	// Get current organization data
-	const activeUser = useQuery(api.users.queries.getActiveUser);
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeUser = useActiveUserData();
+	const activeOrganization = useActiveOrganizationData();
 	const isOwnerOrAdmin = useRoles().hasOwnerOrAdminRole;
 
 	// Get members data and mutations
@@ -117,12 +116,12 @@ export default function Members(): React.ReactNode {
 	 */
 	const canEditMember = (member: Member): boolean => {
 		if (!isOwnerOrAdmin) return false;
-		if (member.id === activeUser?.id) return false;
+		if (member.userId === activeUser?._id) return false;
 		if (member.role === 'owner') return false;
 
 		// If current user is admin, they can't edit other admins
 		if (activeUser && members) {
-			const currentUserMember = members.find((m) => m.id === activeUser.id);
+			const currentUserMember = members.find((m) => m.userId === activeUser._id);
 			if (currentUserMember?.role === 'admin' && member.role === 'admin') {
 				return false;
 			}
@@ -154,12 +153,12 @@ export default function Members(): React.ReactNode {
 			{/* Search Section - Fixed at top */}
 			<div className="flex flex-shrink-0 items-center gap-3 py-4">
 				<div className="relative flex-1">
-					<div className="pointer-events-none absolute inset-y-0 flex items-center pl-2">
+					<div className="pointer-events-none absolute inset-y-0 flex items-center">
 						<Search className="text-surface-400-600 size-4" />
 					</div>
 					<input
 						type="text"
-						className="input w-hug w-full !border-0 border-transparent pl-8 text-sm"
+						className="input w-hug w-full !border-0 border-transparent pl-6 text-sm"
 						placeholder="Search members..."
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
@@ -215,15 +214,17 @@ export default function Members(): React.ReactNode {
 			<div className="hidden min-h-0 flex-1 sm:block">
 				<div>
 					{/* Table container with controlled height and scroll */}
-					<div className="max-h-[calc(90vh-12rem)] overflow-y-auto pb-12 sm:max-h-[calc(80vh-12rem)] md:max-h-[calc(70vh-12rem)]">
+					<div className="max-h-[calc(90vh-12rem)] overflow-hidden overflow-y-auto pb-12 sm:max-h-[calc(80vh-12rem)] md:max-h-[calc(70vh-12rem)]">
 						<table className="table w-full !table-fixed">
-							<thead className="sm:bg-surface-200-800 bg-surface-100-900 border-surface-300-700 sticky top-0 z-20 border-b">
+							<thead className="sticky top-0 z-20">
 								<tr>
-									<th className="text-surface-700-300 !w-48 p-2 !pl-0 text-left text-xs">Name</th>
-									<th className="text-surface-700-300 hidden p-2 text-left text-xs sm:flex">
+									<th className="text-surface-600-400 !w-48 p-2 !pl-3 text-left text-xs font-semibold">
+										Name
+									</th>
+									<th className="text-surface-600-400 hidden p-2 text-left text-xs sm:flex">
 										Email
 									</th>
-									<th className="text-surface-700-300 !w-32 p-2 text-left text-xs">Role</th>
+									<th className="text-surface-600-400 !w-32 p-2 text-left text-xs">Role</th>
 									{isOwnerOrAdmin && <th className="!w-16 p-2 text-right"></th>}
 								</tr>
 							</thead>
@@ -231,7 +232,7 @@ export default function Members(): React.ReactNode {
 								{filteredMembers.map((member) => (
 									<tr key={member.id} className="!border-surface-300-700 !border-t">
 										{/* Member Name */}
-										<td className="!w-48 !max-w-48 !truncate !py-3 !pl-0">
+										<td className="!w-48 !max-w-48 !truncate !py-3 !pl-3">
 											<div className="flex items-center space-x-2">
 												<div className="avatar">
 													<div className="size-8 sm:size-5">
@@ -245,7 +246,7 @@ export default function Members(): React.ReactNode {
 												</div>
 
 												<div className="flex flex-col truncate">
-													<span className="truncate font-medium">{member.user.name}</span>
+													<span className="truncate text-sm">{member.user.name}</span>
 													{/* Email visible only on mobile (hidden on sm and above) */}
 													<span className="text-surface-700-300 truncate text-xs sm:hidden">
 														{member.user.email}
@@ -254,14 +255,14 @@ export default function Members(): React.ReactNode {
 											</div>
 										</td>
 										{/* Member Email */}
-										<td className="!text-surface-700-300 hidden !h-fit !w-full !truncate sm:table-cell">
+										<td className="!text-surface-600-400 hidden !h-fit !w-full !truncate sm:table-cell">
 											{member.user.email}
 										</td>
 										{/* Member Role */}
 										<td className="!w-32">
 											<div className="flex items-center">
 												{isOwnerOrAdmin &&
-												member.id !== activeUser.id &&
+												member.userId !== activeUser._id &&
 												member.role !== 'owner' ? (
 													<select
 														value={member.role}
@@ -294,7 +295,7 @@ export default function Members(): React.ReactNode {
 										<td className="!w-16">
 											<div className="flex justify-end space-x-2">
 												{isOwnerOrAdmin &&
-													member.id !== activeUser?.id &&
+													member.userId !== activeUser?._id &&
 													member.role !== 'owner' && (
 														<Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 															<Dialog.Trigger

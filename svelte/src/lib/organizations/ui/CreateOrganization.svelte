@@ -266,7 +266,7 @@
 					<ImageCropper.Cropper cropShape="rect" />
 					<ImageCropper.Controls>
 						<ImageCropper.Cancel />
-						<ImageCropper.Crop />
+						<ImageCropper.Crop>Upload</ImageCropper.Crop>
 					</ImageCropper.Controls>
 				</ImageCropper.Dialog>
 			</ImageCropper.Root>

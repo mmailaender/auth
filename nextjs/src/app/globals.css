@@ -1,13 +1,10 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
-
-@import '@skeletonlabs/skeleton';
-@import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/cerberus';
-@import '../../../themes/auth.css';
 @import 'tw-animate-css';
 
-@source '../../node_modules/@skeletonlabs/skeleton-react/dist';
+@import '@skeletonlabs/skeleton';
+
+@import '../themes/auth.css';
 
 @theme {
 	--animate-fade-in-out: fade-in-out 0.3s ease-in-out;
@@ -20,21 +17,73 @@
 			opacity: 1;
 		}
 	}
+
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-background: var(--color-surface-50-950);
+	--color-foreground: var(--color-surface-contrast-50-950);
+	--color-card: var(--color-surface-100-900);
+	--color-card-foreground: var(--color-surface-contrast-100-900);
+	--color-popover: var(--color-surface-200-800);
+	--color-popover-foreground: var(--color-surface-contrast-200-800);
+	--color-primary: var(--color-surface-950-50);
+	--color-primary-foreground: var(--color-surface-contrast-950-50);
+	--color-secondary: var(--color-secondary-500);
+	--color-secondary-foreground: var(--color-secondary-contrast-500);
+	--color-muted: var(--color-surface-100-900);
+	--color-muted-foreground: var(--color-surface-contrast-100-900);
+	--color-accent: var(--color-primary-200-800);
+	--color-accent-foreground: var(--color-primary-contrast-200-800);
+	--color-destructive: var(--color-error-500);
+	--color-border: var(--color-surface-300-700);
+	--color-input: var(--color-surface-100-900);
+	--color-ring: var(--color-surface-400-600);
+	--color-chart-1: var(--color-primary-900-100);
+	--color-chart-2: var(--color-primary-700-300);
+	--color-chart-3: var(--color-primary-500);
+	--color-chart-4: var(--color-primary-300-700);
+	--color-chart-5: var(--color-primary-100-900);
+	--color-sidebar: var(--color-surface-50-950);
+	--color-sidebar-foreground: var(--color-surface-contrast-50-950);
+	--color-sidebar-primary: var(--color-primary-950-50);
+	--color-sidebar-primary-foreground: var(--color-primary-contrast-950-50);
+	--color-sidebar-accent: var(--color-surface-400-600);
+	--color-sidebar-accent-foreground: var(--color-surface-contrast-400-600);
+	--color-sidebar-border: var(--color-surface-300-700);
+	--color-sidebar-ring: var(--color-surface-400-600);
 }
 
 @utility input {
-	@apply border-surface-400-600 placeholder:text-surface-500 hover:border-surface-500 text-surface-950-50 w-full border duration-300 ease-in-out;
+	@apply border-surface-400-600 placeholder:text-surface-400-600 hover:border-surface-500 text-surface-950-50 disabled:bg-surface-200-800 disabled:text-surface-600-400 active:border-primary-500 focus:border-primary-500 h-9 w-full border px-2.5 text-sm ring-0 duration-300 ease-in-out;
 }
 @utility textarea {
-	@apply border-surface-400-600 placeholder:text-surface-500 hover:border-surface-500 text-surface-950-50 w-full border duration-300 ease-in-out;
+	@apply border-surface-400-600 placeholder:text-surface-500 hover:border-surface-500 text-surface-950-50 rounded-container border px-2.5 text-sm duration-300 ease-in-out;
 }
 
 @utility select {
-	@apply border-surface-400-600 placeholder:text-surface-500 hover:border-surface-500 text-surface-950-50 w-full border px-2 duration-300 ease-in-out;
+	@apply border-surface-400-600 placeholder:text-surface-500 hover:border-surface-500 text-surface-950-50 h-9 w-full border px-2.5 text-sm duration-300 ease-in-out;
 }
 
 @utility label {
-	@apply mb-1 text-xs font-medium;
+	@apply text-surface-950-50 mb-1.5 text-xs font-medium;
+}
+
+@utility btn {
+	@apply h-9 text-sm font-medium;
+}
+
+@utility btn-sm {
+	@apply h-7 text-sm font-medium;
+}
+
+@utility badge {
+	@apply h-5 px-2;
+}
+
+@utility anchor {
+	@apply text-primary-700-300;
 }
 
 @layer base {

@@ -27,8 +27,11 @@
 <Toaster position="top-center" />
 <AuthProvider {api} {authClient} authConstants={AUTH_CONSTANTS}>
 	<div class="flex min-h-[100dvh] flex-col">
-		<header class="flex items-center justify-between gap-5 p-4">
-			<a href={resolve('/')} class="mr-auto text-2xl font-bold text-orange-500">Svelte</a>
+		<header class="flex min-w-0 items-center justify-between gap-2 p-3 sm:gap-5 sm:p-4">
+			<a
+				href={resolve('/')}
+				class="mr-auto min-w-0 truncate text-xl font-bold text-orange-500 sm:text-2xl">Svelte</a
+			>
 			{#if AUTH_CONSTANTS.organizations}
 				<OrganizationSwitcher initialData={data.initialData} />
 			{/if}

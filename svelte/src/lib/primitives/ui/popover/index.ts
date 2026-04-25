@@ -1,4 +1,4 @@
-import { Popover as PopoverPrimitive } from '@ark-ui/svelte';
+import { Popover as PopoverPrimitive } from '@ark-ui/svelte/popover';
 import Content from './popover-content.svelte';
 import Trigger from './popover-trigger.svelte';
 

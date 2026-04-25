@@ -1,5 +1,22 @@
 # auth
 
+## 0.8.0
+
+### Minor Changes
+
+- chore: Upgrade Better Auth to 1.6.9, @convex-dev/better-auth to 0.12.0, Convex to 1.36.1, and TypeScript to 6.0.3
+- **BREAKING:** Rename the device authorization page from `/device-authorization/[code]` to `/device?user_code=...`
+- feat: Add `BETTER_AUTH_FALLBACK_URL` support for better auth 1.6.x dynamic URL resolution
+- fix: Improve logo/avatar crop previews, profile settings, organization settings, and optimistic form updates
+- fix: Improve organization profile auth checks, mobile header layout, and organization switcher responsiveness
+
+#### Migration
+
+1. Set `BETTER_AUTH_FALLBACK_URL` when device authorization is enabled.
+2. Update any custom device authorization links from `/device-authorization/[code]` to `/device?user_code=...`.
+
+→ `jsrepo update 'config' 'base' 'primitives' 'users/lib' 'users/convex' 'organizations/lib' 'organizations/convex' 'device-authorization/convex' 'device-authorization/routes'`
+
 ## 0.7.0
 
 ### Minor Changes

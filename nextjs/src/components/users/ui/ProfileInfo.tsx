@@ -1,72 +1,100 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-// API
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { authClient } from '../../../lib/auth/api/auth-client';
-
-// Icons
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useMutation } from 'convex/react';
+import { GenericId } from 'convex/values';
 import { Pencil } from 'lucide-react';
-
-// Primitives
 import { toast } from 'sonner';
-import * as Drawer from '@/components/primitives/ui/drawer';
-import * as Dialog from '@/components/primitives/ui/dialog';
+
 import * as Avatar from '@/components/primitives/ui/avatar';
-import { FileUpload } from '@skeletonlabs/skeleton-react';
-
-// utils
+import * as ImageCropper from '@/components/primitives/ui/image-cropper';
 import { optimizeImage } from '@/components/primitives/utils/optimizeImage';
-
-// types
-import type { FileChangeDetails } from '@zag-js/file-upload';
+import { api } from '@/convex/_generated/api';
+import { useActiveUserData } from '@/lib/auth/hooks';
 
 export default function ProfileInfo() {
-	/* ─────────────────────────────────────────────  Convex queries    */
-	const user = useQuery(api.users.queries.getActiveUser);
+	const activeUser = useActiveUserData();
 	const generateUploadUrl = useMutation(api.storage.generateUploadUrl);
-	const updateAvatar = useMutation(api.users.mutations.updateAvatar);
+	const updateProfile = useMutation(api.users.mutations.updateProfile).withOptimisticUpdate(
+		(localStore, args) => {
+			const activeUser = localStore.getQuery(api.users.queries.getActiveUser, {});
+			if (!activeUser) return;
 
-	/* ─────────────────────────────────────────────  local state       */
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	const [name, setName] = useState('');
-	const [isUploading, setIsUploading] = useState(false);
-	const [imageLoadingStatus, setImageLoadingStatus] = useState<
-		'idle' | 'loading' | 'loaded' | 'error'
-	>('idle');
-
-	// Initialize state when user data is available
-	useEffect(() => {
-		if (user && name === '') {
-			setName(user.name);
+			localStore.setQuery(
+				api.users.queries.getActiveUser,
+				{},
+				{
+					...activeUser,
+					...(args.name !== undefined ? { name: args.name.trim() } : {})
+				}
+			);
 		}
-	}, [user, name]);
+	);
+	const updateAvatar = useMutation(api.users.mutations.updateAvatar).withOptimisticUpdate(
+		(localStore, args) => {
+			if (!args.optimisticImage) return;
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+			const activeUser = localStore.getQuery(api.users.queries.getActiveUser, {});
+			if (!activeUser) return;
+
+			localStore.setQuery(
+				api.users.queries.getActiveUser,
+				{},
+				{
+					...activeUser,
+					image: args.optimisticImage
+				}
+			);
+		}
+	);
+
+	const [isEditingName, setIsEditingName] = useState(false);
+	const [name, setName] = useState('');
+	const [loadingStatus, setLoadingStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+	const [isUploading, setIsUploading] = useState(false);
+	const [avatarKey] = useState(0);
+	const [cropSrc, setCropSrc] = useState('');
+	const inputRef = useRef<HTMLInputElement | null>(null);
+
+	useEffect(() => {
+		if (activeUser && !isEditingName) {
+			setName(activeUser.name);
+		}
+	}, [activeUser, isEditingName]);
+
+	useEffect(() => {
+		if (activeUser?.image && !cropSrc.startsWith('blob:')) {
+			setCropSrc(activeUser.image);
+		}
+	}, [activeUser?.image, cropSrc]);
+
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		if (!activeUser) return;
+
 		try {
-			await authClient.updateUser({ name });
-			setIsDialogOpen(false);
-			setIsDrawerOpen(false);
+			const trimmed = name.trim();
+			if (!trimmed || trimmed === activeUser.name.trim()) {
+				setIsEditingName(false);
+				return;
+			}
+			setName(trimmed);
+			setIsEditingName(false);
+			await updateProfile({ name: trimmed });
 			toast.success('Profile name updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
-			toast.error(`Failed to update profile: ${message}`);
+			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
+			toast.error(`Failed to update profile: ${errorMsg}`);
 		}
-	};
+	}
 
-	const handleFileChange = async (details: FileChangeDetails) => {
-		const file = details.acceptedFiles.at(0);
-		if (!file) return;
-
+	async function handleCropped(url: string) {
+		const previousImage = activeUser?.image ?? '';
 		try {
+			setCropSrc(url);
 			setIsUploading(true);
-
-			// Optimize the image before upload
-			const optimizedFile = await optimizeImage(file, {
+			const croppedFile = await ImageCropper.getFileFromUrl(url, 'avatar.png');
+			const optimizedFile = await optimizeImage(croppedFile, {
 				maxWidth: 512,
 				maxHeight: 512,
 				maxSizeKB: 500,
@@ -75,9 +103,7 @@ export default function ProfileInfo() {
 				forceConvert: true
 			});
 
-			// Get a storage upload URL from Convex
-			const uploadUrl = await generateUploadUrl();
-			// Upload the file to Convex storage
+			const uploadUrl = await generateUploadUrl({});
 			const response = await fetch(uploadUrl, {
 				method: 'POST',
 				headers: { 'Content-Type': optimizedFile.type },
@@ -85,126 +111,163 @@ export default function ProfileInfo() {
 			});
 			if (!response.ok) throw new Error('Failed to upload file');
 
-			const { storageId } = await response.json();
+			const result = (await response.json()) as { storageId: GenericId<'_storage'> };
+			await updateAvatar({ storageId: result.storageId, optimisticImage: url });
 
-			// Update the user's avatar with the storage ID
-			await updateAvatar({ storageId });
-
+			setLoadingStatus('loaded');
 			toast.success('Avatar updated successfully');
 		} catch (err) {
-			const message = err instanceof Error ? err.message : 'An unknown error occurred';
-			toast.error(`Failed to upload avatar: ${message}`);
+			const errorMsg = err instanceof Error ? err.message : 'An unknown error occurred';
+			toast.error(`Failed to upload avatar: ${errorMsg}`);
+			setCropSrc(previousImage);
+			setLoadingStatus('error');
 		} finally {
 			setIsUploading(false);
 		}
-	};
-
-	/* ─────────────────────────────────────────────  skeleton while loading */
-	if (!user) {
-		return <div className="bg-success-200-800 rounded-base h-16 w-full animate-pulse" />;
 	}
 
-	/* ─────────────────────────────────────────────  edit form */
-	const form = (
-		<form onSubmit={handleSubmit} className="w-full">
-			<div className="flex flex-col">
-				<label className="flex flex-col">
-					<span className="label">Name</span>
-					<input
-						type="text"
-						className="input w-full"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-				</label>
-				<Dialog.Footer>
-					<Dialog.Close className="btn preset-tonal w-full md:w-fit">Cancel</Dialog.Close>
-					<button type="submit" className="btn preset-filled-primary-500 w-full md:w-fit">
-						Save
-					</button>
-				</Dialog.Footer>
-			</div>
-		</form>
-	);
+	if (!activeUser) {
+		return <div className="placeholder h-16 w-full animate-pulse" />;
+	}
 
-	/* ─────────────────────────────────────────────  component UI */
+	const displayedAvatarSrc = cropSrc || activeUser.image || undefined;
+	const showAvatarOverlay =
+		!cropSrc.startsWith('blob:') && (isUploading || loadingStatus === 'loading');
+
 	return (
 		<div className="flex flex-col gap-6">
-			{/* avatar + upload */}
 			<div className="rounded-base flex items-center justify-start pt-6 pl-0.5">
-				<FileUpload accept="image/*" allowDrop maxFiles={1} onFileChange={handleFileChange}>
-					<div className="relative cursor-pointer transition-colors hover:brightness-125 hover:dark:brightness-75">
-						<Avatar.Root className="bg-surface-400-600 size-20">
-							<Avatar.Image
-								src={isUploading ? undefined : (user.image as string | undefined)}
-								alt={user.name}
-								onLoadingStatusChange={(status) => {
-									setImageLoadingStatus(status);
-								}}
-							/>
-							<Avatar.Fallback>
-								{imageLoadingStatus === 'loading' || isUploading ? (
-									<div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
-										<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent"></div>
+				<ImageCropper.Root
+					src={cropSrc}
+					onSrcChange={setCropSrc}
+					accept="image/*"
+					onCropped={handleCropped}
+				>
+					<ImageCropper.UploadTrigger>
+						<div className="rounded-container relative size-20 cursor-pointer transition-all duration-200">
+							<div className="relative cursor-pointer transition-colors">
+								<Avatar.Root
+									key={avatarKey}
+									className="size-20"
+									onStatusChange={(details) => setLoadingStatus(details.status)}
+								>
+									<Avatar.Image src={displayedAvatarSrc} alt={activeUser.name} />
+									<Avatar.Fallback className="bg-surface-300-700 hover:bg-surface-400-600/80 rounded-container duration-150 ease-in-out">
+										<Avatar.Marble name={activeUser.name} />
+									</Avatar.Fallback>
+								</Avatar.Root>
+								{showAvatarOverlay ? (
+									<div className="bg-surface-50-950 pointer-events-none absolute inset-0 flex items-center justify-center rounded-full">
+										<div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-b-transparent" />
 									</div>
-								) : (
-									<Avatar.Marble name={user.name} />
-								)}
-							</Avatar.Fallback>
-						</Avatar.Root>
-
-						<div className="badge-icon preset-filled-surface-300-700 border-surface-200-800 absolute -right-1.5 -bottom-1.5 size-3 rounded-full border-2">
-							<Pencil className="size-4" />
+								) : null}
+								<div className="badge-icon preset-filled-surface-300-700 ring-surface-50-950 dark:ring-surface-100-900 hover:bg-surface-400-600 absolute -right-1.5 -bottom-1.5 size-3 rounded-full ring-4">
+									<Pencil className="size-4" />
+								</div>
+							</div>
 						</div>
-					</div>
-				</FileUpload>
+					</ImageCropper.UploadTrigger>
+					<ImageCropper.Dialog>
+						<ImageCropper.Cropper cropShape="round" />
+						<ImageCropper.Controls>
+							<ImageCropper.Cancel />
+							<ImageCropper.Crop>Upload</ImageCropper.Crop>
+						</ImageCropper.Controls>
+					</ImageCropper.Dialog>
+				</ImageCropper.Root>
 			</div>
 
-			{/* Desktop Dialog - hidden on mobile, shown on desktop */}
-			<Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-				<Dialog.Trigger
-					className="border-surface-300-700 hover:bg-surface-50-950 hover:border-surface-50-950 rounded-container hidden w-full flex-row content-center items-center border py-2 pr-3 pl-4 duration-300 ease-in-out md:flex"
-					onClick={() => setIsDialogOpen(true)}
-				>
-					<div className="flex w-full flex-col gap-1 text-left">
+			<div
+				className={[
+					'border-surface-300-700 rounded-container relative w-full border px-3.5 py-2 transition-all duration-200 ease-in-out',
+					!isEditingName
+						? 'hover:bg-surface-200-800 hover:border-surface-200-800 cursor-pointer'
+						: ''
+				].join(' ')}
+			>
+				<div className="flex items-center justify-between gap-3 transition-all duration-200 ease-in-out">
+					<div className="flex w-full flex-col">
 						<span className="text-surface-600-400 text-xs">Name</span>
-						<span className="text-surface-800-200 font-medium">{user.name}</span>
-					</div>
-					<div className="btn preset-filled-surface-200-800 p-2">
-						<Pencil className="size-4" />
-					</div>
-				</Dialog.Trigger>
+						<div
+							className={[
+								'grid transition-[grid-template-rows] duration-200 ease-in-out',
+								isEditingName ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]',
+								!isEditingName ? 'mt-1' : ''
+							].join(' ')}
+							aria-hidden={isEditingName}
+							inert={isEditingName}
+						>
+							<div className="overflow-hidden">
+								<span className="truncate text-sm">{activeUser.name}</span>
+							</div>
+						</div>
 
-				<Dialog.Content className="w-full max-w-md">
-					<Dialog.Header>
-						<Dialog.Title>Edit name</Dialog.Title>
-					</Dialog.Header>
-					{form}
-				</Dialog.Content>
-			</Dialog.Root>
-
-			{/* Mobile Drawer - shown on mobile, hidden on desktop */}
-			<Drawer.Root open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-				<Drawer.Trigger
-					onClick={() => setIsDrawerOpen(true)}
-					className="border-surface-300-700 rounded-base flex w-full flex-row content-center items-center border py-2 pr-3 pl-4 md:hidden"
-				>
-					<div className="flex w-full flex-col gap-1 text-left">
-						<span className="text-surface-600-400 text-xs">Name</span>
-						<span className="text-surface-800-200 font-medium">{user.name}</span>
+						<div
+							className={[
+								'grid transition-[grid-template-rows] duration-200 ease-in-out',
+								isEditingName ? 'mt-1 grid-rows-[1fr]' : 'grid-rows-[0fr]'
+							].join(' ')}
+							aria-hidden={!isEditingName}
+							inert={!isEditingName}
+						>
+							<div className="overflow-hidden">
+								<form onSubmit={handleSubmit} className="flex w-full flex-col gap-3">
+									<input
+										ref={inputRef}
+										type="text"
+										className="input w-full"
+										value={name}
+										onChange={(event) => setName(event.currentTarget.value)}
+									/>
+									<div className="mb-1 flex gap-1.5">
+										<button
+											type="button"
+											className="btn btn-sm preset-tonal w-full"
+											onClick={() => {
+												setName(activeUser.name);
+												setIsEditingName(false);
+											}}
+										>
+											Cancel
+										</button>
+										<button
+											type="submit"
+											className="btn btn-sm preset-filled-primary-500 w-full"
+											disabled={
+												!name || name.trim() === '' || name.trim() === activeUser.name.trim()
+											}
+										>
+											Save
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					<div className="btn-icon preset-faded-surface-50-950">
-						<Pencil className="size-4" />
-					</div>
-				</Drawer.Trigger>
-				<Drawer.Content>
-					<Drawer.Header>
-						<Drawer.Title>Edit name</Drawer.Title>
-					</Drawer.Header>
-					{form}
-					<Drawer.CloseX />
-				</Drawer.Content>
-			</Drawer.Root>
+					{!isEditingName ? (
+						<>
+							<div>
+								<span className="btn-icon preset-filled-surface-50-950 pointer-events-none p-2">
+									<Pencil className="size-4" />
+								</span>
+							</div>
+							<button
+								className="absolute inset-0 h-full w-full"
+								aria-label="Edit name"
+								type="button"
+								onClick={() => {
+									setIsEditingName(true);
+									setName(activeUser.name);
+									requestAnimationFrame(() => {
+										inputRef.current?.focus();
+										inputRef.current?.select();
+									});
+								}}
+							/>
+						</>
+					) : null}
+				</div>
+			</div>
 		</div>
 	);
 }

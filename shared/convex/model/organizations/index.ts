@@ -7,6 +7,10 @@ import type { Id } from '../../_generated/dataModel';
 import { APIError } from 'better-auth/api';
 import { components } from '../../_generated/api';
 
+type AuthApi = ReturnType<typeof createAuth>['api'];
+type CreatedOrganization = Awaited<ReturnType<AuthApi['createOrganization']>>;
+type FullOrganization = Awaited<ReturnType<AuthApi['getFullOrganization']>>;
+
 /**
  * Ensure the organization slug is unique by appending an incrementing postfix
  * ("-2", "-3", ...). If the base slug does not exist, it is returned
@@ -102,7 +106,7 @@ export const createOrganizationModel = async (
 
 	// Create the organization
 	const auth = createAuth(ctx);
-	let org: typeof auth.$Infer.Organization | null;
+	let org: CreatedOrganization | null;
 
 	// Step 1: Create the organization in Better Auth
 	try {
@@ -207,7 +211,7 @@ export const updateOrganizationProfileModel = async (
 
 	// Handle logo updates
 	let logoUrl: string | undefined;
-	let convexOrgToUpdate: typeof auth.$Infer.Organization | null;
+	let convexOrgToUpdate: FullOrganization | null;
 
 	// Tri-state semantics for `logoId` passed into this model:
 	// - undefined: do not touch the logo fields at all

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select, type SelectItemProps } from '@ark-ui/svelte/select';
+	import { Select as SelectPrimitive } from '@ark-ui/svelte/select';
 	import { cn } from '$lib/primitives/utils.js';
 
 	let {
@@ -7,10 +7,10 @@
 		class: className,
 		children,
 		...restProps
-	}: SelectItemProps = $props();
+	}: SelectPrimitive.ItemProps = $props();
 </script>
 
-<Select.Item
+<SelectPrimitive.Item
 	bind:ref
 	data-slot="select-item"
 	class={cn(
@@ -20,4 +20,4 @@
 	{...restProps}
 >
 	{@render children?.()}
-</Select.Item>
+</SelectPrimitive.Item>

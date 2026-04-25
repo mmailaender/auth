@@ -1,17 +1,23 @@
 import { defineConfig } from 'jsrepo';
 import { repository } from 'jsrepo/outputs';
 import { fs, jsrepo } from 'jsrepo/providers';
+import {
+	betterAuthApiKeyDependency,
+	betterAuthDependency,
+	createConfigItem,
+	createConvexBaseFiles,
+	createDeviceAuthorizationConvexItem,
+	createEmailConvexItem,
+	createOrganizationsConvexItem,
+	createRegistryMeta,
+	createThemesItem,
+	createUsersConvexItem
+} from '../registry/shared';
 
 export default defineConfig({
 	providers: [fs(), jsrepo()],
 	registry: {
-		name: '@auth/svelte',
-		description: 'Plug & Play Auth Widgets for your application',
-		homepage: 'https://etesie.dev/docs/auth',
-		bugs: 'https://github.com/mmailaender/Convex-Better-Auth-UI/issues',
-		repository: 'https://github.com/mmailaender/Convex-Better-Auth-UI',
-		tags: ['auth', 'svelte', 'ui', 'convex', 'better-auth'],
-		version: 'package',
+		...createRegistryMeta('@auth/svelte', 'svelte'),
 		defaultPaths: {
 			base: './',
 			convex: './src/convex',
@@ -23,34 +29,7 @@ export default defineConfig({
 		outputs: [repository({ format: true })],
 		items: [
 			// ── Base & config ────────────────────────────────────────────────
-			{
-				name: 'config',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/auth.ts',
-						dependencyResolution: 'manual',
-						dependencies: ['@convex-dev/better-auth', 'better-auth']
-					},
-					{
-						path: 'src/convex/url.ts',
-						dependencyResolution: 'manual',
-						dependencies: ['better-auth']
-					},
-					{
-						path: 'src/convex/storage.ts',
-						dependencyResolution: 'manual'
-					},
-					{
-						path: 'src/convex/auth.constants.dist.ts',
-						target: 'src/convex/auth.constants.ts'
-					},
-					{
-						path: 'src/convex/auth.constants.types.ts'
-					}
-				]
-			},
+			createConfigItem(),
 			{
 				name: 'base',
 				add: 'when-added',
@@ -91,49 +70,7 @@ export default defineConfig({
 									}
 								]
 							},
-							{
-								path: 'convex',
-								files: [
-									{
-										path: 'tsconfig.json'
-									},
-									{
-										path: 'auth.config.ts'
-									},
-									{
-										path: 'convex.config.ts'
-									},
-									{
-										path: 'http.ts',
-										dependencyResolution: 'manual'
-									},
-									{
-										path: 'polyfills.ts'
-									},
-									{
-										path: 'schema.ts'
-									},
-									{
-										path: 'migrations.ts',
-										dependencyResolution: 'manual',
-										dependencies: ['@convex-dev/migrations']
-									},
-									{
-										path: 'betterAuth',
-										files: [
-											{
-												path: 'adapter.ts'
-											},
-											{
-												path: 'convex.config.ts'
-											},
-											{
-												path: 'schema.ts'
-											}
-										]
-									}
-								]
-							}
+							createConvexBaseFiles('convex')
 						]
 					}
 				]
@@ -171,16 +108,7 @@ export default defineConfig({
 					}
 				]
 			},
-			{
-				name: 'themes',
-				add: 'when-added',
-				type: 'themes',
-				files: [
-					{
-						path: 'src/themes/auth.css'
-					}
-				]
-			},
+			createThemesItem(),
 
 			// ── Auth ─────────────────────────────────────────────────────────
 			{
@@ -204,7 +132,11 @@ export default defineConfig({
 										path: 'auth-client.ts',
 										dependencyResolution: 'manual',
 										registryDependencies: ['config'],
-										dependencies: ['@better-auth/api-key', '@convex-dev/better-auth', 'better-auth']
+										dependencies: [
+											betterAuthApiKeyDependency,
+											'@convex-dev/better-auth',
+											betterAuthDependency
+										]
 									}
 								]
 							},
@@ -233,43 +165,7 @@ export default defineConfig({
 			},
 
 			// ── Users ────────────────────────────────────────────────────────
-			{
-				name: 'users/convex',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/users',
-						files: [
-							{
-								path: 'actions.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex']
-							},
-							{
-								path: 'mutations.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex', 'better-auth']
-							},
-							{
-								path: 'queries.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex', 'better-auth']
-							}
-						]
-					},
-					{
-						path: 'src/convex/betterAuth',
-						files: [
-							{
-								path: 'user.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex', 'convex-helpers']
-							}
-						]
-					}
-				]
-			},
+			createUsersConvexItem(),
 			{
 				name: 'users/lib',
 				add: 'when-added',
@@ -282,67 +178,7 @@ export default defineConfig({
 			},
 
 			// ── Organizations ────────────────────────────────────────────────
-			{
-				name: 'organizations/convex',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/organizations',
-						files: [
-							{
-								path: 'mutations.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex', 'better-auth']
-							},
-							{
-								path: 'queries.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex']
-							},
-							{
-								path: 'invitations',
-								files: [{ path: 'queries.ts', dependencyResolution: 'manual' }]
-							},
-							{
-								path: 'members',
-								files: [
-									{
-										path: 'mutations.ts',
-										dependencyResolution: 'manual',
-										dependencies: ['convex', 'better-auth']
-									}
-								]
-							}
-						]
-					},
-					{
-						path: 'src/convex/model',
-						files: [
-							{
-								path: 'organizations',
-								files: [
-									{
-										path: 'index.ts',
-										dependencyResolution: 'manual',
-										dependencies: ['convex', 'better-auth']
-									}
-								]
-							}
-						]
-					},
-					{
-						path: 'src/convex/betterAuth',
-						files: [
-							{
-								path: 'organization.ts',
-								dependencyResolution: 'manual',
-								dependencies: ['convex', 'convex-helpers']
-							}
-						]
-					}
-				]
-			},
+			createOrganizationsConvexItem(),
 			{
 				name: 'organizations/lib',
 				add: 'when-added',
@@ -365,54 +201,17 @@ export default defineConfig({
 			},
 
 			// ── Email ────────────────────────────────────────────────────────
-			{
-				name: 'email/convex',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/email.ts',
-						dependencyResolution: 'manual',
-						dependencies: ['@convex-dev/resend']
-					},
-					{
-						path: 'src/convex/model',
-						files: [
-							{
-								path: 'emails',
-								files: [
-									{ path: 'validateEmail.ts', dependencyResolution: 'manual' },
-									{
-										path: 'templates',
-										files: [{ path: 'baseEmail.ts' }, { path: 'emailTemplates.ts' }]
-									}
-								]
-							}
-						]
-					}
-				]
-			},
+			createEmailConvexItem(),
 
 			// ── Device Authorization ─────────────────────────────────────────
-			{
-				name: 'device-authorization/convex',
-				add: 'when-added',
-				type: 'convex',
-				files: [
-					{
-						path: 'src/convex/deviceAuthorization.ts',
-						dependencyResolution: 'manual',
-						dependencies: ['convex', 'better-auth']
-					}
-				]
-			},
+			createDeviceAuthorizationConvexItem(),
 			{
 				name: 'device-authorization/routes',
 				add: 'when-added',
 				type: 'routes',
 				files: [
 					{
-						path: 'src/routes/*/device-authorization/*/+page.svelte',
+						path: 'src/routes/*/device/+page.svelte',
 						dependencyResolution: 'manual',
 						registryDependencies: ['auth/lib', 'config']
 					}

@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { Dialog as ArkDialog, type DialogTitleProps } from '@ark-ui/svelte/dialog';
+	import { Dialog as DialogPrimitive } from '@ark-ui/svelte/dialog';
 	import { cn } from '$lib/primitives/utils.js';
 
-	let { ref = $bindable(null), class: className, ...restProps }: DialogTitleProps = $props();
+	let {
+		ref = $bindable(null),
+		class: className,
+		...restProps
+	}: DialogPrimitive.TitleProps = $props();
 </script>
 
-<ArkDialog.Title
+<DialogPrimitive.Title
 	bind:ref
 	data-scope="dialog"
 	data-part="title"

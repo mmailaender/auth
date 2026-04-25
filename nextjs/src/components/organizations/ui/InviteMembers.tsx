@@ -3,21 +3,28 @@
 import { useState, FormEvent } from 'react';
 
 // Primitives
+import * as Select from '@/components/primitives/ui/select';
 import { toast } from 'sonner';
 
 // API
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { authClient } from '../../../lib/auth/api/auth-client';
+import { useActiveOrganizationData } from '@/lib/auth/hooks';
+import { AUTH_CONSTANTS } from '@/convex/auth.constants';
 // API Types
 type Role = typeof authClient.$Infer.Member.role;
 
 export default function InviteMembers({ onSuccess }: { onSuccess?: () => void }) {
 	const [emailInput, setEmailInput] = useState('');
-	const [selectedRole, setSelectedRole] = useState<Role>('member');
+	const [selectedRole, setSelectedRole] = useState<Role[]>(['member']);
 	const [isProcessing, setIsProcessing] = useState(false);
 
-	const activeOrganization = useQuery(api.organizations.queries.getActiveOrganization);
+	const activeOrganization = useActiveOrganizationData();
+	const collection = Select.createListCollection({
+		items: [
+			{ label: 'Member', value: 'member' },
+			{ label: 'Admin', value: 'admin' }
+		]
+	});
 
 	const handleInvite = async (event: FormEvent) => {
 		event.preventDefault();
@@ -86,14 +93,20 @@ export default function InviteMembers({ onSuccess }: { onSuccess?: () => void })
 				<div className="flex flex-col">
 					<label>
 						<span className="label">Role</span>
-						<select
+						<Select.Root
+							collection={collection}
 							value={selectedRole}
-							onChange={(e) => setSelectedRole(e.target.value as Role)}
-							className="select w-full cursor-pointer"
+							onValueChange={(details) => setSelectedRole(details.value as Role[])}
 						>
-							<option value="member">Member</option>
-							<option value="admin">Admin</option>
-						</select>
+							<Select.Trigger className="w-full" placeholder="Select a role" />
+							<Select.Content>
+								{collection.items.map((item) => (
+									<Select.Item key={item.value} item={item}>
+										<Select.ItemText>{item.label}</Select.ItemText>
+									</Select.Item>
+								))}
+							</Select.Content>
+						</Select.Root>
 					</label>
 				</div>
 				<div className="flex flex-col gap-2">
@@ -114,10 +127,19 @@ export default function InviteMembers({ onSuccess }: { onSuccess?: () => void })
 				</div>
 
 				<div className="flex justify-end gap-2 pt-6 md:flex-row">
-					<button type="submit" className="btn preset-filled-primary-500" disabled={isProcessing}>
+					<button
+						type="submit"
+						className="btn preset-filled-primary-500"
+						disabled={isProcessing || !AUTH_CONSTANTS.sendEmails}
+					>
 						{isProcessing ? 'Sending...' : 'Send Invitations'}
 					</button>
 				</div>
+				{!AUTH_CONSTANTS.sendEmails ? (
+					<div className="text-error-600-400 px-1 text-xs">
+						Sending Emails is not enabled. Please enable to send invitations.
+					</div>
+				) : null}
 			</div>
 		</form>
 	);
