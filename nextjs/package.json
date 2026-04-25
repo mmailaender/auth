@@ -11,7 +11,10 @@
 		"start": "next start",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"pull:convex": "rm -rf ./convex && cp -r ../convex ./convex"
+		"pull:convex": "rm -rf ./convex && cp -r ../convex ./convex",
+		"changeset": "changeset",
+		"version-packages": "changeset version",
+		"ci:release": "jsrepo publish && changeset tag"
 	},
 	"dependencies": {
 		"@ark-ui/react": "^5.36.2",
@@ -25,7 +28,7 @@
 		"@zxcvbn-ts/language-en": "^3.0.2",
 		"better-auth": "1.5.3",
 		"clsx": "^2.1.1",
-		"convex": "^1.36.1",
+		"convex": "1.36.1",
 		"convex-helpers": "^0.1.115",
 		"lucide-react": "^0.577.0",
 		"next": "16.2.4",
@@ -37,6 +40,7 @@
 		"tailwind-merge": "^3.5.0"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^2.31.0",
 		"@skeletonlabs/skeleton": "^4.15.2",
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/postcss": "^4.2.4",
@@ -46,6 +50,7 @@
 		"concurrently": "^9.2.1",
 		"eslint": "^9.39.4",
 		"eslint-config-next": "16.2.4",
+		"jsrepo": "^3.7.0",
 		"prettier": "^3.8.3",
 		"prettier-plugin-tailwindcss": "^0.7.3",
 		"tailwindcss": "^4.2.4",
