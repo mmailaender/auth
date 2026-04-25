@@ -1,11 +1,16 @@
 <script module lang="ts">
 	let dialogIdCounter = 0;
+
+	function nextDialogId() {
+		dialogIdCounter += 1;
+		return `dialog-${dialogIdCounter}`;
+	}
 </script>
 
 <script lang="ts">
 	import { Dialog as ArkDialog } from '@ark-ui/svelte/dialog';
 
-	const fallbackId = `dialog-${++dialogIdCounter}`;
+	const fallbackId = nextDialogId();
 
 	let {
 		open = $bindable(false),
@@ -30,7 +35,9 @@
 				: `${fallbackId}-content`
 	});
 
-	function handleInteractOutside(event: Parameters<NonNullable<ArkDialog.RootProps['onInteractOutside']>>[0]) {
+	function handleInteractOutside(
+		event: Parameters<NonNullable<ArkDialog.RootProps['onInteractOutside']>>[0]
+	) {
 		const originalEvent = event.detail?.originalEvent || event.detail;
 
 		if (originalEvent instanceof Event && originalEvent.target instanceof Element) {

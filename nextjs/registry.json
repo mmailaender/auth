@@ -4,13 +4,7 @@
 	"description": "Plug & Play Auth Widgets for your application",
 	"homepage": "https://etesie.dev/docs/auth",
 	"repository": "https://github.com/mmailaender/Convex-Better-Auth-UI",
-	"tags": [
-		"auth",
-		"nextjs",
-		"ui",
-		"convex",
-		"better-auth"
-	],
+	"tags": ["auth", "nextjs", "ui", "convex", "better-auth"],
 	"version": "package",
 	"type": "repository",
 	"defaultPaths": {
@@ -113,9 +107,7 @@
 			"name": "base",
 			"type": "base",
 			"add": "when-added",
-			"registryDependencies": [
-				"config"
-			],
+			"registryDependencies": ["config"],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -617,10 +609,7 @@
 			"name": "auth/lib",
 			"type": "lib",
 			"add": "when-added",
-			"registryDependencies": [
-				"config",
-				"primitives"
-			],
+			"registryDependencies": ["config", "primitives"],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -694,9 +683,7 @@
 					"path": "auth/api/auth-client.ts",
 					"relativePath": "src/lib/auth/api/auth-client.ts",
 					"_imports_": [],
-					"registryDependencies": [
-						"config"
-					],
+					"registryDependencies": ["config"],
 					"dependencies": [
 						{
 							"ecosystem": "js",
@@ -719,9 +706,7 @@
 					"path": "auth/api/auth.ts",
 					"relativePath": "src/lib/auth/api/auth.ts",
 					"_imports_": [],
-					"registryDependencies": [
-						"config"
-					],
+					"registryDependencies": ["config"],
 					"dependencies": [],
 					"devDependencies": []
 				},
@@ -834,9 +819,7 @@
 			"name": "auth/routes",
 			"type": "routes",
 			"add": "when-added",
-			"registryDependencies": [
-				"auth/lib"
-			],
+			"registryDependencies": ["auth/lib"],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
@@ -961,10 +944,7 @@
 			"name": "users/lib",
 			"type": "components",
 			"add": "when-added",
-			"registryDependencies": [
-				"auth/lib",
-				"primitives"
-			],
+			"registryDependencies": ["auth/lib", "primitives"],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -1214,10 +1194,7 @@
 			"name": "organizations/lib",
 			"type": "components",
 			"add": "when-added",
-			"registryDependencies": [
-				"auth/lib",
-				"primitives"
-			],
+			"registryDependencies": ["auth/lib", "primitives"],
 			"dependencies": [
 				{
 					"ecosystem": "js",
@@ -1382,11 +1359,7 @@
 			"name": "organizations/routes",
 			"type": "routes",
 			"add": "when-added",
-			"registryDependencies": [
-				"auth/lib",
-				"organizations/lib",
-				"organizations/convex"
-			],
+			"registryDependencies": ["auth/lib", "organizations/lib", "organizations/convex"],
 			"dependencies": [],
 			"devDependencies": [],
 			"files": [
@@ -1534,10 +1507,7 @@
 					"relativePath": "src/app/device-authorization/[code]/page.tsx",
 					"_imports_": [],
 					"target": "src/app/device-authorization/[code]/page.tsx",
-					"registryDependencies": [
-						"auth/lib",
-						"config"
-					],
+					"registryDependencies": ["auth/lib", "config"],
 					"dependencies": [],
 					"devDependencies": []
 				}

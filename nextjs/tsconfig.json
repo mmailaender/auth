@@ -22,7 +22,8 @@
 			"@/components/*": ["./src/components/*"],
 			"@/convex/*": ["./src/convex/*"],
 			"@/lib/*": ["./src/lib/*"]
-		}
+		},
+		"types": ["node"]
 	},
 	"include": [
 		"next-env.d.ts",
