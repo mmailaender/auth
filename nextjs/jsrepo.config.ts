@@ -17,14 +17,13 @@ export default defineConfig({
 	registry: {
 		...createRegistryMeta('@auth/nextjs', 'nextjs'),
 		defaultPaths: {
-			app: './src/app',
+			app: '@/app',
 			base: './',
-			components: './src/components',
+			components: '@/components',
 			convex: './src/convex',
-			lib: './src/lib',
-			routes: './src/app',
-			themes: './src/themes',
-			types: './src/types'
+			lib: '@/lib',
+			themes: '@/themes',
+			types: '@/types'
 		},
 		excludeDeps: ['next', 'react', 'react-dom'],
 		outputs: [repository({ format: true })],
@@ -38,7 +37,13 @@ export default defineConfig({
 				dependencyResolution: 'manual',
 				registryDependencies: ['config'],
 				dependencies: ['@convex-dev/better-auth', 'convex', 'sonner'],
-				devDependencies: ['@skeletonlabs/skeleton', '@types/node', 'tailwindcss', 'tw-animate-css'],
+				devDependencies: [
+					'@skeletonlabs/skeleton',
+					'@tailwindcss/forms',
+					'@types/node',
+					'tailwindcss',
+					'tw-animate-css'
+				],
 				files: [
 					{ path: 'convex.dist.json', target: 'convex.json' },
 					{ path: 'components.json' },
