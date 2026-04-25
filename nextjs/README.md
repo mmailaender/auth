@@ -11,7 +11,7 @@
   <p align="center">
     Self-owned auth UI for Convex + Better Auth — copy the code, own the flow.
     <br />
-    <a href="https://etesie.dev/docs/auth/getting-started/sveltekit"><strong>→ Get Started</strong></a>
+    <a href="https://etesie.dev/docs/auth/getting-started/nextjs"><strong>→ Get Started</strong></a>
     <br /><br />
     <a href="https://github.com/mmailaender/auth/issues">Issues</a>
   </p>
@@ -21,7 +21,7 @@
 
 ## 🧩 What is Auth UI?
 
-**Auth** gives you full-ownership authentication and organization management for **SvelteKit** or **React** — built on  
+**Auth** gives you full-ownership authentication and organization management for **SvelteKit** or **Nextjs** — built on  
 **Better Auth + Convex**, wrapped in an extensible UI layer you completely control.
 
 You don’t integrate a service.  
@@ -54,7 +54,7 @@ Auth gives you hosted-provider convenience **without losing control**:
 
 ## ⚡ Getting Started
 
-Start building now with pre-built Svelte or React components —  
+Start building now with pre-built SvelteKit or Nextjs components —  
 fully functional, fully editable, and ready for production.
 
 📘 **[Read the Getting Started Guide →](https://etesie.dev/docs/auth/getting-started)**
@@ -63,10 +63,15 @@ fully functional, fully editable, and ready for production.
 
 ## 🧠 Built With
 
-- [Convex](https://convex.dev) – Backend & real-time data
-- [Better Auth](https://github.com/get-convex/better-auth) – Secure auth API
-- [Shadcn](https://www.shadcn-svelte.com) – UI components
-- [Skeleton](https://skeleton.dev) – Design system
+- **Convex** – Backend, auth data & real-time sync
+- **Better Auth** – Secure, framework-agnostic auth core
+- **SvelteKit / Nextjs** – First-class framework support
+
+### UI & Styling
+
+- **Tailwind CSS** – Utility-first styling
+- **Shadcn** – Copy-paste components you own
+- **Skeleton** – Design-system primitives & theming
 
 ---
 
