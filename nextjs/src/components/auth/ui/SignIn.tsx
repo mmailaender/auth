@@ -12,6 +12,10 @@ import { Mail } from 'lucide-react';
 
 // Utils
 import { cn } from '../../../lib/utils';
+import {
+	resolveSignInCallbackURL,
+	resolveSignInRedirect
+} from '@/lib/auth/utils/signInRedirect';
 
 // Constants
 import { AUTH_CONSTANTS } from '@/convex/auth.constants';
@@ -71,19 +75,21 @@ export default function SignIn({
 	const availableMethods = getAvailableMethods();
 
 	const getRedirectURL = useCallback((): string | undefined => {
-		if (redirectParam) {
-			return redirectParam;
+		if (typeof window !== 'undefined') {
+			return resolveSignInRedirect(redirectParam, new URL(window.location.href));
 		}
 
-		const redirectTo = searchParams.get('redirectTo');
-		if (redirectTo) {
-			return redirectTo;
-		}
-
-		if (typeof window !== 'undefined' && window.location.pathname.includes('/signin')) {
-			return '/';
-		}
+		if (redirectParam) return redirectParam;
+		return searchParams.get('redirectTo') ?? undefined;
 	}, [redirectParam, searchParams]);
+
+	const getCallbackURL = useCallback((): string => {
+		if (typeof window !== 'undefined') {
+			return resolveSignInCallbackURL(redirectParam, new URL(window.location.href));
+		}
+
+		return getRedirectURL() ?? '/';
+	}, [getRedirectURL, redirectParam]);
 
 	const handleRedirect = useCallback((): 'internal' | 'external' | 'none' => {
 		const redirectURL = getRedirectURL();
@@ -153,7 +159,7 @@ export default function SignIn({
 			await authClient.signIn.magicLink(
 				{
 					email,
-					callbackURL: getRedirectURL() || '/',
+					callbackURL: getCallbackURL(),
 					errorCallbackURL: '/signin?error=magic-link-failed'
 				},
 				{
@@ -239,7 +245,7 @@ export default function SignIn({
 						onBack={resetToEmailStep}
 						submitting={submitting}
 						onSubmittingChange={setSubmitting}
-						callbackURL={getRedirectURL() || '/'}
+						callbackURL={getCallbackURL()}
 					/>
 				);
 			case 'email-otp-flow':
@@ -260,7 +266,7 @@ export default function SignIn({
 						onBack={resetToEmailStep}
 						submitting={submitting}
 						onSubmittingChange={setSubmitting}
-						callbackURL={getRedirectURL() || '/'}
+						callbackURL={getCallbackURL()}
 						onLinkSent={() => {
 							setMagicLinkSent(true);
 							setIsSigningIn(true);
@@ -366,7 +372,7 @@ export default function SignIn({
 						<SocialFlow
 							show={currentStep === 'email'}
 							dividerAfter={availableMethods.length > 0}
-							callbackURL={getRedirectURL() || '/'}
+							callbackURL={getCallbackURL()}
 							onSuccess={handleAuthSuccess}
 							onSubmittingChange={setSubmitting}
 						/>

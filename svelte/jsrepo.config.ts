@@ -143,6 +143,10 @@ export default defineConfig({
 							},
 							{
 								path: 'ui'
+							},
+							{
+								path: 'utils',
+								files: [{ path: 'signInRedirect.ts' }]
 							}
 						]
 					}

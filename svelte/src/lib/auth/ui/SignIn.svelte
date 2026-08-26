@@ -20,6 +20,7 @@
 
 	// Utils
 	import { cn } from '$lib/primitives/utils';
+	import { resolveSignInCallbackURL, resolveSignInRedirect } from '$lib/auth/utils/signInRedirect';
 
 	// Context
 	import { getAuthContext } from '$lib/auth/context.svelte';
@@ -99,16 +100,11 @@
 	 * Gets the redirect URL based on redirectTo or current URL params
 	 */
 	function getRedirectURL(): string | undefined {
-		if (redirectParam) return redirectParam;
+		return resolveSignInRedirect(redirectParam, page.url);
+	}
 
-		const redirectTo = page.url.searchParams.get('redirectTo');
-		if (redirectTo) {
-			return redirectTo;
-		}
-
-		if (page.url.pathname.includes('/signin')) {
-			return '/';
-		}
+	function getCallbackURL(): string {
+		return resolveSignInCallbackURL(redirectParam, page.url);
 	}
 
 	/**
@@ -199,7 +195,7 @@
 			await authClient.signIn.magicLink(
 				{
 					email,
-					callbackURL: getRedirectURL() || '/',
+					callbackURL: getCallbackURL(),
 					errorCallbackURL: '/signin?error=magic-link-failed'
 				},
 				{
@@ -363,7 +359,7 @@
 				show={currentStep === 'email'}
 				onSuccess={handleAuthSuccess}
 				onSubmittingChange={(value) => (submitting = value)}
-				callbackURL={getRedirectURL() || '/'}
+				callbackURL={getCallbackURL()}
 				dividerAfter={availableEmailMethods.length > 0}
 			/>
 
@@ -385,7 +381,7 @@
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						callbackURL={getRedirectURL() || '/'}
+						callbackURL={getCallbackURL()}
 						onVerifyEmail={() => {
 							currentStep = 'verify-email';
 							verifyContext = 'emailVerification';
@@ -407,7 +403,7 @@
 						onBack={resetToEmailStep}
 						{submitting}
 						onSubmittingChange={(value) => (submitting = value)}
-						callbackURL={getRedirectURL() || '/'}
+						callbackURL={getCallbackURL()}
 						onLinkSent={() => {
 							verifyContext = 'magicLink';
 							magicLinkSent = true;
