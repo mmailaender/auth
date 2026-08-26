@@ -32,12 +32,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             | {
                 data: {
                   activeOrganizationId?: null | string;
+                  banExpires?: null | number;
+                  banReason?: null | string;
+                  banned?: null | boolean;
                   createdAt: number;
                   email: string;
                   emailVerified: boolean;
                   image?: null | string;
                   imageId?: null | string;
                   name: string;
+                  role?: null | string;
                   updatedAt: number;
                   userId?: null | string;
                 };
@@ -48,6 +52,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   activeOrganizationId?: null | string;
                   createdAt: number;
                   expiresAt: number;
+                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token: string;
                   updatedAt: number;
@@ -190,6 +195,10 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userId"
                     | "imageId"
                     | "activeOrganizationId"
+                    | "role"
+                    | "banned"
+                    | "banReason"
+                    | "banExpires"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -226,6 +235,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userAgent"
                     | "userId"
                     | "activeOrganizationId"
+                    | "impersonatedBy"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -574,6 +584,10 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userId"
                     | "imageId"
                     | "activeOrganizationId"
+                    | "role"
+                    | "banned"
+                    | "banReason"
+                    | "banExpires"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -610,6 +624,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userAgent"
                     | "userId"
                     | "activeOrganizationId"
+                    | "impersonatedBy"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1041,12 +1056,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 model: "user";
                 update: {
                   activeOrganizationId?: null | string;
+                  banExpires?: null | number;
+                  banReason?: null | string;
+                  banned?: null | boolean;
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
                   image?: null | string;
                   imageId?: null | string;
                   name?: string;
+                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -1062,6 +1081,10 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userId"
                     | "imageId"
                     | "activeOrganizationId"
+                    | "role"
+                    | "banned"
+                    | "banReason"
+                    | "banExpires"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1091,6 +1114,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   activeOrganizationId?: null | string;
                   createdAt?: number;
                   expiresAt?: number;
+                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token?: string;
                   updatedAt?: number;
@@ -1108,6 +1132,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userAgent"
                     | "userId"
                     | "activeOrganizationId"
+                    | "impersonatedBy"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1531,12 +1556,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                 model: "user";
                 update: {
                   activeOrganizationId?: null | string;
+                  banExpires?: null | number;
+                  banReason?: null | string;
+                  banned?: null | boolean;
                   createdAt?: number;
                   email?: string;
                   emailVerified?: boolean;
                   image?: null | string;
                   imageId?: null | string;
                   name?: string;
+                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -1552,6 +1581,10 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userId"
                     | "imageId"
                     | "activeOrganizationId"
+                    | "role"
+                    | "banned"
+                    | "banReason"
+                    | "banExpires"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1581,6 +1614,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   activeOrganizationId?: null | string;
                   createdAt?: number;
                   expiresAt?: number;
+                  impersonatedBy?: null | string;
                   ipAddress?: null | string;
                   token?: string;
                   updatedAt?: number;
@@ -1598,6 +1632,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "userAgent"
                     | "userId"
                     | "activeOrganizationId"
+                    | "impersonatedBy"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -2005,6 +2040,77 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         Name
       >;
     };
+    adminOrganizations: {
+      adminDeleteOrganization: FunctionReference<
+        "mutation",
+        "internal",
+        { organizationId: string },
+        null,
+        Name
+      >;
+      getOrganizationWithMembers: FunctionReference<
+        "query",
+        "internal",
+        { organizationId: string },
+        null | {
+          members: Array<{
+            _id: string;
+            createdAt: number;
+            role: string;
+            user: null | {
+              _id: string;
+              email: string;
+              image: null | string;
+              name: string;
+            };
+          }>;
+          organization: {
+            _creationTime: number;
+            _id: string;
+            createdAt: number;
+            logo?: null | string;
+            logoId?: null | string;
+            metadata?: null | string;
+            name: string;
+            plans?: null | Array<string>;
+            slug: string;
+          };
+        },
+        Name
+      >;
+      listAllOrganizations: FunctionReference<
+        "query",
+        "internal",
+        {
+          paginationOpts: {
+            cursor: string | null;
+            endCursor?: string | null;
+            id?: number;
+            maximumBytesRead?: number;
+            maximumRowsRead?: number;
+            numItems: number;
+          };
+        },
+        {
+          continueCursor: string;
+          isDone: boolean;
+          page: Array<{
+            _creationTime: number;
+            _id: string;
+            createdAt: number;
+            logo?: null | string;
+            logoId?: null | string;
+            metadata?: null | string;
+            name: string;
+            plans?: null | Array<string>;
+            slug: string;
+          }>;
+          pageStatus?: "SplitRecommended" | "SplitRequired" | null;
+          splitCursor?: string | null;
+        },
+        Name
+      >;
+    };
     organization: {
       deleteUser: FunctionReference<
         "mutation",
@@ -2013,12 +2119,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           _creationTime: number;
           _id: string;
           activeOrganizationId?: null | string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
           createdAt: number;
           email: string;
           emailVerified: boolean;
           image?: null | string;
           imageId?: null | string;
           name: string;
+          role?: null | string;
           updatedAt: number;
           userId?: null | string;
         },
@@ -2059,12 +2169,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           _creationTime: number;
           _id: string;
           activeOrganizationId?: null | string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
           createdAt: number;
           email: string;
           emailVerified: boolean;
           image?: null | string;
           imageId?: null | string;
           name: string;
+          role?: null | string;
           updatedAt: number;
           userId?: null | string;
         },
@@ -2078,12 +2192,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           _creationTime: number;
           _id: string;
           activeOrganizationId?: null | string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
           createdAt: number;
           email: string;
           emailVerified: boolean;
           image?: null | string;
           imageId?: null | string;
           name: string;
+          role?: null | string;
           updatedAt: number;
           userId?: null | string;
         },
@@ -2095,12 +2213,16 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         {
           data: {
             activeOrganizationId?: null | string;
+            banExpires?: null | number;
+            banReason?: null | string;
+            banned?: null | boolean;
             createdAt?: number;
             email?: string;
             emailVerified?: boolean;
             image?: null | string;
             imageId?: null | string;
             name?: string;
+            role?: null | string;
             updatedAt?: number;
             userId?: null | string;
           };

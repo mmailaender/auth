@@ -23,11 +23,16 @@ export const tables = {
 		updatedAt: v.number(),
 		userId: v.optional(v.union(v.null(), v.string())),
 		imageId: v.optional(v.union(v.null(), v.string())),
-		activeOrganizationId: v.optional(v.union(v.null(), v.string()))
+		activeOrganizationId: v.optional(v.union(v.null(), v.string())),
+		role: v.optional(v.union(v.null(), v.string())),
+		banned: v.optional(v.union(v.null(), v.boolean())),
+		banReason: v.optional(v.union(v.null(), v.string())),
+		banExpires: v.optional(v.union(v.null(), v.number()))
 	})
 		.index('email_name', ['email', 'name'])
 		.index('name', ['name'])
-		.index('userId', ['userId']),
+		.index('userId', ['userId'])
+		.index('role', ['role']),
 	session: defineTable({
 		expiresAt: v.number(),
 		token: v.string(),
@@ -36,7 +41,8 @@ export const tables = {
 		ipAddress: v.optional(v.union(v.null(), v.string())),
 		userAgent: v.optional(v.union(v.null(), v.string())),
 		userId: v.string(),
-		activeOrganizationId: v.optional(v.union(v.null(), v.string()))
+		activeOrganizationId: v.optional(v.union(v.null(), v.string())),
+		impersonatedBy: v.optional(v.union(v.null(), v.string()))
 	})
 		.index('expiresAt', ['expiresAt'])
 		.index('expiresAt_userId', ['expiresAt', 'userId'])

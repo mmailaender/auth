@@ -224,6 +224,56 @@ export function createOrganizationsConvexItem() {
 	};
 }
 
+export function createAdminConvexItem() {
+	return {
+		name: 'admin/convex',
+		add: whenAdded,
+		type: 'convex',
+		files: [
+			{
+				path: 'src/convex/admin',
+				files: [
+					{
+						path: 'queries.ts',
+						dependencyResolution: manual,
+						dependencies: ['convex', betterAuthDependency]
+					},
+					{
+						path: 'mutations.ts',
+						dependencyResolution: manual,
+						dependencies: ['convex', betterAuthDependency]
+					}
+				]
+			},
+			{
+				path: 'src/convex/model',
+				files: [
+					{
+						path: 'admin',
+						files: [
+							{
+								path: 'index.ts',
+								dependencyResolution: manual,
+								dependencies: ['convex']
+							}
+						]
+					}
+				]
+			},
+			{
+				path: 'src/convex/betterAuth',
+				files: [
+					{
+						path: 'adminOrganizations.ts',
+						dependencyResolution: manual,
+						dependencies: ['convex', 'convex-helpers']
+					}
+				]
+			}
+		]
+	};
+}
+
 export function createEmailConvexItem() {
 	return {
 		name: 'email/convex',

@@ -4,6 +4,7 @@ import { fs, jsrepo } from 'jsrepo/providers';
 import {
 	betterAuthApiKeyDependency,
 	betterAuthDependency,
+	createAdminConvexItem,
 	createConfigItem,
 	createConvexBaseFiles,
 	createDeviceAuthorizationConvexItem,
@@ -196,6 +197,31 @@ export default defineConfig({
 				files: [
 					{
 						path: 'src/routes/**/accept-invitation/*/+page.svelte'
+					}
+				]
+			},
+
+			// ── Admin ────────────────────────────────────────────────────────
+			createAdminConvexItem(),
+			{
+				name: 'admin/lib',
+				add: 'when-added',
+				type: 'lib',
+				registryDependencies: ['config', 'auth/lib', 'primitives', 'users/lib', 'admin/convex'],
+				files: [
+					{
+						path: 'src/lib/admin'
+					}
+				]
+			},
+			{
+				name: 'admin/routes',
+				add: 'when-added',
+				type: 'routes',
+				registryDependencies: ['config', 'auth/lib', 'admin/lib'],
+				files: [
+					{
+						path: 'src/routes/admin/+page.svelte'
 					}
 				]
 			},

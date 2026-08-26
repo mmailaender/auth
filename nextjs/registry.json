@@ -46,7 +46,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -62,7 +62,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -630,7 +630,7 @@
 				{
 					"ecosystem": "js",
 					"name": "@better-auth/api-key",
-					"version": "1.6.16"
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -644,7 +644,7 @@
 				{
 					"ecosystem": "js",
 					"name": "better-auth",
-					"version": "1.6.16"
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -709,7 +709,7 @@
 						{
 							"ecosystem": "js",
 							"name": "@better-auth/api-key",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						},
 						{
 							"ecosystem": "js",
@@ -718,7 +718,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -923,7 +923,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -943,7 +943,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -994,7 +994,7 @@
 				{
 					"ecosystem": "js",
 					"name": "better-auth",
-					"version": "1.6.16"
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -1136,7 +1136,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1181,7 +1181,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1201,7 +1201,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -1247,7 +1247,7 @@
 				{
 					"ecosystem": "js",
 					"name": "better-auth",
-					"version": "1.6.16"
+					"version": "1.6.9"
 				},
 				{
 					"ecosystem": "js",
@@ -1444,6 +1444,227 @@
 			]
 		},
 		{
+			"name": "admin/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "admin/queries.ts",
+					"relativePath": "src/convex/admin/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "admin/mutations.ts",
+					"relativePath": "src/convex/admin/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/admin/index.ts",
+					"relativePath": "src/convex/model/admin/index.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "betterAuth/adminOrganizations.ts",
+					"relativePath": "src/convex/betterAuth/adminOrganizations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "admin/lib",
+			"type": "components",
+			"add": "when-added",
+			"registryDependencies": [
+				"config",
+				"auth/lib",
+				"primitives",
+				"users/lib",
+				"admin/convex"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@ark-ui/react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@convex-dev/better-auth"
+				},
+				{
+					"ecosystem": "js",
+					"name": "better-auth",
+					"version": "1.6.9"
+				},
+				{
+					"ecosystem": "js",
+					"name": "convex"
+				},
+				{
+					"ecosystem": "js",
+					"name": "lucide-react"
+				},
+				{
+					"ecosystem": "js",
+					"name": "sonner"
+				}
+			],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/AdminButton.tsx",
+					"relativePath": "src/components/admin/ui/AdminButton.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/AdminDashboard.tsx",
+					"relativePath": "src/components/admin/ui/AdminDashboard.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/CreateUser.tsx",
+					"relativePath": "src/components/admin/ui/CreateUser.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/ImpersonationBanner.tsx",
+					"relativePath": "src/components/admin/ui/ImpersonationBanner.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/OrganizationsTable.tsx",
+					"relativePath": "src/components/admin/ui/OrganizationsTable.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/ui/UsersTable.tsx",
+					"relativePath": "src/components/admin/ui/UsersTable.tsx",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "components",
+					"role": "file",
+					"path": "admin/utils/admin.constants.ts",
+					"relativePath": "src/components/admin/utils/admin.constants.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "admin/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"config",
+				"auth/lib",
+				"admin/lib"
+			],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "page.tsx",
+					"relativePath": "src/app/admin/page.tsx",
+					"_imports_": [],
+					"target": "src/app/admin/page.tsx",
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
 			"name": "email/convex",
 			"type": "convex",
 			"add": "when-added",
@@ -1531,7 +1752,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []

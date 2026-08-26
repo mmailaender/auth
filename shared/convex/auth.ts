@@ -9,7 +9,7 @@ import { betterAuth, type BetterAuthOptions } from 'better-auth';
 
 // Plugins
 import { convex } from '@convex-dev/better-auth/plugins';
-import { emailOTP, magicLink, organization, deviceAuthorization } from 'better-auth/plugins';
+import { admin, emailOTP, magicLink, organization, deviceAuthorization } from 'better-auth/plugins';
 import { apiKey } from '@better-auth/api-key';
 
 // Emails
@@ -86,7 +86,7 @@ export const authComponent = createClient<DataModel, typeof authSchema>(componen
 export const { onCreate, onUpdate, onDelete } = authComponent.triggersApi();
 
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
-  const betterAuthFallbackUrl = getBetterAuthFallbackUrl();
+	const betterAuthFallbackUrl = getBetterAuthFallbackUrl();
 	const deviceVerificationUri = betterAuthFallbackUrl
 		? new URL('/device', betterAuthFallbackUrl).toString()
 		: undefined;
@@ -357,11 +357,24 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
 					]
 				: []),
 			...(AUTH_CONSTANTS.apiKeys ? [apiKey()] : []),
+			...(AUTH_CONSTANTS.admin
+				? [
+						admin({
+							// The very first admin must be bootstrapped via the ADMIN_USER_IDS env var
+							// (comma-separated Better Auth user ids). Once one admin exists, they can
+							// promote others from the admin dashboard. See model/admin/index.ts.
+							adminUserIds: (process.env.ADMIN_USER_IDS ?? '')
+								.split(',')
+								.map((id) => id.trim())
+								.filter(Boolean)
+						})
+					]
+				: []),
 			...(AUTH_CONSTANTS.deviceAuthorization
 				? [
 						deviceAuthorization({
 							expiresIn: '7d', // Device code expiration time
-              verificationUri: deviceVerificationUri
+							verificationUri: deviceVerificationUri
 						})
 					]
 				: [])

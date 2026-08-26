@@ -1,5 +1,6 @@
 <script lang="ts">
 	// Navigation
+	import { tick } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 
@@ -75,12 +76,19 @@
 			});
 
 			dialogOpen = false;
+			// Let the confirm dialog close in its own flush before closing the parent
+			// dialog and navigating: tearing both Zag dialog machines down in the same
+			// flush as the post-delete query churn crashes Svelte's batch scheduler
+			// ("Cannot read properties of null (reading 'schedule')") and leaves the
+			// organization profile dialog frozen open.
+			await tick();
 			toast.success('Organization deleted successfully');
 
 			// Call the onSuccessfulDelete callback if provided
 			if (onSuccessfulDelete) {
 				onSuccessfulDelete();
 			}
+			await tick();
 
 			// Navigate to the specified URL or home by default
 			if (redirectTo) {

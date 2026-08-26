@@ -44,7 +44,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -60,7 +60,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -3514,7 +3514,7 @@
 						{
 							"ecosystem": "js",
 							"name": "@better-auth/api-key",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						},
 						{
 							"ecosystem": "js",
@@ -3523,7 +3523,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -3898,7 +3898,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -3918,7 +3918,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -4512,7 +4512,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -4557,7 +4557,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -4577,7 +4577,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
@@ -5414,6 +5414,446 @@
 			]
 		},
 		{
+			"name": "admin/convex",
+			"type": "convex",
+			"add": "when-added",
+			"registryDependencies": [],
+			"dependencies": [],
+			"devDependencies": [],
+			"files": [
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "admin/queries.ts",
+					"relativePath": "src/convex/admin/queries.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "admin/mutations.ts",
+					"relativePath": "src/convex/admin/mutations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "better-auth",
+							"version": "1.6.9"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "model/admin/index.ts",
+					"relativePath": "src/convex/model/admin/index.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						}
+					],
+					"devDependencies": []
+				},
+				{
+					"type": "convex",
+					"role": "file",
+					"path": "betterAuth/adminOrganizations.ts",
+					"relativePath": "src/convex/betterAuth/adminOrganizations.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [
+						{
+							"ecosystem": "js",
+							"name": "convex"
+						},
+						{
+							"ecosystem": "js",
+							"name": "convex-helpers"
+						}
+					],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "admin/lib",
+			"type": "lib",
+			"add": "when-added",
+			"registryDependencies": [
+				"config",
+				"auth/lib",
+				"primitives",
+				"users/lib",
+				"admin/convex"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "convex-svelte",
+					"version": "^0.14.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.8.0"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "svelte-sonner",
+					"version": "^1.1.1"
+				}
+			],
+			"files": [
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/api/admin.svelte.ts",
+					"relativePath": "src/lib/admin/api/admin.svelte.ts",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/AdminButton.svelte",
+					"relativePath": "src/lib/admin/ui/AdminButton.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/api/admin.svelte",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/api/admin.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/AdminDashboard.svelte",
+					"relativePath": "src/lib/admin/ui/AdminDashboard.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/tabs",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/tabs/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/ui/UsersTable.svelte",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/ui/UsersTable.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/ui/OrganizationsTable.svelte",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/ui/OrganizationsTable.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/utils/admin.constants",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/utils/admin.constants.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/CreateUser.svelte",
+					"relativePath": "src/lib/admin/ui/CreateUser.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/ImpersonationBanner.svelte",
+					"relativePath": "src/lib/admin/ui/ImpersonationBanner.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/utils/admin.constants",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/utils/admin.constants.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/OrganizationsTable.svelte",
+					"relativePath": "src/lib/admin/ui/OrganizationsTable.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/ui/UsersTable.svelte",
+					"relativePath": "src/lib/admin/ui/UsersTable.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/primitives/ui/avatar",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/avatar/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/primitives/ui/dialog",
+							"item": "primitives",
+							"file": {
+								"type": "lib",
+								"path": "primitives/ui/dialog/index.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/ui/CreateUser.svelte",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/ui/CreateUser.svelte"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				},
+				{
+					"type": "lib",
+					"role": "file",
+					"path": "admin/utils/admin.constants.ts",
+					"relativePath": "src/lib/admin/utils/admin.constants.ts",
+					"_imports_": [],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
+			"name": "admin/routes",
+			"type": "routes",
+			"add": "when-added",
+			"registryDependencies": [
+				"config",
+				"auth/lib",
+				"admin/lib"
+			],
+			"dependencies": [
+				{
+					"ecosystem": "js",
+					"name": "convex-svelte",
+					"version": "^0.14.0"
+				},
+				{
+					"ecosystem": "js",
+					"name": "@mmailaender/convex-better-auth-svelte",
+					"version": "^0.8.0"
+				}
+			],
+			"devDependencies": [
+				{
+					"ecosystem": "js",
+					"name": "@lucide/svelte",
+					"version": "^0.577.0"
+				}
+			],
+			"files": [
+				{
+					"type": "routes",
+					"role": "file",
+					"path": "+page.svelte",
+					"relativePath": "src/routes/admin/+page.svelte",
+					"_imports_": [
+						{
+							"import": "$lib/auth/context.svelte",
+							"item": "auth/lib",
+							"file": {
+								"type": "lib",
+								"path": "auth/context.svelte.ts"
+							},
+							"meta": {}
+						},
+						{
+							"import": "$lib/admin/ui/AdminDashboard.svelte",
+							"item": "admin/lib",
+							"file": {
+								"type": "lib",
+								"path": "admin/ui/AdminDashboard.svelte"
+							},
+							"meta": {}
+						}
+					],
+					"registryDependencies": [],
+					"dependencies": [],
+					"devDependencies": []
+				}
+			]
+		},
+		{
 			"name": "email/convex",
 			"type": "convex",
 			"add": "when-added",
@@ -5501,7 +5941,7 @@
 						{
 							"ecosystem": "js",
 							"name": "better-auth",
-							"version": "1.6.16"
+							"version": "1.6.9"
 						}
 					],
 					"devDependencies": []
